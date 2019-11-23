@@ -49,7 +49,7 @@ Um den LED-Quader ein wenig bunter gestalten zu können wurden RGB's verwendet.:
 
 Schieberegister erweisen sich für ein solches Projekt als äusserst nützlich, um die vielen Pins der einzelnen RGB LED's ansprechen zu können. \\
 
-Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 Schieberegister entschieden.
+Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 8-bit Schieberegister entschieden.
 
 \subsection{Transistoren}
 
@@ -63,6 +63,7 @@ Folgende Sensoren stehen zur Auswahl:
 \begin{itemize}
     \item Temperatursensoren:
     \item Luftfeuchtigkeitssensoren:
+    \item Bewegungsmelder
 \end{itemize}
 
 \section{Materialkosten}
@@ -70,15 +71,15 @@ Folgende Sensoren stehen zur Auswahl:
 \begin{tabularx}{\textwidth}{p{0.25\textwidth} | l | l | l | r |}
     \textbf{Produkt} & \textbf{Menge} & \textbf{Preis} & \textbf{Total} \\
     \cline{1-4}
-    RGB LED's & 144x & .- & .- \\
+    RGB LED's & 250x & 0.072 & 18.- \\
     \cline{1-4}
-    RGB LED's & 144x & .- & .- \\
+    Kabel (verschiedene) & 15m & 0.83 & 12.50 \\
     \cline{1-4}
-    RGB LED's & 144x & .- & .- \\
+    Wiederstände & 220x & 0.036 & 8.- \\
     \cline{1-4}
-    RGB LED's & 144x & .- & .- \\
+    74hc595 & 30x & 0.50 & 13.- \\
     \cline{1-4}
-    RGB LED's & 144x & .- & .- \\
+    Sensoren (verschiedene) & 3x & 3.30 & 10.- \\
     
 \end{tabularx}
 
@@ -89,8 +90,6 @@ Folgende Sensoren stehen zur Auswahl:
 
 \section{Features}
 
-\subsection{Equalizer}
-
 \subsection{\textit{Eventuell weitere Features (kommt noch)}}
 
 \subsection{Sensoren}
@@ -98,6 +97,8 @@ Folgende Sensoren stehen zur Auswahl:
 \subsubsection{Wärmesensoren}
 
 \subsubsection{Luftfeuchtigkeitssensoren}
+
+\subsubsection{Bewegungsmelder}
 
 \section{Aufbau des Quaders}
 
