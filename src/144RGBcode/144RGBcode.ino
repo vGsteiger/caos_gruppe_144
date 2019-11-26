@@ -33,7 +33,8 @@
 // used by SPI, must be 52 at mega 2560, Pin 11 at IC
 #define clock_pin 52
 
-byte anodes[27]; // Testarray, to be replaced
+byte anodes[27]; // Array of Anodes
+int currentAmountOfShifters = 2;  // To be set depending on the current setup
 
   void setup()
   {
@@ -44,10 +45,8 @@ byte anodes[27]; // Testarray, to be replaced
    pinMode(latch_pin, OUTPUT);//Latch
    pinMode(blank_pin, OUTPUT);//Output Enable  important to do this last, so LEDs do not flash on boot up
    
-   digitalWrite(blank_pin, HIGH);//shut down the leds
-   digitalWrite(latch_pin, LOW);//shut down the leds
-
-  // Currently in testmode
+   digitalWrite(blank_pin, HIGH); //shut down the leds
+   digitalWrite(latch_pin, LOW);  //shut down the leds
   }
   
   void loop()
@@ -65,35 +64,32 @@ byte anodes[27]; // Testarray, to be replaced
     layer = constrain (layer,  0, 1);     // layer can only be 0 or 1 as we only have two layers
     
     int whichByte = int((x+36*y)/8);       // Calculate which byte be have to chang
-    int whichBit = (x+36*y)-(8*whichByte); // Calculate exactly which LED we want to address (color comes later, this number will always be on the BLANK pin)
+    
     bitWrite(anodes[whichByte], whichBit, red);
     bitWrite(anodes[whichByte], whichBit+1, green);
     bitWrite(anodes[whichByte], whichBit+2, blue);
     Serial.println("Current anodes array after blue:");
-      for (int b = 7; b >= 0; b--)
-  {
-    Serial.print(bitRead(anodes[whichByte], b));
-  }    
+    for (int b = 7; b >= 0; b--) {
+      Serial.print(bitRead(anodes[whichByte], b));
+    }
     shiftToShifter();
   }
 
   void shiftToShifter() 
   {
     digitalWrite(blank_pin, HIGH);//shut down the leds
-    for(int i = 0; i < 27; i++) {
-    SPI.transfer(anodes[0]);
-   }
+    for(int i = 0; i < currentAmountOfShifters; i++) {
+      SPI.transfer(anodes[i]);
+    }
    
-     // shift register to storage register
+    // shift register to storage register
     digitalWrite(latch_pin, HIGH);
     digitalWrite(latch_pin, LOW);
     digitalWrite(blank_pin, LOW);  //enable pins
-    delay(50);
+    delay(20);
   }
 
   void test()
   {
-    anodes[0] = B11111110;
-    shiftToShifter();
-    //setLedOn(0,0,1,0,0,0);
+    setLedOn(0,0,1,0,0,0);
   }
