@@ -33,8 +33,8 @@
 // used by SPI, must be 52 at mega 2560, Pin 11 at IC
 #define clock_pin 52
 
-byte anodes[27]; // Array of Anodes
 int currentAmountOfShifters = 2;  // To be set depending on the current setup
+byte anodes[currentAmountOfShifters]; // Array of Anodes
 
   void setup()
   {
