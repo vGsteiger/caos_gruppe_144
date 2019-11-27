@@ -108,10 +108,12 @@ byte anodes1[27]; // Array of Anodes for layer 1
     
   }
 
-  void shiftToShifter(int seconds) 
+  void shiftToShifter(int miliSeconds) 
   {
-    for(int s = 0; s < seconds; s++) {
-    for(int hrtz = 0; hrtz < 60; hrtz++) {
+    int hertz = 120;
+    int delayProHertz = (int)(miliSeconds/hertz)/2;
+    for(int s = 0; s < miliSeconds; s++) {
+    for(int hrtz = 0; hrtz < hertz; hrtz++) {
     changeLayer(0);
     digitalWrite(blank_pin, HIGH);//shut down the leds
     for(int i = currentAmountOfShifters-1; i >= 0; i--) {
@@ -122,8 +124,7 @@ byte anodes1[27]; // Array of Anodes for layer 1
     digitalWrite(latch_pin, HIGH);
     digitalWrite(latch_pin, LOW);
     digitalWrite(blank_pin, LOW);  //enable pins
-    delay(8);
-    memset(anodes0, 0, sizeof(anodes0));
+    delay(delayProHertz);
     
     changeLayer(1);
     digitalWrite(blank_pin, HIGH);//shut down the leds
@@ -135,23 +136,32 @@ byte anodes1[27]; // Array of Anodes for layer 1
     digitalWrite(latch_pin, HIGH);
     digitalWrite(latch_pin, LOW);
     digitalWrite(blank_pin, LOW);  //enable pins
-    delay(8);
+    delay(delayProHertz);
+    }
+    }
+    memset(anodes0, 0, sizeof(anodes0));
     memset(anodes1, 0, sizeof(anodes1));
-    }
-    }
   }
 
   void test()
   {
     for(int i = 0; i < 3; i++) {
       setLedOn(i,0,1,0,0,0);
+      shiftToShifter(10);
       setLedOn(i,0,0,1,0,0);
+      setLedOn(i+1,0,0,1,0,0);
+      setLedOn(i+2,0,0,1,0,0);
+      shiftToShifter(10);
       setLedOn(i,0,0,0,1,0);
+      shiftToShifter(10);
       setLedOn(i,0,1,1,0,0);
+      shiftToShifter(10);
       setLedOn(i,0,1,0,1,0);
+      shiftToShifter(10);
       setLedOn(i,0,0,1,1,0);
+      shiftToShifter(10);
       setLedOn(i,0,1,1,1,0);
-      shiftToShifter(100);
+      shiftToShifter(10);
     }
   }
 
