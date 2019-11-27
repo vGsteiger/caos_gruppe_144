@@ -104,10 +104,7 @@ byte anodes1[27]; // Array of Anodes for layer 1
           bitWrite(anodes1[whichByte], whichBit, green);
           bitWrite(anodes1[whichByte], whichBit+1, blue);
         }
-    }
-
-    Serial.println("Currentl anode Array:");
-    Serial.println(anodes[whichByte]);    
+    }   
     
   }
 
