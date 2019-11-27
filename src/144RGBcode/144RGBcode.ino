@@ -181,7 +181,7 @@ byte anodes1[27]; // Array of Anodes for layer 1
   void rainEffect(int seconds) {
     int rainDrops0[5][12];
     int rainDrops1[5][12];
-    for(int s = 0; s < seconds; i++){
+    for(int s = 0; s < seconds; s++){
       for (int x=0;x<12;x++) {
         setLedOn(x,5,1,1,1,0);
         setLedOn(x,5,1,1,1,1);
@@ -192,7 +192,7 @@ byte anodes1[27]; // Array of Anodes for layer 1
     }
   }
 
-  void rainDropFall(rainDrops0[][],rainDrops1[][]) {
+  void rainDropFall(int rainDrops0[][12],int rainDrops1[][12]) {
     setLed2DArraySingleColor(rainDrops0,0,0,0,1,5,12);
     setLed2DArraySingleColor(rainDrops1,0,0,0,1,5,12);
     int tempArray[5][12];
@@ -220,7 +220,7 @@ byte anodes1[27]; // Array of Anodes for layer 1
     rainDrops1 = tempArray;
   }
 
-  void setLed2DArraySingleColor(int currArray[][], int layer, int r, int g, int b, int maxH, int maxW) {
+  void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
     for(int x=0;x<maxW;x++) {
       for(int y=0;y<maxH;y++) {
         if(currArray[y][x] == 1) {
