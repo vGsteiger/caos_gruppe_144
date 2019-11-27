@@ -63,14 +63,21 @@ byte anodes[currentAmountOfShifters]; // Array of Anodes
     blue = constrain (blue,   0, 1);  // Blue can either be 1 or 0
     layer = constrain (layer,  0, 1);     // layer can only be 0 or 1 as we only have two layers
     
-    int whichByte = int((x+36*y)/8);       // Calculate which byte be have to chang
-    
-    bitWrite(anodes[whichByte], whichBit, red);
-    bitWrite(anodes[whichByte], whichBit+1, green);
-    bitWrite(anodes[whichByte], whichBit+2, blue);
-    Serial.println("Current anodes array after blue:");
-    for (int b = 7; b >= 0; b--) {
-      Serial.print(bitRead(anodes[whichByte], b));
+    int whichByte = int(((x+36*y)+1)/8);       // Calculate which byte be have to change
+    int whichBit = ((y*36+x*3)+1)%8;
+
+    if(whichBit == 0) {
+      bitWrite(anodes[whichByte], 8, red);
+      bitWrite(anodes[whichByte+1], 1, green);
+      bitWrite(anodes[whichByte+1], 2, blue);
+    } else if (whichBit == 7) {
+      bitWrite(anodes[whichByte], whichBit, red);
+      bitWrite(anodes[whichByte], whichBit+1, green);
+      bitWrite(anodes[whichByte+1], 1, blue);
+    } else {
+      bitWrite(anodes[whichByte], whichBit, red);
+      bitWrite(anodes[whichByte], whichBit+1, green);
+      bitWrite(anodes[whichByte], whichBit+2, blue);
     }
     shiftToShifter();
   }
