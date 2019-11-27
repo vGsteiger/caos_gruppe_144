@@ -38,6 +38,7 @@
 int currentAmountOfShifters = 2;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
+int dispArray[6][12];
 
   void setup()
   {
@@ -211,13 +212,27 @@ byte anodes1[27]; // Array of Anodes for layer 1
       for(int y=4;y>=0;y--) {
         if(rainDrops1[y][x] == 1) {
           tempArray[y][x] == 0;
-          if(y-1>0) {
+          if(y-1>-1) {
             tempArray[y-1][x] == 1;
           }
         }
       }
     }
     rainDrops1 = tempArray;
+  }
+
+  void shiftGlobalArrayLeft() {
+    int tempArray[6][12];
+    for(int x=0;x<12;x++) {
+      for(int y=0;y<6;y++) {
+        if(dispArray[y][x] == 1) {
+          if(x-1>-1) {
+            tempArray[y][x-1] = 1;
+          }
+        }
+      }
+    }
+    dispArray = tempArray;
   }
 
   void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
