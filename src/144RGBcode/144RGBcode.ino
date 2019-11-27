@@ -34,7 +34,7 @@
 #define clock_pin 52
 
 int currentAmountOfShifters = 2;  // To be set depending on the current setup
-byte anodes[currentAmountOfShifters]; // Array of Anodes
+byte anodes[2]; // Array of Anodes
 
   void setup()
   {
@@ -66,26 +66,38 @@ byte anodes[currentAmountOfShifters]; // Array of Anodes
     int whichByte = int(((x+36*y)+1)/8);       // Calculate which byte be have to change
     int whichBit = ((y*36+x*3)+1)%8;
 
+    Serial.println("Currently in byte:");
+    Serial.println(whichByte);
+
+    Serial.println("Currently in bit:");
+    Serial.println(whichBit);
+
     if(whichBit == 0) {
-      bitWrite(anodes[whichByte], 8, red);
-      bitWrite(anodes[whichByte+1], 1, green);
-      bitWrite(anodes[whichByte+1], 2, blue);
-    } else if (whichBit == 7) {
-      bitWrite(anodes[whichByte], whichBit, red);
-      bitWrite(anodes[whichByte], whichBit+1, green);
+      bitWrite(anodes[whichByte], 7, red);
+      bitWrite(anodes[whichByte+1], 0, green);
       bitWrite(anodes[whichByte+1], 1, blue);
+    } else if (whichBit == 7) {
+      bitWrite(anodes[whichByte], whichBit-1, red);
+      bitWrite(anodes[whichByte], whichBit, green);
+      bitWrite(anodes[whichByte+1], 0, blue);
     } else {
-      bitWrite(anodes[whichByte], whichBit, red);
-      bitWrite(anodes[whichByte], whichBit+1, green);
-      bitWrite(anodes[whichByte], whichBit+2, blue);
+      bitWrite(anodes[whichByte], whichBit-1, red);
+      bitWrite(anodes[whichByte], whichBit, green);
+      bitWrite(anodes[whichByte], whichBit+1, blue);
     }
+
+    Serial.println("Currentl anode Array:");
+    Serial.println(anodes[whichByte]);    
+    
     shiftToShifter();
+    memset(anodes, 0, sizeof(anodes));
   }
 
   void shiftToShifter() 
   {
     digitalWrite(blank_pin, HIGH);//shut down the leds
-    for(int i = 0; i < currentAmountOfShifters; i++) {
+    for(int i = currentAmountOfShifters-1; i >= 0; i--) {
+      Serial.println(anodes[i]);
       SPI.transfer(anodes[i]);
     }
    
@@ -93,10 +105,18 @@ byte anodes[currentAmountOfShifters]; // Array of Anodes
     digitalWrite(latch_pin, HIGH);
     digitalWrite(latch_pin, LOW);
     digitalWrite(blank_pin, LOW);  //enable pins
-    delay(20);
+    delay(250);
   }
 
   void test()
   {
-    setLedOn(0,0,1,0,0,0);
+    for(int i = 0; i < 3; i++) {
+      setLedOn(i,0,1,0,0,0);
+      setLedOn(i,0,0,1,0,0);
+      setLedOn(i,0,0,0,1,0);
+      setLedOn(i,0,1,1,0,0);
+      setLedOn(i,0,1,0,1,0);
+      setLedOn(i,0,0,1,1,0);
+      setLedOn(i,0,1,1,1,0);
+    }
   }
