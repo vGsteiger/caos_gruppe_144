@@ -32,9 +32,12 @@
 #define data_pin 51
 // used by SPI, must be 52 at mega 2560, Pin 11 at IC
 #define clock_pin 52
+// Cathode Pin, can be any pin
+#define cathode_pin 47
 
 int currentAmountOfShifters = 2;  // To be set depending on the current setup
-byte anodes[2]; // Array of Anodes
+byte anodes0[27]; // Array of Anodes for layer 0
+byte anodes1[27]; // Array of Anodes for layer 1
 
   void setup()
   {
@@ -44,6 +47,7 @@ byte anodes[2]; // Array of Anodes
    
    pinMode(latch_pin, OUTPUT);//Latch
    pinMode(blank_pin, OUTPUT);//Output Enable  important to do this last, so LEDs do not flash on boot up
+   pinMode(cathode_pin, OUTPUT);
    
    digitalWrite(blank_pin, HIGH); //shut down the leds
    digitalWrite(latch_pin, LOW);  //shut down the leds
@@ -71,41 +75,73 @@ byte anodes[2]; // Array of Anodes
 
     Serial.println("Currently in bit:");
     Serial.println(whichBit);
-
-    if(whichBit == 0) {
-      bitWrite(anodes[whichByte], 7, red);
-      bitWrite(anodes[whichByte+1], 0, green);
-      bitWrite(anodes[whichByte+1], 1, blue);
-    } else if (whichBit == 7) {
-      bitWrite(anodes[whichByte], whichBit-1, red);
-      bitWrite(anodes[whichByte], whichBit, green);
-      bitWrite(anodes[whichByte+1], 0, blue);
-    } else {
-      bitWrite(anodes[whichByte], whichBit-1, red);
-      bitWrite(anodes[whichByte], whichBit, green);
-      bitWrite(anodes[whichByte], whichBit+1, blue);
+    switch(layer) {
+      case 0:
+        if(whichBit == 0) {
+          bitWrite(anodes0[whichByte], 7, red);
+          bitWrite(anodes0[whichByte+1], 0, green);
+          bitWrite(anodes0[whichByte+1], 1, blue);
+        } else if (whichBit == 7) {
+          bitWrite(anodes0[whichByte], whichBit-1, red);
+          bitWrite(anodes0[whichByte], whichBit, green);
+          bitWrite(anodes0[whichByte+1], 0, blue);
+        } else {
+          bitWrite(anodes0[whichByte], whichBit-1, red);
+          bitWrite(anodes0[whichByte], whichBit, green);
+          bitWrite(anodes0[whichByte], whichBit+1, blue);
+        }
+      case 1:
+        if(whichBit == 0) {
+          bitWrite(anodes1[whichByte], 7, red);
+          bitWrite(anodes1[whichByte+1], 0, green);
+          bitWrite(anodes1[whichByte+1], 1, blue);
+        } else if (whichBit == 7) {
+          bitWrite(anodes1[whichByte], whichBit-1, red);
+          bitWrite(anodes1[whichByte], whichBit, green);
+          bitWrite(anodes1[whichByte+1], 0, blue);
+        } else {
+          bitWrite(anodes1[whichByte], whichBit-1, red);
+          bitWrite(anodes1[whichByte], whichBit, green);
+          bitWrite(anodes1[whichByte], whichBit+1, blue);
+        }
     }
 
     Serial.println("Currentl anode Array:");
     Serial.println(anodes[whichByte]);    
     
-    shiftToShifter();
-    memset(anodes, 0, sizeof(anodes));
   }
 
-  void shiftToShifter() 
+  void shiftToShifter(int seconds) 
   {
+    for(int s = 0; s < seconds; s++) {
+    for(int hrtz = 0; hrtz < 60; hrtz++) {
+    changeLayer(0);
     digitalWrite(blank_pin, HIGH);//shut down the leds
     for(int i = currentAmountOfShifters-1; i >= 0; i--) {
-      Serial.println(anodes[i]);
-      SPI.transfer(anodes[i]);
+      SPI.transfer(anodes0[i]);
     }
    
     // shift register to storage register
     digitalWrite(latch_pin, HIGH);
     digitalWrite(latch_pin, LOW);
     digitalWrite(blank_pin, LOW);  //enable pins
-    delay(250);
+    delay(8);
+    memset(anodes0, 0, sizeof(anodes0));
+    
+    changeLayer(1);
+    digitalWrite(blank_pin, HIGH);//shut down the leds
+    for(int i = currentAmountOfShifters-1; i >= 0; i--) {
+      SPI.transfer(anodes1[i]);
+    }
+   
+    // shift register to storage register
+    digitalWrite(latch_pin, HIGH);
+    digitalWrite(latch_pin, LOW);
+    digitalWrite(blank_pin, LOW);  //enable pins
+    delay(8);
+    memset(anodes1, 0, sizeof(anodes1));
+    }
+    }
   }
 
   void test()
@@ -118,5 +154,14 @@ byte anodes[2]; // Array of Anodes
       setLedOn(i,0,1,0,1,0);
       setLedOn(i,0,0,1,1,0);
       setLedOn(i,0,1,1,1,0);
+      shiftToShifter(100);
+    }
+  }
+
+  void changeLayer(int layer) {
+    if(layer == 0) {
+      digitalWrite(cathode_pin, LOW);
+    } else {
+      digitalWrite(cathode_pin, HIGH);
     }
   }
