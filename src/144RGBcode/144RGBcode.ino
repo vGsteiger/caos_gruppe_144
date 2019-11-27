@@ -143,6 +143,19 @@ byte anodes1[27]; // Array of Anodes for layer 1
     memset(anodes1, 0, sizeof(anodes1));
   }
 
+  void changeLayer(int layer) {
+    if(layer == 0) {
+      digitalWrite(cathode_pin, LOW);
+    } else {
+      digitalWrite(cathode_pin, HIGH);
+    }
+  }
+
+  /*
+   * Effects:
+   */
+
+  
   void test()
   {
     for(int i = 0; i < 3; i++) {
@@ -165,10 +178,54 @@ byte anodes1[27]; // Array of Anodes for layer 1
     }
   }
 
-  void changeLayer(int layer) {
-    if(layer == 0) {
-      digitalWrite(cathode_pin, LOW);
-    } else {
-      digitalWrite(cathode_pin, HIGH);
+  void rainEffect(int seconds) {
+    int rainDrops0[5][12];
+    int rainDrops1[5][12];
+    for(int s = 0; s < seconds; i++){
+      for (int x=0;x<12;x++) {
+        setLedOn(x,5,1,1,1,0);
+        setLedOn(x,5,1,1,1,1);
+        rainDrops0[4][x] = random(2);
+        rainDrops1[4][x] = random(2);
+      }
+      rainDropFall(rainDrops0, rainDrops1);
+    }
+  }
+
+  void rainDropFall(rainDrops0[][],rainDrops1[][]) {
+    setLed2DArraySingleColor(rainDrops0,0,0,0,1,5,12);
+    setLed2DArraySingleColor(rainDrops1,0,0,0,1,5,12);
+    int tempArray[5][12];
+    for(int x=0;x<12;x++) {
+      for(int y=4;y>=0;y--) {
+        if(rainDrops0[y][x] == 1) {
+          tempArray[y][x] == 0;
+          if(y-1>0) {
+            tempArray[y-1][x] == 1;
+          }
+        }
+      }
+    }
+    rainDrops0 = tempArray;
+    for(int x=0;x<12;x++) {
+      for(int y=4;y>=0;y--) {
+        if(rainDrops1[y][x] == 1) {
+          tempArray[y][x] == 0;
+          if(y-1>0) {
+            tempArray[y-1][x] == 1;
+          }
+        }
+      }
+    }
+    rainDrops1 = tempArray;
+  }
+
+  void setLed2DArraySingleColor(int currArray[][], int layer, int r, int g, int b, int maxH, int maxW) {
+    for(int x=0;x<maxW;x++) {
+      for(int y=0;y<maxH;y++) {
+        if(currArray[y][x] == 1) {
+          setLedOn(x,y,r,g,b,layer);
+        }
+      }
     }
   }
