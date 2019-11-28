@@ -34,10 +34,15 @@
 #define clock_pin 52
 // Cathode Pin, can be any pin
 #define cathode_pin 47
+// Button to change mode:
+#define button 2
 
 int currentAmountOfShifters = 2;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
+int currentEffect = 0;
+unsigned long lastSignal = 0;
+int currentAmountOfEffects = 1;
 
   void setup()
   {
@@ -48,6 +53,9 @@ byte anodes1[27]; // Array of Anodes for layer 1
    pinMode(latch_pin, OUTPUT);//Latch
    pinMode(blank_pin, OUTPUT);//Output Enable  important to do this last, so LEDs do not flash on boot up
    pinMode(cathode_pin, OUTPUT);
+   pinMode(button, INPUT);
+   attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
+   lastSignal = millis();
    
    digitalWrite(blank_pin, HIGH); //shut down the leds
    digitalWrite(latch_pin, LOW);  //shut down the leds
@@ -55,7 +63,10 @@ byte anodes1[27]; // Array of Anodes for layer 1
   
   void loop()
   {
-    test();
+    switch(currentEffect) {
+      case 0:
+        test();
+    }
   }
 
   void setLedOn(int x, int y, int red, int green, int blue, int layer)
@@ -227,5 +238,12 @@ byte anodes1[27]; // Array of Anodes for layer 1
           setLedOn(x,y,r,g,b,layer);
         }
       }
+    }
+  }
+
+  void blink() {
+    if(millis()-lastSignal > 200){
+      lastSignal = millis();
+      currentEffect = (currentEffect + 1) % currentAmountOfEffects;
     }
   }
