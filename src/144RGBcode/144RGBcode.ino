@@ -34,10 +34,16 @@
 #define clock_pin 52
 // Cathode Pin, can be any pin
 #define cathode_pin 47
+// Button to change mode:
+#define button 2
 
 int currentAmountOfShifters = 2;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
+int currentEffect = 0;
+unsigned long lastSignal = 0;
+int currentAmountOfEffects = 1;
+int dispArray[6][12];
 
   void setup()
   {
@@ -48,6 +54,9 @@ byte anodes1[27]; // Array of Anodes for layer 1
    pinMode(latch_pin, OUTPUT);//Latch
    pinMode(blank_pin, OUTPUT);//Output Enable  important to do this last, so LEDs do not flash on boot up
    pinMode(cathode_pin, OUTPUT);
+   pinMode(button, INPUT);
+   attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
+   lastSignal = millis();
    
    digitalWrite(blank_pin, HIGH); //shut down the leds
    digitalWrite(latch_pin, LOW);  //shut down the leds
@@ -55,7 +64,10 @@ byte anodes1[27]; // Array of Anodes for layer 1
   
   void loop()
   {
-    test();
+    switch(currentEffect) {
+      case 0:
+        test();
+    }
   }
 
   void setLedOn(int x, int y, int red, int green, int blue, int layer)
@@ -143,6 +155,19 @@ byte anodes1[27]; // Array of Anodes for layer 1
     memset(anodes1, 0, sizeof(anodes1));
   }
 
+  void changeLayer(int layer) {
+    if(layer == 0) {
+      digitalWrite(cathode_pin, LOW);
+    } else {
+      digitalWrite(cathode_pin, HIGH);
+    }
+  }
+
+  /*
+   * Effects:
+   */
+
+  
   void test()
   {
     for(int i = 0; i < 3; i++) {
@@ -165,10 +190,75 @@ byte anodes1[27]; // Array of Anodes for layer 1
     }
   }
 
-  void changeLayer(int layer) {
-    if(layer == 0) {
-      digitalWrite(cathode_pin, LOW);
-    } else {
-      digitalWrite(cathode_pin, HIGH);
+  void rainEffect(int seconds) {
+    int rainDrops0[5][12];
+    int rainDrops1[5][12];
+    for(int s = 0; s < seconds; s++){
+      for (int x=0;x<12;x++) {
+        setLedOn(x,5,1,1,1,0);
+        setLedOn(x,5,1,1,1,1);
+        rainDrops0[4][x] = random(2);
+        rainDrops1[4][x] = random(2);
+      }
+      rainDropFall(rainDrops0, rainDrops1);
+    }
+  }
+
+  void rainDropFall(int rainDrops0[][12],int rainDrops1[][12]) {
+    setLed2DArraySingleColor(rainDrops0,0,0,0,1,5,12);
+    setLed2DArraySingleColor(rainDrops1,0,0,0,1,5,12);
+    int tempArray[5][12];
+    for(int x=0;x<12;x++) {
+      for(int y=4;y>=0;y--) {
+        if(rainDrops0[y][x] == 1) {
+          tempArray[y][x] == 0;
+          if(y-1>0) {
+            tempArray[y-1][x] == 1;
+          }
+        }
+      }
+    }
+    rainDrops0 = tempArray;
+    for(int x=0;x<12;x++) {
+      for(int y=4;y>=0;y--) {
+        if(rainDrops1[y][x] == 1) {
+          tempArray[y][x] == 0;
+          if(y-1>-1) {
+            tempArray[y-1][x] == 1;
+          }
+        }
+      }
+    }
+    rainDrops1 = tempArray;
+  }
+
+  void shiftGlobalArrayLeft() {
+    int tempArray[6][12];
+    for(int x=0;x<12;x++) {
+      for(int y=0;y<6;y++) {
+        if(dispArray[y][x] == 1) {
+          if(x-1>-1) {
+            tempArray[y][x-1] = 1;
+          }
+        }
+      }
+    }
+    dispArray = tempArray;
+  }
+
+  void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
+    for(int x=0;x<maxW;x++) {
+      for(int y=0;y<maxH;y++) {
+        if(currArray[y][x] == 1) {
+          setLedOn(x,y,r,g,b,layer);
+        }
+      }
+    }
+  }
+
+  void blink() {
+    if(millis()-lastSignal > 200){
+      lastSignal = millis();
+      currentEffect = (currentEffect + 1) % currentAmountOfEffects;
     }
   }
