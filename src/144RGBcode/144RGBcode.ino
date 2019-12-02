@@ -13,9 +13,9 @@
  * Major revamp of setup and other functions to simplify the code and to make it work.
  * 
  * TODOs for V0.2:
- * Basic effects (wave, Letters)
+ * Basic effects (wave, Letters) -> Implemented a rain function, 
  * First sensor implementation (temperature)
- * Button to change effect!
+ * Button to change effect! -> Done!
  * 
  * Future ideas: 
  * Unibas Logo, Clock implementation, Motion sensor
