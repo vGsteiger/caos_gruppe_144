@@ -31,9 +31,11 @@
 // used by SPI, must be pin 51 at Mega 2560, Pin 14 at IC
 #define data_pin 51
 // used by SPI, must be 52 at mega 2560, Pin 11 at IC
-#define clock_pin 52
+#define clock_pin0 52
+
 // Cathode Pin, can be any pin
-#define cathode_pin 47
+#define cathode_pin0 3
+#define cathode_pin1 4
 // Button to change mode:
 #define button 2
 
@@ -53,7 +55,8 @@ int dispArray[6][12];
    
    pinMode(latch_pin, OUTPUT);//Latch
    pinMode(blank_pin, OUTPUT);//Output Enable  important to do this last, so LEDs do not flash on boot up
-   pinMode(cathode_pin, OUTPUT);
+   pinMode(cathode_pin0, OUTPUT);
+   pinMode(cathode_pin1, OUTPUT);
    pinMode(button, INPUT);
    attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
    lastSignal = millis();
@@ -157,9 +160,11 @@ int dispArray[6][12];
 
   void changeLayer(int layer) {
     if(layer == 0) {
-      digitalWrite(cathode_pin, LOW);
+      digitalWrite(cathode_pin0, HIGH);
+      digitalWrite(cathode_pin1, LOW);
     } else {
-      digitalWrite(cathode_pin, HIGH);
+      digitalWrite(cathode_pin1, HIGH);
+      digitalWrite(cathode_pin0, LOW);
     }
   }
 
@@ -170,24 +175,14 @@ int dispArray[6][12];
   
   void test()
   {
-    for(int i = 0; i < 3; i++) {
-      setLedOn(i,0,1,0,0,0);
-      shiftToShifter(10);
-      setLedOn(i,0,0,1,0,0);
-      setLedOn(i+1,0,0,1,0,0);
-      setLedOn(i+2,0,0,1,0,0);
-      shiftToShifter(10);
-      setLedOn(i,0,0,0,1,0);
-      shiftToShifter(10);
-      setLedOn(i,0,1,1,0,0);
-      shiftToShifter(10);
-      setLedOn(i,0,1,0,1,0);
-      shiftToShifter(10);
-      setLedOn(i,0,0,1,1,0);
-      shiftToShifter(10);
-      setLedOn(i,0,1,1,1,0);
-      shiftToShifter(10);
-    }
+    //for(int i = 0; i < 5; i++) {
+      setLedOn(4,0,1,0,0,0);
+      shiftToShifter(100);
+      setLedOn(4,0,0,1,0,0);
+      shiftToShifter(100);
+      setLedOn(4,0,0,0,1,1);
+      shiftToShifter(100);
+    //}
   }
 
   void rainEffect(int seconds) {
@@ -243,7 +238,7 @@ int dispArray[6][12];
         }
       }
     }
-    dispArray = tempArray;
+    //dispArray = tempArray;
   }
 
   void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
