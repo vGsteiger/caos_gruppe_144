@@ -83,13 +83,16 @@ int dispArray[6][12];
     layer = constrain (layer,  0, 1);     // layer can only be 0 or 1 as we only have two layers
     
     int whichByte = int(((x+36*y)+1)/8);       // Calculate which byte be have to change
-    int whichBit = ((y*36+x*3)+1)%8;
+    int whichBit = ((y*36+x*3)+1)%8;          //
 
     Serial.println("Currently in byte:");
     Serial.println(whichByte);
 
     Serial.println("Currently in bit:");
     Serial.println(whichBit);
+    /**
+     * Choses between the two available layers of our LED RGB Cubic.
+     */
     switch(layer) {
       case 0:
         if(whichBit == 0) {
@@ -158,6 +161,9 @@ int dispArray[6][12];
     memset(anodes1, 0, sizeof(anodes1));
   }
 
+  /**
+   * Switch between the layers (we use 2 layers in this project).
+   */
   void changeLayer(int layer) {
     if(layer == 0) {
       digitalWrite(cathode_pin0, HIGH);
@@ -185,6 +191,10 @@ int dispArray[6][12];
     //}
   }
 
+  /**
+   * rainEffect if the humidity sensor perceives a specific value.
+   * TODO: Implement sensor logic.
+   */
   void rainEffect(int seconds) {
     int rainDrops0[5][12];
     int rainDrops1[5][12];
@@ -241,6 +251,10 @@ int dispArray[6][12];
     //dispArray = tempArray;
   }
 
+  /**
+   * Sets the the 2d Array given to a specific height to a single color.
+   * Combinations of r, g ,b.
+   */
   void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
     for(int x=0;x<maxW;x++) {
       for(int y=0;y<maxH;y++) {
@@ -250,7 +264,9 @@ int dispArray[6][12];
       }
     }
   }
-
+  /**
+   * To handle the interrupt of the button input.
+   */
   void blink() {
     if(millis()-lastSignal > 200){
       lastSignal = millis();
