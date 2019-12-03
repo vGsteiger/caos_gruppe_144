@@ -161,6 +161,7 @@ int dispArray[6][12];
   /**
    * Switch between the layers (we use 2 layers in this project).
    */
+
   void changeLayer(int layer) {
     if(layer == 0) {
       digitalWrite(cathode_pin, LOW);
@@ -200,6 +201,7 @@ int dispArray[6][12];
    * rainEffect if the humidity sensor perceives a specific value.
    * TODO: Implement sensor logic.
    */
+
   void rainEffect(int seconds) {
     int rainDrops0[5][12];
     int rainDrops1[5][12];
@@ -233,13 +235,23 @@ int dispArray[6][12];
       for(int y=4;y>=0;y--) {
         if(rainDrops1[y][x] == 1) {
           tempArray[y][x] == 0;
-          if(y-1>-1) {
+          if(y-1>0) {
             tempArray[y-1][x] == 1;
           }
         }
       }
     }
     rainDrops1 = tempArray;
+  }
+
+  void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
+    for(int x=0;x<maxW;x++) {
+      for(int y=0;y<maxH;y++) {
+        if(currArray[y][x] == 1) {
+          setLedOn(x,y,r,g,b,layer);
+        }
+      }
+    }
   }
 
   void shiftGlobalArrayLeft() {
