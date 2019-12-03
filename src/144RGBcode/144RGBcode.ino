@@ -162,7 +162,7 @@ int dispArray[6][12];
   }
 
   /**
-   * Switch between the layers (we use 2 layers in this project).
+   * Switch between the layers (we use 2 layers in this project). TODO: Porperly implement this!
    */
   void changeLayer(int layer) {
     if(layer == 0) {
@@ -178,7 +178,6 @@ int dispArray[6][12];
    * Effects:
    */
 
-  
   void test()
   {
     //for(int i = 0; i < 5; i++) {
@@ -193,7 +192,7 @@ int dispArray[6][12];
 
   /**
    * rainEffect if the humidity sensor perceives a specific value.
-   * TODO: Implement sensor logic.
+   * TODO: Implement sensor logic. -> I would rather do that in another method
    */
   void rainEffect(int seconds) {
     int rainDrops0[5][12];
@@ -234,7 +233,7 @@ int dispArray[6][12];
         }
       }
     }
-    rainDrops1 = tempArray;
+    memcpy(rainDrops1, tempArray, sizeof(tempArray));
   }
 
   void shiftGlobalArrayLeft() {
