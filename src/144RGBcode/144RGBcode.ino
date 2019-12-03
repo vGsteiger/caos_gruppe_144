@@ -46,6 +46,8 @@ int currentEffect = 0;
 unsigned long lastSignal = 0;
 int currentAmountOfEffects = 1;
 int dispArray[6][12];
+int letterBuffer[6][4];
+int lettersToBeDisp;
 
   void setup()
   {
@@ -60,6 +62,7 @@ int dispArray[6][12];
    pinMode(button, INPUT);
    attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
    lastSignal = millis();
+   lettersToBeDisp = 0;
    
    digitalWrite(blank_pin, HIGH); //shut down the leds
    digitalWrite(latch_pin, LOW);  //shut down the leds
@@ -174,6 +177,56 @@ int dispArray[6][12];
     }
   }
 
+    /**
+   * To handle the interrupt of the button input.
+   */
+  void blink() {
+    if(millis()-lastSignal > 200){
+      lastSignal = millis();
+      currentEffect = (currentEffect + 1) % currentAmountOfEffects;
+    }
+  }
+
+    /**
+   * Sets the the 2d Array given to a specific height to a single color.
+   * Combinations of r, g ,b.
+   */
+  void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
+    for(int x=0;x<maxW;x++) {
+      for(int y=0;y<maxH;y++) {
+        if(currArray[y][x] == 1) {
+          setLedOn(x,y,r,g,b,layer);
+        }
+      }
+    }
+  }
+
+    void shiftGlobalArrayLeft() {
+    int nextLetter = 0;
+    for(int i = 0; i < 6; i++) {
+      if(dispArray[i][11] == 1) {
+        nextLetter = -1;
+      }
+    }
+    if(nextLetter != -1 && lettersToBeDisp > 0) {
+      nextLetter = 1;
+    }
+    int tempArray[6][12];
+    for(int x=0;x<12;x++) {
+      for(int y=0;y<6;y++) {
+        if(x == 11 && nextLetter == 1) {
+          tempArray[y][11] = letterBuffer[y][0];
+          //shiftLetterBufferLeft();
+        } else if(dispArray[y][x] == 1) {
+          if(x-1>-1) {
+            tempArray[y][x-1] = 1;
+          }
+        }
+      }
+    }
+    memcpy(dispArray, tempArray, sizeof(tempArray));
+  }
+
   /*
    * Effects:
    */
@@ -214,9 +267,12 @@ int dispArray[6][12];
     }
   }
 
+  
+
   void rainDropFall(int rainDrops0[][12],int rainDrops1[][12]) {
     setLed2DArraySingleColor(rainDrops0,0,0,0,1,5,12);
     setLed2DArraySingleColor(rainDrops1,0,0,0,1,5,12);
+    shiftToShifter(1000);
     int tempArray[5][12];
     for(int x=0;x<12;x++) {
       for(int y=4;y>=0;y--) {
@@ -228,7 +284,7 @@ int dispArray[6][12];
         }
       }
     }
-    rainDrops0 = tempArray;
+    memcpy(rainDrops0, tempArray, sizeof(tempArray));
     for(int x=0;x<12;x++) {
       for(int y=4;y>=0;y--) {
         if(rainDrops1[y][x] == 1) {
@@ -242,39 +298,8 @@ int dispArray[6][12];
     memcpy(rainDrops1, tempArray, sizeof(tempArray));
   }
 
-  void shiftGlobalArrayLeft() {
-    int tempArray[6][12];
-    for(int x=0;x<12;x++) {
-      for(int y=0;y<6;y++) {
-        if(dispArray[y][x] == 1) {
-          if(x-1>-1) {
-            tempArray[y][x-1] = 1;
-          }
-        }
-      }
-    }
-    memcpy(dispArray, tempArray, sizeof(tempArray));
+  void sun(int seconds) {
+    //TODO
   }
 
-  /**
-   * Sets the the 2d Array given to a specific height to a single color.
-   * Combinations of r, g ,b.
-   */
-  void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
-    for(int x=0;x<maxW;x++) {
-      for(int y=0;y<maxH;y++) {
-        if(currArray[y][x] == 1) {
-          setLedOn(x,y,r,g,b,layer);
-        }
-      }
-    }
-  }
-  /**
-   * To handle the interrupt of the button input.
-   */
-  void blink() {
-    if(millis()-lastSignal > 200){
-      lastSignal = millis();
-      currentEffect = (currentEffect + 1) % currentAmountOfEffects;
-    }
-  }
+  // TODO: shiftLetterBufferLeft, loadLetters, letters
