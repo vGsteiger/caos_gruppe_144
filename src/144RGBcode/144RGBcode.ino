@@ -201,8 +201,14 @@ int dispArray[6][12];
       for (int x=0;x<12;x++) {
         setLedOn(x,5,1,1,1,0);
         setLedOn(x,5,1,1,1,1);
-        rainDrops0[4][x] = random(2);
-        rainDrops1[4][x] = random(2);
+        int r = random(100);
+        if(r < 35) {
+          rainDrops0[4][x] = 1;
+        }
+        r = random(100);
+        if(r < 35) {
+          rainDrops1[4][x] = 1;
+        }
       }
       rainDropFall(rainDrops0, rainDrops1);
     }
