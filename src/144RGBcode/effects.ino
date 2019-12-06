@@ -30,7 +30,7 @@
           rainDrops0[4][x] = 1;
         }
         r = random(100);
-        if(r < 35) {
+        else {
           rainDrops1[4][x] = 1;
         }
       }
