@@ -1,9 +1,9 @@
-    void printLetters(String letters) {
-      lettersToBeDisp = letters.length();
-      letters.toLowerCase();
-      for(int i = 0; i < letters.length(); i++) {
+    void printLetters(char letters[]) {
+      letters = strlwr(letters);
+      for(int i = 0; i < sizeof(letters) -1; i++) {
+        clearLetterBuffer();
         int m = 0;
-        switch(letters.charAt(i)) {
+        switch(letters[i]) {
           case 'a':
             loadA();
             break;
@@ -62,72 +62,86 @@
             loadS();
             break;
           case 't':
+            loadT();
             break;
           case 'u':
+            loadU();
             break;
           case 'v':
+            loadV();
             break;
           case 'w':
+            loadW();
             break;
           case 'x':
+            loadX();
             break;
           case 'y':
+            loadY();
             break;
           case 'z':
+            loadZ();
             break;
           case '%':
+            loadPercentage();
+            break;
+          case '.':
+            loadPoint();
+            break;
+          case ' ':
             break;
           case '0':
+            load0();
             break;
           case '1':
+            load1();
             break;
           case '2':
+            load2();
             break;
           case '3':
+            load3();
             break;
           case '4':
+            load4();
             break;
           case '5':
+            load5();
             break;
           case '6':
+            load6();
             break;
           case '7':
+            load7();
             break;
           case '8':
+            load8();
             break;
           case '9':
+            load9();
             break;
           default:
             break;
             }
-            if(i == letters.length() -1) {
-              m = 12;
+            if(i == sizeof(letters)-2) {
+              m = 14;
             } else {
-              m = 3;
+              m = 4;
             }
           for(int s = 0; s < m; s++){
             shiftGlobalArrayLeft();
             setLed2DArraySingleColor(dispArray,0,1,1,0,6,12);
             shiftToShifter(1000);
           }
-          lettersToBeDisp--;
       }
     }
     
     void shiftGlobalArrayLeft() {
     int nextLetter = 0;
-    for(int i = 0; i < 6; i++) {
-      if(dispArray[i][11] == 1) {
-        nextLetter = -1;
-      }
-    }
-    if(nextLetter != -1 && lettersToBeDisp > 0) {
-      nextLetter = 1;
-    }
     int tempArray[6][12];
     for(int x=0;x<12;x++) {
       for(int y=0;y<6;y++) {
-        if(x == 11 && nextLetter == 1) {
+        if(x == 11) {
           tempArray[y][11] = letterBuffer[y][0];
           shiftLetterBufferLeft();
         } else if(dispArray[y][x] == 1) {
@@ -141,7 +155,7 @@
   }
 
   void shiftLetterBufferLeft() {
-    int tempArray[6][3];
+    int tempArray[6][4];
     for(int x = 0; x < 3; x++) {
       for(int y = 0; y < 6; y++) {
         if(x-1 == -1) {
@@ -152,6 +166,14 @@
       }
     }
     memcpy(letterBuffer, tempArray, sizeof(tempArray));
+  }
+
+  void clearLetterBuffer() {
+    for(int l = 0; l < 6; l++) {
+      for(int p = 0; p < 4; p++) {
+        letterBuffer[l][p] = 0;
+      }
+    }
   }
 
   void loadA() {
@@ -297,7 +319,7 @@
     }
 
     void loadO() {
-      for(int l = 1; l < 5; l++) {
+      for(int l = 0; l < 6; l++) {
         letterBuffer[l][0] = 1;
         letterBuffer[l][2] = 1;
       }
@@ -351,4 +373,193 @@
       letterBuffer[4][0] = 1; 
       letterBuffer[5][1] = 1; 
       letterBuffer[5][2] = 1; 
+  }
+
+  void loadT() {
+    for(int l = 0; l < 6; l++) {
+      letterBuffer[l][1] = 1;
+    }
+    letterBuffer[5][0] = 1; 
+    letterBuffer[5][2] = 1; 
+  }
+
+  void loadU() {
+    for(int l = 0; l < 6; l++) {
+      letterBuffer[l][0] = 1;
+      letterBuffer[l][2] = 1;
+    }
+    letterBuffer[0][2] = 1; 
+  }
+
+  void loadV() {
+    for(int l = 1; l < 6; l++) {
+      letterBuffer[l][0] = 1;
+      letterBuffer[l][2] = 1;
+    }
+    letterBuffer[0][2] = 1; 
+    }
+
+    void loadW() {
+      for(int l = 0; l < 6; l++) {
+      letterBuffer[l][0] = 1;
+      letterBuffer[l][2] = 1;
+    }
+        letterBuffer[1][1] = 1; 
+    }
+
+    void loadX() {
+      for(int l = 0; l < 6; l++) {
+        if(l != 2 && l != 3) {
+          letterBuffer[l][0] = 1;
+          letterBuffer[l][2] = 1;
+        }
+      }
+      letterBuffer[2][1] = 1;
+      letterBuffer[3][1] = 1;
+    }
+
+    void loadY() {
+    for(int l = 0; l < 4; l++) {
+      letterBuffer[l][1] = 1;
+    }
+      letterBuffer[4][0] = 1;
+      letterBuffer[5][0] = 1;  
+      letterBuffer[4][2] = 1;
+      letterBuffer[5][2] = 1;      
+      }
+
+  void loadZ() {
+    for(int l = 0; l < 3; l++) {
+      letterBuffer[0][l] = 1;
+      letterBuffer[5][l] = 1;
+    }
+    letterBuffer[4][2] = 1;
+    letterBuffer[3][1] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[1][0] = 1;
+  }
+
+  void loadPercentage() {
+    letterBuffer[5][0] = 1;
+    letterBuffer[0][2] = 1;
+    letterBuffer[0][0] = 1;
+    letterBuffer[1][0] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[3][1] = 1;
+    letterBuffer[4][2] = 1;
+    letterBuffer[5][2] = 1;
+  }
+
+  void loadPoint() {
+    letterBuffer[0][1] = 1;
+  }
+
+      void load0() {
+      for(int l = 1; l < 5; l++) {
+        letterBuffer[l][0] = 1;
+        letterBuffer[l][2] = 1;
+      }
+      letterBuffer[5][1] = 1;
+      letterBuffer[0][1] = 1; 
+      }
+
+  void load1() {
+    for(int l = 0; l < 6; l++) {
+      letterBuffer[l][2] = 1;
+    }
+    letterBuffer[4][1] = 1;
+  }
+  
+  void load2() {
+    letterBuffer[0][0] = 1;
+    letterBuffer[0][1] = 1;
+    letterBuffer[0][2] = 1;
+    letterBuffer[1][0] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[3][2] = 1;
+    letterBuffer[4][2] = 1;
+    letterBuffer[4][0] = 1;
+    letterBuffer[5][1] = 1;
+  }
+
+    void load3() {
+    letterBuffer[0][0] = 1;
+    letterBuffer[0][1] = 1;
+    letterBuffer[1][2] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[3][1] = 1;
+    letterBuffer[4][2] = 1;
+    letterBuffer[5][1] = 1;
+    letterBuffer[5][0] = 1;
+    }
+
+    void load4() {
+    letterBuffer[0][2] = 1;
+    letterBuffer[1][2] = 1;
+    letterBuffer[1][2] = 1;
+    letterBuffer[2][0] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[2][2] = 1;
+    letterBuffer[3][0] = 1;
+    letterBuffer[3][2] = 1;
+    letterBuffer[4][0] = 1;
+    letterBuffer[4][2] = 1;
+    letterBuffer[5][0] = 1;
+    letterBuffer[5][2] = 1;
+  }
+
+    void load5() {
+    letterBuffer[0][0] = 1;
+    letterBuffer[0][1] = 1;
+    letterBuffer[1][2] = 1;
+    letterBuffer[2][2] = 1;
+    letterBuffer[3][0] = 1;
+    letterBuffer[3][1] = 1;
+    letterBuffer[4][0] = 1;
+    letterBuffer[5][0] = 1;
+    letterBuffer[5][1] = 1;
+    letterBuffer[5][2] = 1;
+  }
+
+    void load6() {
+    letterBuffer[0][1] = 1;
+    letterBuffer[1][2] = 1;
+    letterBuffer[1][0] = 1;
+    letterBuffer[2][0] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[3][0] = 1;
+    letterBuffer[4][0] = 1;
+    letterBuffer[5][1] = 1;
+    letterBuffer[5][2] = 1;
+  }  
+  void load7() {
+    letterBuffer[0][0] = 1;
+    letterBuffer[1][0] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[3][1] = 1;
+    letterBuffer[4][2] = 1;
+    letterBuffer[5][0] = 1;
+    letterBuffer[5][1] = 1;
+    letterBuffer[5][2] = 1;
+  }
+    void load8() {
+    letterBuffer[0][1] = 1;
+    letterBuffer[1][0] = 1;
+    letterBuffer[1][2] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[3][1] = 1;
+    letterBuffer[4][0] = 1;
+    letterBuffer[4][2] = 1;
+    letterBuffer[5][1] = 1;
+  }
+    void load9() {
+    letterBuffer[3][1] = 1;
+    letterBuffer[4][0] = 1;
+    letterBuffer[4][2] = 1;
+    letterBuffer[5][1] = 1;
+    for(int l = 1; l < 5; l++) {
+      letterBuffer[l][2] = 1;
+    }
+    letterBuffer[0][0] = 1;
+    letterBuffer[0][1] = 1;
   }

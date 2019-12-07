@@ -48,8 +48,7 @@ int currentEffect = 0;
 unsigned long lastSignal = 0;
 int currentAmountOfEffects = 1;
 int dispArray[6][12];
-int letterBuffer[6][3];
-int lettersToBeDisp;
+int letterBuffer[6][4];
 DHT dht(DHTPIN, DHTTYPE);
 
   void setup()
@@ -66,7 +65,6 @@ DHT dht(DHTPIN, DHTTYPE);
    pinMode(button, INPUT);
    attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
    lastSignal = millis();
-   lettersToBeDisp = 0;
    
    digitalWrite(blank_pin, HIGH); //shut down the leds
    digitalWrite(latch_pin, LOW);  //shut down the leds

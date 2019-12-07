@@ -9,10 +9,16 @@
   void tempSensorInfo() {
     float h = dht.readHumidity();
     float t = dht.readTemperature();
-    String temp = String(t,3) + 'C';
-    String hum = String(h,3) + '%';
-    printLetters(hum);
-    printLetters(temp);
+    const char *cel = "C";
+    const char *perc = "%";
+    char bufferShort1[10];
+    dtostrf(h, 5, 1, bufferShort1);
+    strcat(bufferShort1,perc);
+    printLetters(bufferShort1);
+    char bufferShort2[10];
+    dtostrf(t, 5, 1, bufferShort2);
+    strcat(bufferShort2,cel);
+    printLetters(bufferShort2);
     if(dht.readHumidity() > 100) {
       rainEffect(30000);
     } else if(dht.readTemperature() > 24) {
