@@ -2,7 +2,7 @@
 
 144, or the number of Leds in our 3-Dimensional Led display, is a project for the Computer Archidecture and Operating System lecture at the University of Basel. 
 
-Last major edit: 23. November, 2019
+Last major edit: 07. December, 2019
 
 Current version: v0.1
 
