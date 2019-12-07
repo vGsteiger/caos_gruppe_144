@@ -1,7 +1,8 @@
 # Arduino Code for the 144 project
 
-Current version: v0.1
-Last major update: 23.11.2019
+Current version: v0.2
+
+Last major update: 07.12.2019
 
 Major hardware: 
     Arduino MEGA 2560 (from Banggood.com)
