@@ -1,6 +1,6 @@
 void setLedOn(int x, int y, int red, int green, int blue, int layer)
   {
-    x = constrain (x,    0, 15);      // x can only be between 0 and 15 as we have 16 leds length
+    x = constrain (x,    0, 11);      // x can only be between 0 and 11 as we have 12 leds length
     y = constrain (y, 0, 5);          // y can only be between 0 and 5 as we have 6 height
     red = constrain (red,    0, 1);   // Red can either be 1 or 0
     green = constrain (green,  0, 1); // Green can either be 1 or 0

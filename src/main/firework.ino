@@ -27,7 +27,7 @@ void firework(int seconds) {
 
 struct rocket spawnRocket(int l) {
   rocket r; 
-  r.x = random(16);
+  r.x = random(12);
   r.y = 0;
   color c;
   c.r = random(2);
@@ -64,7 +64,7 @@ void burnRocket(rocket r, int iterate) {
     setLedOn(r.x,r.y,c.r,c.g,c.b,r.layer);
     r.y++;
     int ran = random(100);
-    if(r.x > 0 && r.x < 15) {
+    if(r.x > 0 && r.x < 12) {
       if(ran < 15) {
         r.x--;
       } else if(ran < 30) {
