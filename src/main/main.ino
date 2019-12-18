@@ -21,7 +21,8 @@
  * Unibas Logo, Clock implementation, Motion sensor
  * 
  */
-
+#include <Wire.h>
+#include "RTClib.h"
 #include <SPI.h>// SPI Library used to clock data out to the shift registers
 #include "DHT.h"
 
@@ -50,6 +51,7 @@ int currentAmountOfEffects = 1;
 int dispArray[6][12];
 int letterBuffer[6][4];
 DHT dht(DHTPIN, DHTTYPE);
+RTC_DS1307 rtc;
 
   void setup()
   {
@@ -68,6 +70,19 @@ DHT dht(DHTPIN, DHTTYPE);
    
    digitalWrite(blank_pin, HIGH); //shut down the leds
    digitalWrite(latch_pin, LOW);  //shut down the leds
+
+   if (! rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+   }
+   if (! rtc.isrunning()) {
+     Serial.println("RTC is NOT running!");
+     // following line sets the RTC to the date & time this sketch was compiled
+     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+     // This line sets the RTC with an explicit date & time, for example to set
+     // January 21, 2014 at 3am you would call:
+     // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  }
   }
   
   void loop()

@@ -120,6 +120,12 @@
           case '9':
             load9();
             break;
+          case '/':
+            loadSlash();
+            break;
+          case ':':
+            loadDoublepoint();
+            break;
           default:
             break;
             }
@@ -562,4 +568,18 @@
     }
     letterBuffer[0][0] = 1;
     letterBuffer[0][1] = 1;
+  }
+
+  void loadSlash() {
+    letterBuffer[5][2] = 1;
+    letterBuffer[4][2] = 1;
+    letterBuffer[3][1] = 1;
+    letterBuffer[2][1] = 1;
+    letterBuffer[1][0] = 1;
+    letterBuffer[0][0] = 1;
+    }
+
+  void loadDoublepoint() {
+    letterBuffer[2][1] = 1;
+    letterBuffer[4][1] = 1;
   }
