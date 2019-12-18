@@ -36,13 +36,13 @@ struct star createStar(int layer) {
   }
 }
 
-void starAnimation(int seconds) {
+void starAnimation() {
   for(int i = 0; i < 6; i++) {
     starArray0[i] = createStar(0);
     starArray1[i] = createStar(1);
   }
-  for(int t = 0; t < seconds; t++) {
-    for(int i = 0; i < 6; i++) {
+while(true) {
+for(int i = 0; i < 6; i++) {
       runStar(starArray0[i],i);
       runStar(starArray1[i],i);
       shiftToShifter(1000);

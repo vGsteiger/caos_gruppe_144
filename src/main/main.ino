@@ -25,7 +25,11 @@
 #include "RTClib.h"
 #include <SPI.h>// SPI Library used to clock data out to the shift registers
 #include "DHT.h"
+#include <IRremote.h>
 
+const int RECV_PIN = 2;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
 // push the to storage register, Pin 12 at IC
 #define latch_pin 49
 // to shut enable/disable the register. Low enables, Pin 13 at IC
@@ -66,6 +70,7 @@ RTC_DS1307 rtc;
    pinMode(cathode_pin1, OUTPUT);
    pinMode(button, INPUT);
    attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
+   attachInterrupt(0,CHECK_IR,CHANGE);
    lastSignal = millis();
    
    digitalWrite(blank_pin, HIGH); //shut down the leds
@@ -77,20 +82,15 @@ RTC_DS1307 rtc;
    }
    if (! rtc.isrunning()) {
      Serial.println("RTC is NOT running!");
-     // following line sets the RTC to the date & time this sketch was compiled
      rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-     // This line sets the RTC with an explicit date & time, for example to set
-     // January 21, 2014 at 3am you would call:
-     // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
-  }
+    }
+    irrecv.enableIRIn();
+    irrecv.blink13(true);
   }
   
   void loop()
   {
-    switch(currentEffect) {
-      case 0:
-        test();
-    }
+    delay(1);
   }
 
     /**
@@ -100,5 +100,25 @@ RTC_DS1307 rtc;
     if(millis()-lastSignal > 200){
       lastSignal = millis();
       currentEffect = (currentEffect + 1) % currentAmountOfEffects;
+    }
+  }
+
+  void CHECK_IR(){
+      if (irrecv.decode(&results)){
+      switch(results.value){
+        case 0XFF6897: //Keypad button "0"
+          test();
+        case 0xFF30CF: //Keypad button "1"
+          firework();
+        case 0xFF18E7: //Keypad button "2"
+          gameOfLifeAnimation();
+        case 0xFF7A85:  //Keypad button "3"
+          clockAnimation();
+        case 0xFF10EF: //Keypad button "4"
+          starAnimation();
+        case 0xFF38C7: //Keypad button "5"
+          tempSensorInfo();
+      }
+        irrecv.resume(); 
     }
   }
