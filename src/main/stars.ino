@@ -10,6 +10,7 @@ typedef struct star {
   int direct; // 1 = from left to right, -1 = from right to left
   starColor color;
   int timer;
+  int layer;
 } star;
 
 star starArray0[6];
@@ -51,7 +52,7 @@ void starAnimation(int seconds) {
 
 void runStar(star s, int index) {
   if(s.timer == 0) {
-    setLedOn(s.x,s.y,s.c.r,s.c.g,s.c.b,s.layer);
+    setLedOn(s.x,s.y,s.color.r,s.color.g,s.color.b,s.layer);
     areSameCoordinates(s,index);
     if(s.x + 1 == 16 && s.x - 1 == -1) {
         if(s.layer == 0) {
@@ -116,7 +117,7 @@ void areSameCoordinates(star s, int index) {
 }
 
 void explodeStar(star s) {
-   color c = s.c;
+   starColor c = s.color;
    setLedOn(s.x,s.y,c.r,c.g,c.b,s.layer);
    setLedOn(s.x-1,s.y-1,c.r,c.g,c.b,s.layer);
    setLedOn(s.x+1,s.y+1,c.r,c.g,c.b,s.layer);
