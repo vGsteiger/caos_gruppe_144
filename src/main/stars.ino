@@ -44,6 +44,7 @@ void starAnimation(int seconds) {
     for(int i = 0; i < 6; i++) {
       runStar(starArray0[i],i);
       runStar(starArray1[i],i);
+      shiftToShifter(1000);
     }
   }
 }
@@ -51,6 +52,7 @@ void starAnimation(int seconds) {
 void runStar(star s, int index) {
   if(s.timer == 0) {
     setLedOn(s.x,s.y,s.c.r,s.c.g,s.c.b,s.layer);
+    areSameCoordinates(s,index);
     if(s.x + 1 == 16 && s.x - 1 == -1) {
         if(s.layer == 0) {
           starArray0[index] = createStar(0);
@@ -60,25 +62,64 @@ void runStar(star s, int index) {
     }
     if(s.direct == 1) {
       s.x++;
+      if(s.x > 11) {
+        if(s.layer == 0) {
+          starArray0[index] = createStar(s.layer);
+        } else {
+          starArray1[index] = createStar(s.layer);
+        }
+      }
     } else {
       s.x--;
-    }
+      if(s.x < 0) {
+        if(s.layer == 0) {
+          starArray0[index] = createStar(s.layer);
+        } else {
+          starArray1[index] = createStar(s.layer);
+        }
+        }
+      }
   } else {
     s.timer--;
   }
 }
 
-struct star areSameCoordinates(star.s; int layer, int index) {
-  if(layer == 0) {
+void areSameCoordinates(star s, int index) {
+  if(s.layer == 0) {
     for(int r = 0; r < 6; r++) {
       if(r == index) {
       continue;
       } else {
         star other = starArray0[r];
-        //if()
+        if(other.x == s.x && other.y == s.x) {
+          explodeStar(s);
+          explodeStar(other);
+          starArray0[r] = createStar(s.layer);
+          starArray0[index] = createStar(s.layer);
+        }
       }
     }
   } else {
-    
-  }
+    for(int r = 0; r < 6; r++) {
+      if(r == index) {
+      continue;
+      } else {
+        star other = starArray1[r];
+        if(other.x == s.x && other.y == s.x) {
+          explodeStar(s);
+          explodeStar(other);
+          starArray1[r] = createStar(s.layer);
+          starArray1[index] = createStar(s.layer);
+        }
+      }
+    }  }
+}
+
+void explodeStar(star s) {
+   color c = s.c;
+   setLedOn(s.x,s.y,c.r,c.g,c.b,s.layer);
+   setLedOn(s.x-1,s.y-1,c.r,c.g,c.b,s.layer);
+   setLedOn(s.x+1,s.y+1,c.r,c.g,c.b,s.layer);
+   setLedOn(s.x+1,s.y-1,c.r,c.g,c.b,s.layer);
+   setLedOn(s.x-1,s.y+1,c.r,c.g,c.b,s.layer);
 }
