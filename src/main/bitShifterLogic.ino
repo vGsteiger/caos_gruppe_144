@@ -1,17 +1,15 @@
 void shiftToShifter(int miliSeconds) 
   {
-    miliSeconds = constrain (miliSeconds,    0, 101);
-    int hertz = 55;
+    long amountMilis = 0;
+    for(int timeSpent = 0; timeSpent < miliSeconds/2; timeSpent = timeSpent + 50){    
+    int hertz = 30;
     int count;
-    unsigned long delayProHertz = (miliSeconds/hertz)/2;
-    Serial.println("Current delay");
-    Serial.println(delayProHertz);
-    for(int s = 0; s < miliSeconds; s++) {
+    long delayProHertz = (50/hertz)/2;
+    for(int s = 0; s < 50; s++) {
       int currentShifter = currentAmountOfShifters-1;
       for(int hrtz = 0; hrtz < hertz; hrtz++) {
         changeLayer(0);
         digitalWrite(blank_pin, HIGH);//shut down the leds
-        //Serial.println("Currently shifting out:");
         for(int i = currentAmountOfShifters-1; i >= 0; i--) {
           if(i == currentShifter) {
             SPI.transfer(anodes0[i]);
@@ -28,6 +26,7 @@ void shiftToShifter(int miliSeconds)
         digitalWrite(latch_pin, HIGH);
         digitalWrite(latch_pin, LOW);
         digitalWrite(blank_pin, LOW);  //enable pins
+        amountMilis = amountMilis + delayProHertz;
         delay(delayProHertz);
         
         changeLayer(1);
@@ -49,12 +48,14 @@ void shiftToShifter(int miliSeconds)
         digitalWrite(latch_pin, LOW);
         digitalWrite(blank_pin, LOW);  //enable pins
         delay(delayProHertz);
+        amountMilis = amountMilis + delayProHertz;
         currentShifter = currentShifter - 1;
       }
     }
+  }
     memset(anodes0, 0, sizeof(anodes0));
     memset(anodes1, 0, sizeof(anodes1));
-    Serial.println(count);
+    Serial.println(amountMilis);
   }
 
   /**
