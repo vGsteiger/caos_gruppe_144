@@ -41,7 +41,7 @@
 // Button to change mode:
 #define button 2
 
-int currentAmountOfShifters = 2;  // To be set depending on the current setup
+int currentAmountOfShifters = 1;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0;

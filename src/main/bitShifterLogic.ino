@@ -1,14 +1,27 @@
 void shiftToShifter(int miliSeconds) 
   {
-    int hertz = 142;
-    int delayProHertz = (int)(miliSeconds/hertz);
+    miliSeconds = constrain (miliSeconds,    0, 101);
+    int hertz = 55;
+    int count;
+    unsigned long delayProHertz = (miliSeconds/hertz)/2;
+    Serial.println("Current delay");
+    Serial.println(delayProHertz);
     for(int s = 0; s < miliSeconds; s++) {
       int currentShifter = currentAmountOfShifters-1;
       for(int hrtz = 0; hrtz < hertz; hrtz++) {
         changeLayer(0);
         digitalWrite(blank_pin, HIGH);//shut down the leds
-        for(int i = currentShifter; i >= currentShifter-1; i--) {
-          SPI.transfer(anodes0[i]);
+        //Serial.println("Currently shifting out:");
+        for(int i = currentAmountOfShifters-1; i >= 0; i--) {
+          if(i == currentShifter) {
+            SPI.transfer(anodes0[i]);
+          } else if (i - 1 == currentShifter){
+            SPI.transfer(anodes0[i]);
+          } else if (i - 2 == currentShifter){
+            SPI.transfer(anodes0[i]);
+          } else { 
+            SPI.transfer(0b00000000);
+          }
         }
        
         // shift register to storage register
@@ -19,9 +32,17 @@ void shiftToShifter(int miliSeconds)
         
         changeLayer(1);
         digitalWrite(blank_pin, HIGH);//shut down the leds
-        for(int i = currentShifter; i >= currentShifter-1; i--) {
-          SPI.transfer(anodes1[i]);
-        }
+        for(int i = currentAmountOfShifters-1; i >= 0; i--) {
+          if(i == currentShifter) {
+            SPI.transfer(anodes0[i]);
+          } else if (i - 1 == currentShifter){
+            SPI.transfer(anodes0[i]);
+          } else if (i - 2 == currentShifter){
+            SPI.transfer(anodes0[i]);
+          } else { 
+            SPI.transfer(0b00000000);
+          }
+          }
        
         // shift register to storage register
         digitalWrite(latch_pin, HIGH);
@@ -33,6 +54,7 @@ void shiftToShifter(int miliSeconds)
     }
     memset(anodes0, 0, sizeof(anodes0));
     memset(anodes1, 0, sizeof(anodes1));
+    Serial.println(count);
   }
 
   /**
