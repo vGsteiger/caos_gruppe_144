@@ -10,11 +10,11 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
     int whichByte = int(((x*3+36*y)+1)/8);       // Calculate which byte be have to change
     int whichBit = ((y*36+x*3)+1)%8;          //  Calculate which bit in that byte we have to set on
 
-    //Serial.println("Currently in byte:");
-    //Serial.println(whichByte);
+    Serial.println("Currently in byte:");
+    Serial.println(whichByte);
 
-    //Serial.println("Currently in bit:");
-    //Serial.println(whichBit);
+    Serial.println("Currently in bit:");
+    Serial.println(whichBit);
     /**
      * Choses between the two available layers of our LED RGB Cubic.
      */

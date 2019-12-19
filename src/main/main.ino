@@ -42,7 +42,7 @@
 // Button to change mode:
 #define button 2
 
-int currentAmountOfShifters = 2;  // To be set depending on the current setup
+int currentAmountOfShifters = 1;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0;
@@ -71,18 +71,14 @@ RTC_DS1307 rtc;
    digitalWrite(blank_pin, HIGH); //shut down the leds
    digitalWrite(latch_pin, LOW);  //shut down the leds
 
-   if (! rtc.begin()) {
-    Serial.println("Couldn't find RTC");
-    while (1);
-   }
-   if (! rtc.isrunning()) {
-     Serial.println("RTC is NOT running!");
-     // following line sets the RTC to the date & time this sketch was compiled
-     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-     // This line sets the RTC with an explicit date & time, for example to set
-     // January 21, 2014 at 3am you would call:
-     // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
-  }
+   //if (! rtc.begin()) {
+    //Serial.println("Couldn't find RTC");
+    //while (1);
+   //}
+   //if (! rtc.isrunning()) {
+    // Serial.println("RTC is NOT running!");
+    // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //}
   }
   
   void loop()
