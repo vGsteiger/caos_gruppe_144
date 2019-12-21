@@ -1,3 +1,7 @@
+    /*
+     * Print a char array onto the screen. Method handles the String and loads the letters one by one onto the screen by calling the methods for the letters. The methods then 
+     * load the letters manually into the letterBuffer and a letter then gets shifted out until the last letter is reached.
+     */
     void printLetters(char letters[]) {
       letters = strlwr(letters);
       for(int i = 0; i < sizeof(letters) -1; i++) {

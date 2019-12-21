@@ -1,5 +1,5 @@
   /**
-   * rainEffect if the humidity sensor perceives a specific value.
+   * Read sensory input, print it on the screen and then display temperature and humidity on the screen and then a corresponding effect
    */
 
   int sunArray[6][12];
@@ -7,8 +7,9 @@
   int rainDrops1[5][12];
 
   void tempSensorInfo() {
-    float h = dht.readHumidity();
-    float t = dht.readTemperature();
+    while(true) {
+    int h = dht.readHumidity();
+    int t = dht.readTemperature();
     const char *cel = "C";
     const char *perc = "%";
     char bufferShort1[10];
@@ -25,6 +26,7 @@
       sun(30000);
     } else {
       clouds(30000);
+    }
     }
   }
 

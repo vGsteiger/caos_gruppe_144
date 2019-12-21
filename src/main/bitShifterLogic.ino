@@ -1,3 +1,6 @@
+/*
+ * Method to shift the current information in the anode arrays onto the shifters. Currently a single led lights up for (50/30)/2 times 
+ */
 void shiftToShifter(int miliSeconds) 
   {
     long amountMilis = 0;
@@ -5,8 +8,8 @@ void shiftToShifter(int miliSeconds)
     int hertz = 30;
     int count;
     long delayProHertz = (50/hertz)/2;
+    int currentShifter = currentAmountOfShifters-1;
     for(int s = 0; s < 50; s++) {
-      int currentShifter = currentAmountOfShifters-1;
       for(int hrtz = 0; hrtz < hertz; hrtz++) {
         changeLayer(0);
         digitalWrite(blank_pin, HIGH);//shut down the leds
@@ -15,9 +18,7 @@ void shiftToShifter(int miliSeconds)
             SPI.transfer(anodes0[i]);
           } else if (i - 1 == currentShifter){
             SPI.transfer(anodes0[i]);
-          } else if (i - 2 == currentShifter){
-            SPI.transfer(anodes0[i]);
-          } else { 
+          }  else { 
             SPI.transfer(0b00000000);
           }
         }
@@ -36,8 +37,6 @@ void shiftToShifter(int miliSeconds)
             SPI.transfer(anodes0[i]);
           } else if (i - 1 == currentShifter){
             SPI.transfer(anodes0[i]);
-          } else if (i - 2 == currentShifter){
-            SPI.transfer(anodes0[i]);
           } else { 
             SPI.transfer(0b00000000);
           }
@@ -49,7 +48,7 @@ void shiftToShifter(int miliSeconds)
         digitalWrite(blank_pin, LOW);  //enable pins
         delay(delayProHertz);
         amountMilis = amountMilis + delayProHertz;
-        currentShifter = currentShifter - 1;
+        currentShifter = (currentShifter - 1) % currentAmountOfShifters; // If something doesn't work, it's because of this!
       }
     }
   }
