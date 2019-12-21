@@ -21,7 +21,8 @@
  * Unibas Logo, Clock implementation, Motion sensor
  * 
  */
-
+#include <Wire.h>
+#include "RTClib.h"
 #include <SPI.h>// SPI Library used to clock data out to the shift registers
 #include "DHT.h"
 
@@ -41,7 +42,7 @@
 // Button to change mode:
 #define button 2
 
-int currentAmountOfShifters = 2;  // To be set depending on the current setup
+int currentAmountOfShifters = 1;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0;
@@ -50,6 +51,7 @@ int currentAmountOfEffects = 1;
 int dispArray[6][12];
 int letterBuffer[6][4];
 DHT dht(DHTPIN, DHTTYPE);
+RTC_DS1307 rtc;
 
   void setup()
   {
@@ -68,6 +70,15 @@ DHT dht(DHTPIN, DHTTYPE);
    
    digitalWrite(blank_pin, HIGH); //shut down the leds
    digitalWrite(latch_pin, LOW);  //shut down the leds
+
+   if (! rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+   }
+   if (! rtc.isrunning()) {
+    Serial.println("RTC is NOT running!");
+    rtc.adjust(DateTime(2019, 12, 19, 12 , 32, 0));
+    }
   }
   
   void loop()
@@ -76,7 +87,7 @@ DHT dht(DHTPIN, DHTTYPE);
       case 0:
         test();
     }
-  }
+ }
 
     /**
    * To handle the interrupt of the button input.
