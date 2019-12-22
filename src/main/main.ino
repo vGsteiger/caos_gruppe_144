@@ -30,6 +30,10 @@
 #include "RTClib.h" // Real time clock library
 #include <SPI.h> // SPI Library used to clock data out to the shift registers
 #include "DHT.h" // Humidity and Temperature sensor library
+#include <IRremote.h>
+const int RECV_PIN = 7;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
 
 #define latch_pin 49 // push the to storage register, Pin 12 at IC
 #define blank_pin 48 // to shut enable/disable the register. Low enables, Pin 13 at IC
@@ -52,12 +56,6 @@ int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
 DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
 RTC_DS1307 rtc; // Real time clock variable
 
-void setup()
-{
-  Serial.begin(115200); // Serial monitor for debugging
-  SPI.begin(); // Begin the SPI library
-  SPI.setClockDivider(SPI_CLOCK_DIV2);//Run the data in at 16MHz/2 - 8MHz
-  dht.begin();
 void setup()
 {
   Serial.begin(115200); // Serial monitor for debugging
@@ -137,14 +135,12 @@ void changeEffect(int result) {
         break;
     }
   }
-}
 
   boolean checkIRSensor(){
-    if (irrecv.decode(&results)) {
+    if (irrecv.decode(&results)){
       Serial.println(results.value, HEX);
       changeEffect(results.value);
       irrecv.resume(); // Receive the next value
       return true;
     }
   }
-}
