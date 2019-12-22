@@ -49,6 +49,9 @@ void rainEffect(int seconds) {
 void rainDropFall(int rainDrops0[][12], int rainDrops1[][12]) {
   setLed2DArraySingleColor(rainDrops0, 0, 0, 0, 1, 5, 12);
   setLed2DArraySingleColor(rainDrops1, 1, 0, 0, 1, 5, 12);
+  if(checkIRSensor()){
+      return;
+  }
   shiftToShifter(1000);
   int tempArray[5][12];
   for (int x = 0; x < 12; x++) {
@@ -89,6 +92,9 @@ void sun(int seconds) {
   for (int i = 0; i < seconds; i++) {
     setLed2DArraySingleColor(sunArray, 0, 1, 1, 0, 6, 12);
     setLed2DArraySingleColor(sunArray, 1, 1, 1, 0, 6, 12);
+    if(checkIRSensor()){
+        return;
+    }
     shiftToShifter(1000);
     shiftSunToLeft(sunArray);
   }
@@ -130,6 +136,9 @@ void clouds(int seconds) {
     }
     setLed2DArraySingleColor(cloudArray, 0, 1, 1, 1, 6, 12);
     setLed2DArraySingleColor(cloudArray, 1, 1, 1, 1, 6, 12);
+    if(checkIRSensor()){
+        return;
+    }
     shiftToShifter(1000);
   }
 }

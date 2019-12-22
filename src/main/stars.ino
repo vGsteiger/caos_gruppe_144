@@ -4,8 +4,6 @@ typedef struct starColor {
   int b;
 } starColor;
 
-boolean runStars;
-
 typedef struct star {
   int x;
   int y;
@@ -43,12 +41,14 @@ void starAnimation() {
     starArray0[i] = createStar(0);
     starArray1[i] = createStar(1);
   }
-  runStars = true;
-  while (runStars) {
+  while (true) {
     for (int i = 0; i < 6; i++) {
       runStar(starArray0[i], i);
       runStar(starArray1[i], i);
-      shiftToShifter(1000);
+    if(checkIRSensor()){
+        return;
+    }
+    shiftToShifter(1000);
     }
   }
 }

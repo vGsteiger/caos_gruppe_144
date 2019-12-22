@@ -8,8 +8,6 @@ typedef struct rocket {
   boolean burnt;
 } rocket;
 
-boolean runFirework;
-
 rocket rocketArray0[6];
 rocket rocketArray1[6];
 
@@ -18,8 +16,10 @@ void firework() {
     rocketArray0[i] = spawnRocket(0);
     rocketArray0[i] = spawnRocket(1);
   }
-  runFirework = true;
-  while (runFirework) {
+  while (true) {
+    if(checkIRSensor()){
+        return;
+    }
     for (int i = 0; i < 6; i++) {
       burnRocket(rocketArray0[i], i);
       burnRocket(rocketArray1[i], i);

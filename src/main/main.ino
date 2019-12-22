@@ -70,7 +70,6 @@ void setup()
   pinMode(button, INPUT);
 
   attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
-  attachInterrupt(0, CHECK_IR, CHANGE);
 
   lastSignal = millis();
 
@@ -87,12 +86,12 @@ void setup()
   //}
   irrecv.enableIRIn();
   irrecv.blink13(true);
-  //welcomeAnimation();
+  welcomeAnimation();
 }
 
 void loop()
 {
-  delay(1);
+  checkIRSensor();
 }
 
 /**
@@ -105,11 +104,8 @@ void blink() {
   }
 }
 
-void CHECK_IR() {
-  if (irrecv.decode(&results)) {
-    shutOffAllEffects();
-    Serial.println(results.value, HEX);
-    switch (results.value) {
+void changeEffect(int result) {
+    switch (result) {
       case 0xFF6897: //Keypad button "0"
         Serial.println("Testeffect");
         test();
@@ -138,6 +134,13 @@ void CHECK_IR() {
         Serial.println("Default");
         break;
     }
-    irrecv.resume();
   }
-}
+
+  boolean checkIRSensor(){
+    if (irrecv.decode(&results)) {
+      Serial.println(results.value, HEX);
+      changeEffect(results.value);
+      irrecv.resume(); // Receive the next value
+      return true;
+    }
+  }

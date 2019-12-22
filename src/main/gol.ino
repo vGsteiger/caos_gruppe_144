@@ -1,5 +1,4 @@
 int cells[6][12];
-boolean runGOL;
 
 int isActive(int i, int j) {
   return cells[i][j];
@@ -57,9 +56,11 @@ void fillRandom(int probability) {
 
 void gameOfLifeAnimation() {
   fillRandom(20);
-  runGOL = true;
-  while (runGOL) {
+  while (true) {
     setLed2DArraySingleColor(cells, 0, 1, 0, 0, 6, 12);
+    if(checkIRSensor()){
+        return;
+    }
     shiftToShifter(2000);
     updateCells();
   }

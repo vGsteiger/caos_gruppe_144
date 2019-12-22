@@ -135,6 +135,9 @@ void printLetters(char letters[]) {
       m = 4;
     }
     for (int s = 0; s < m; s++) {
+      if(checkIRSensor()){
+        return;
+      }
       shiftGlobalArrayLeft();
       setLed2DArraySingleColor(dispArray, 0, 1, 1, 0, 6, 12);
       shiftToShifter(1000);
