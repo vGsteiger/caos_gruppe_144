@@ -3,22 +3,23 @@
  */
 void shiftToShifter(int miliSeconds) 
   {
-    long amountMilis = 0;
-    for(int timeSpent = 0; timeSpent < miliSeconds/2; timeSpent = timeSpent + 50){    
+    for(int timeSpent = 0; timeSpent < miliSeconds/100; timeSpent = timeSpent + 10){    
     int hertz = 30;
     int count;
-    long delayProHertz = (50/hertz)/2;
+    long delayProHertz = (50/hertz);
     int currentShifter = currentAmountOfShifters-1;
-    for(int s = 0; s < 50; s++) {
+    for(int s = 0; s < 10; s++) {
       for(int hrtz = 0; hrtz < hertz; hrtz++) {
-        changeLayer(0);
+
         digitalWrite(blank_pin, HIGH);//shut down the leds
         for(int i = currentAmountOfShifters-1; i >= 0; i--) {
           if(i == currentShifter) {
             SPI.transfer(anodes0[i]);
-          } else if (i - 1 == currentShifter){
+          } else if ((i - 1) % currentAmountOfShifters == currentShifter){
             SPI.transfer(anodes0[i]);
-          }  else { 
+          } else if ((i - 2) % currentAmountOfShifters == currentShifter){
+            SPI.transfer(anodes0[i]);
+          } else {
             SPI.transfer(0b00000000);
           }
         }
@@ -27,45 +28,37 @@ void shiftToShifter(int miliSeconds)
         digitalWrite(latch_pin, HIGH);
         digitalWrite(latch_pin, LOW);
         digitalWrite(blank_pin, LOW);  //enable pins
-        amountMilis = amountMilis + delayProHertz;
-        delay(delayProHertz);
         
-        changeLayer(1);
+        digitalWrite(cathode_pin0, LOW);
+        delay(delayProHertz);
+        digitalWrite(cathode_pin0, HIGH);
+
         digitalWrite(blank_pin, HIGH);//shut down the leds
         for(int i = currentAmountOfShifters-1; i >= 0; i--) {
           if(i == currentShifter) {
-            SPI.transfer(anodes0[i]);
-          } else if (i - 1 == currentShifter){
-            SPI.transfer(anodes0[i]);
-          } else { 
+            SPI.transfer(anodes1[i]);
+          } else if ((i - 1) % currentAmountOfShifters == currentShifter){
+            SPI.transfer(anodes1[i]);
+          } else if ((i - 2) % currentAmountOfShifters == currentShifter){
+            SPI.transfer(anodes1[i]);
+          } else {
             SPI.transfer(0b00000000);
           }
-          }
+        }
        
         // shift register to storage register
         digitalWrite(latch_pin, HIGH);
         digitalWrite(latch_pin, LOW);
         digitalWrite(blank_pin, LOW);  //enable pins
+        
+        digitalWrite(cathode_pin1, LOW);
         delay(delayProHertz);
-        amountMilis = amountMilis + delayProHertz;
+        digitalWrite(cathode_pin1, HIGH);
+        
         currentShifter = (currentShifter - 1) % currentAmountOfShifters; // If something doesn't work, it's because of this!
       }
     }
   }
     memset(anodes0, 0, sizeof(anodes0));
     memset(anodes1, 0, sizeof(anodes1));
-    Serial.println(amountMilis);
-  }
-
-  /**
-   * Switch between the layers (we use 2 layers in this project). TODO: Porperly implement this!
-   */
-  void changeLayer(int layer) {
-    if(layer == 0) {
-      digitalWrite(cathode_pin0, HIGH);
-      digitalWrite(cathode_pin1, LOW);
-    } else {
-      digitalWrite(cathode_pin1, HIGH);
-      digitalWrite(cathode_pin0, LOW);
-    }
   }

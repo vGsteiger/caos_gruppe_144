@@ -37,11 +37,11 @@
 #define clock_pin0 52 // used by SPI, must be 52 at mega 2560, Pin 11 at IC
 #define DHTPIN 2 // Humidity/temperature sensor pin
 #define DHTTYPE DHT11 // Humidity/temperature sensor model
-#define cathode_pin0 3 // Cathode Pin, to be tested!
-#define cathode_pin1 4 // Same as above!
+#define cathode_pin0 24 // Cathode Pin, to be tested!
+#define cathode_pin1 26 // Same as above!
 #define button 2 // Button to change mode, to be replaced by infrared!
 
-int currentAmountOfShifters = 1;  // To be set depending on the current setup
+int currentAmountOfShifters = 2;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0; // Integer value of the current effect in play
