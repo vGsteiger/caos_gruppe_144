@@ -1,5 +1,5 @@
 /**
-   rainEffect if the humidity sensor perceives a specific value.
+   Read sensory input, print it on the screen and then display temperature and humidity on the screen and then a corresponding effect
 */
 
 int sunArray[6][12];

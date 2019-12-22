@@ -54,6 +54,10 @@ void fillRandom(int probability) {
   }
 }
 
+/*
+   Simple Game of Life animation
+*/
+
 void gameOfLifeAnimation() {
   fillRandom(20);
   while (true) {

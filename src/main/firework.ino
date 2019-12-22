@@ -1,3 +1,9 @@
+typedef struct color {
+  int r;
+  int g;
+  int b;
+} color;
+
 typedef struct rocket {
   int x;
   int y;

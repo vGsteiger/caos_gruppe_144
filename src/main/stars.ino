@@ -16,6 +16,10 @@ typedef struct star {
 star starArray0[6];
 star starArray1[6];
 
+/*
+   Star animation which randomly spawns stars on the left and right and explodes them if they touch.
+*/
+
 struct star createStar(int layer) {
   star s;
   s.y = random(6);
