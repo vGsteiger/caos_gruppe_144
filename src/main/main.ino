@@ -46,6 +46,8 @@ decode_results results;
 #define button 2 // Button to change mode, to be replaced by infrared!
 
 int currentAmountOfShifters = 2;  // To be set depending on the current setup
+int snekDir = 0;
+int lastIRResult = 0;
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0; // Integer value of the current effect in play
@@ -130,6 +132,7 @@ void changeEffect(int result) {
         Serial.println("Temperature effects");
         tempSensorInfo();
         break;
+      // TODO: Check snekDir values!
       default:
         Serial.println("Default");
         break;
@@ -141,6 +144,7 @@ void changeEffect(int result) {
       lastSignal = millis();
       if (irrecv.decode(&results)){
         Serial.println(results.value, HEX);
+        lastIRResult = results.value;
         changeEffect(results.value);
         irrecv.resume(); // Receive the next value
         return true;
