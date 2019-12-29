@@ -54,10 +54,17 @@ void fillRandom(int probability) {
   }
 }
 
-void gameOfLifeAnimation(int seconds) {
+/*
+   Simple Game of Life animation
+*/
+
+void gameOfLifeAnimation() {
   fillRandom(20);
-  for (int t = 0; t < seconds; t = t + 2) {
+  while (true) {
     setLed2DArraySingleColor(cells, 0, 1, 0, 0, 6, 12);
+    if(checkIRSensor()){
+        return;
+    }
     shiftToShifter(2000);
     updateCells();
   }

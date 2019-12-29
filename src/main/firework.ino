@@ -1,3 +1,9 @@
+typedef struct color {
+  int r;
+  int g;
+  int b;
+} color;
+
 typedef struct rocket {
   int x;
   int y;
@@ -11,12 +17,15 @@ typedef struct rocket {
 rocket rocketArray0[6];
 rocket rocketArray1[6];
 
-void firework(int seconds) {
+void firework() {
   for (int i = 0; i < 6; i++) {
     rocketArray0[i] = spawnRocket(0);
     rocketArray0[i] = spawnRocket(1);
   }
-  for (int t = 0; t < seconds; t++) {
+  while (true) {
+    if(checkIRSensor()){
+        return;
+    }
     for (int i = 0; i < 6; i++) {
       burnRocket(rocketArray0[i], i);
       burnRocket(rocketArray1[i], i);
