@@ -106,7 +106,7 @@ void blink() {
 
 void changeEffect(int result) {
     switch (result) {
-      case 0xFF6897: //Keypad button "0"
+      case 0x97483BFB: //Keypad button "0"
         Serial.println("Testeffect");
         test();
         break;
@@ -114,19 +114,19 @@ void changeEffect(int result) {
         Serial.println("Firework");
         firework();
         break;
-      case 0xFF18E7: //Keypad button "2"
+      case 0x511DBB: //Keypad button "2"
         Serial.println("GOL");
         gameOfLifeAnimation();
         break;
-      case 0xFF7A85:  //Keypad button "3"
+      case 0xEE886D7F:  //Keypad button "3"
         Serial.println("Clock");
         clockAnimation();
         break;
-      case 0xFF10EF: //Keypad button "4"
+      case 0x52A3D41F: //Keypad button "4"
         Serial.println("Stars");
         starAnimation();
         break;
-      case 0xFF38C7: //Keypad button "5"
+      case 0xD7E84B1B: //Keypad button "5"
         Serial.println("Temperature effects");
         tempSensorInfo();
         break;
@@ -137,10 +137,19 @@ void changeEffect(int result) {
   }
 
   boolean checkIRSensor(){
-    if (irrecv.decode(&results)){
-      Serial.println(results.value, HEX);
-      changeEffect(results.value);
-      irrecv.resume(); // Receive the next value
-      return true;
-    }
+    if (millis() - lastSignal > 200) {
+      lastSignal = millis();
+      if (irrecv.decode(&results)){
+        Serial.println(results.value, HEX);
+        changeEffect(results.value);
+        irrecv.resume(); // Receive the next value
+        return true;
+      }
+    } else {
+      if (irrecv.decode(&results)){
+        //changeEffect(results.value);
+        irrecv.resume(); // Receive the next value
+        return false;
+      }
+      }
   }
