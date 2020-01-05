@@ -26,11 +26,10 @@ TODO: BILD VOM PROJEKTERZEUGNIS
 
 Die Grundidee von unserem Projekt war es zuerst einen 5 x 5 x 5 LED RGB Würfel zu bauen, jedoch haben wir uns dann im Prozess der Entscheidungsfindung
 dazu entschieden, etwas anderes zu bauen was sich vom "typischen" LED RGB Würfel unterscheidet.
-Deshalb haben wir die Dimensionen ein wenig angepasst, sodass wir am Ende ein Quader haben werden. Damit wird es uns immer noch möglich sein gute 3D-Effekte
-anzeigen zu können. Die Anordnung der LED's kann als Matrix verstanden werden mit entsprechenden boolean Variablen, welche beim entsprechenden LED die erwünschte Farbe
-anzeigen. 
+Deshalb haben wir die Dimensionen ein wenig angepasst, sodass wir am Ende einen zweidimenstionalen Bildschirm haben werden. Damit wird es uns immer noch möglich sein, gute 3D-Effekte
+anzeigen zu können. Die Anordnung der LED's kann als Koordinatensystem verstanden werden, bei dem man auf die einzelnen LED's zugreifen kann. Dies erleichtert es massiv, Effekte zu schreiben. 
 Das Projekt lässt einen grossen Spielraum bezüglich Ideen zu. Sollte man also selbst Ideen haben, welche sich gut zu unserem Projekt ergänzen würden, kann man diese ohne weitere
-Probleme implementieren.
+Probleme implementieren. Die Grundsoftware hat sehr einfache Schnittstellen, mit denen man einfach weitere Effekte schreiben kann.
 
 
 \section{Verwendete Materialien}
@@ -49,7 +48,7 @@ Um den LED-Quader ein wenig bunter gestalten zu können wurden RGB's verwendet.:
 
 Schieberegister erweisen sich für ein solches Projekt als äusserst nützlich, um die vielen Pins der einzelnen RGB LED's ansprechen zu können. \\
 
-Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 8-bit Schieberegister entschieden.
+Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 8-bit Schieberegister entschieden. Diese erweisen sich in der Programmierung als intuitiv, weil man einfach mit Byte-Arrays arbeiten kann, um die einzelnen Schieberegister mit Informationen zu "befüllen". Weiter existieren für diese Schieberegister vorgefertigte Libraries, um die Kommunikation zu erleichtern. Dies nimmt einen nicht die Denkarbeit ab, wie man die LED's anordnen will und wie man die verschiedenen Farben anspricht, jedoch erleichtert es die direkte Kommunikation.
 
 \subsection{Transistoren}
 
@@ -61,25 +60,31 @@ Für das Projekt wurden zusätzlich Sensoren verwendet, um weitere Features zu g
 
 Folgende Sensoren stehen zur Auswahl:
 \begin{itemize}
-    \item Temperatursensoren:
-    \item Luftfeuchtigkeitssensoren:
-    \item Bewegungsmelder
+    \item Temperatur und Luftfeuchtigkeitssensor:
+    \item Infrarot-Sensor:
+    \item Real-time clock:
 \end{itemize}
 
 \section{Materialkosten}
 
 \begin{tabularx}{\textwidth}{p{0.25\textwidth} | l | l | l | r |}
     \textbf{Produkt} & \textbf{Menge} & \textbf{Preis} & \textbf{Total} \\
+    % Viktor's Ausgaben:
     \cline{1-4}
     RGB LED's & 250x & 0.072 & 18.- \\
     \cline{1-4}
     Kabel (verschiedene) & 15m & 0.83 & 12.50 \\
     \cline{1-4}
-    Wiederstände & 220x & 0.036 & 8.- \\
+    Wiederstände & 440x & 0.036 & 16.- \\
     \cline{1-4}
-    74hc595 & 30x & 0.50 & 13.- \\
+    74hc595 & 57x & 0.50 & 30.- \\   
     \cline{1-4}
     Sensoren (verschiedene) & 3x & 3.30 & 10.- \\
+    \cline{1-4}
+	Lochrasterplatine (verschiedene) & 2x & 6.00 & 12.- \\
+	% Total Viktor: 98.5
+	% Joey's Ausgaben:
+	% Moritz's Ausgaben:
     
 \end{tabularx}
 
@@ -87,28 +92,59 @@ Folgende Sensoren stehen zur Auswahl:
 
 \subsection{}
 
+\section{Code}
+
+\subsection{}
 
 \section{Features}
 
-\subsection{\textit{Eventuell weitere Features (kommt noch)}}
+\subsection{Alphabet}
 
-\subsection{Sensoren}
+Durch die Klasse Alphabet ist es einfach möglich, auf dem Bildschirm Buchstaben und Sätze darzustellen. Die Klasse unterscheidet nicht zwischen klein und Grossbuchstaben und kann das gesamte Alphabet plus ein paar Sonderzeichen plus alle Zahlen darstellen. Die einzelnen Buchstaben sind alle Hardgecoded und deshalb macht diese Klasse Sinn, weil man dies sonst jeweils einzeln machen müsste. Die Klasse Alphabet wird vom Willkommens Effekt, von den tempereature effects und vom clock Effekt benutzt und ist dadurch ein sehr zentraler Effekt.
 
-\subsubsection{Wärmesensoren}
+Die Buchstaben werden dabei von links nach rechs einer nach dem anderen in den Buchstaben-Buffer geladen, dann jeweils, sofern man nicht beim letzten Buchstaben ist, drei mal auf den Hauptbildschirm rausgeshiftet und nach jedem einzelnen shiften angezeigt. Beim letzten Buchstaben wird dieser so lange nach links geshiftet, bis er vom Bildschirm verschwindet und die Kontrolle wird zurück an die rufer Methode gegeben.
 
-\subsubsection{Luftfeuchtigkeitssensoren}
+\subsection{Stars}
 
-\subsubsection{Bewegungsmelder}
+Im Effekt stars werden zufällig Sterne erzeugt, welche entweder von links nach rechts oder umgekehrt fliegen. Wenn sich zwei Sterne treffen explodieren diese in einem Effekt. Die Sterne haben alle verschiedene Farben, welche auch zufällig sind. 
 
-\section{Aufbau des Quaders}
+Die Sterne sind alle eigene structs, welche die nötigen Informationen beihnalten. In der Update methode werden alle existierenden Sterne fortgeführt in ihrem Pfad.
 
-\subsection{Quader}
+\subsection{Firework}
 
-\subsection{Transistoren}
+Der Feuerwerk Effekt funktioniert ähnlich wie der Sternen-Effekt, jedoch fliegen hier die Raketen nur von unten nach oben und explodieren auf einer zufälligen Höhe. Die Farbe der Raketen ist auch zufällig.
+
+Eine Rakete ist ein struct, welche alle nötigen Informationen beinhaltet.
+
+\subsection{Welcome}
+
+Der Willkommens Effekt ist ein sehr einfacher Effekt, welcher einfach mit der Methode Alphabet eine Willkommensnachricht auf dem Bildschirm anzeigt und einmal nach dem Aufstarten angezeigt wird.
+
+\subsection{Game of Life}
+
+Der Game of Life Effekt ist eine repräsentation des berühmten Game of Life des britischen Mathematikers John Horton Conway. Dabei kommen  zufällig Zellen zum Leben und sterben beziehungsweise pflanzen sich nach bestimmten Regeln fort. Dabei können sie auch über den Bildschirmrand einen Effekt haben und zählen dann zu den Nachbaren auf der anderen Seite. Für mehr Informationen empfielt es sich, den Wikipedia Artikel zum Game of Life zu lesen.
+
+\section{Sensoren}
+
+\subsubsection{Temperatur- und Luftfeuchtigkeitssensor}
+
+Der Temperatur- und Luftfeuchtigkeitssensor, welchen wir für unser Projekt verwenden ist vom Typ DHT11. Dies ist ein eher einfacher Sensor, welcher jedoch mehr als genügt für unsere Zwecke. Dieser liest die aktuelle Temperatur und Luftfeuchtigkeit jede Sekunde und diese Information wird dann auf dem Bildschirm angezeigt. Mit Hilfe dieser Informationen wird dann aus einem von drei Effekten ausgewählt. Entweder wird dann ein Regen, Wolken oder eine Sonne auf dem zweidimensionalen Bildschirm angezeigt. Die Berechnung hierfür ist jedoch sehr einfach und rudimentär, weshalb der Bildschirm sich nicht für eine genaue Wettervorhersage eignet. 
+
+\subsubsection{Infrarot-sensor}
+
+Der Infrarot-sensor empfäng Input von einer externen Fernbedienung und man kann damit zwischen den verschiedenen Effekten wechseln. Dabei werden bei allen Effekten regelmässig die Informationen vom Sensor abgefragt und dann wird dies abgearbeitet. Wir haben uns hierbei extra gegen einen Interrupt gesteuerten Dateninput entschieden, weil dies das Effekthandling erschweren würde. So ist maximal ein Effekt zur gleichen Zeit am laufen und bricht ab, sobald man mit der Fernbedienung einen anderen Effekt auswählt.
+
+Weiter kann man mit der Fernbedienung das Snake Spiel steuern und so die längste Schlange kreieren.
+
+\section{Aufbau des zweidimensionalen Bildschirmes}
+
+\subsection{Bildschirm}
 
 \subsection{Schieberegister}
 
 \subsection{Probleme beim Aufbau}
+
+Durch die anspruchsvolle Steuerung von 216 einzelnen Pins kommt es natürlich zu Schwierigkeiten. Unsere erste Schwierigkeit war, dass wir zuerst mit einer zu kleinen und einzelnen Platine gearbeitet haben. Dies hatte zur Folge, dass die Lötarbeit schnell unübersichtlich und ungenau wurde. Auch war es so extrem schwer, die Lötstellen sauber zu verlöten. Wir haben uns nach einigem herumprobieren dafür entschieden, von einer auf zwei Platinen umzusteigen, was die Arbeit massiv vereinfacht hat.
 
 \section{Zusammenfassung}
 
