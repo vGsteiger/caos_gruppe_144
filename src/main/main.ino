@@ -35,17 +35,17 @@ const int RECV_PIN = 7;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
-#define latch_pin 49 // push the to storage register, Pin 12 at IC
-#define blank_pin 48 // to shut enable/disable the register. Low enables, Pin 13 at IC
-#define data_pin 51 // used by SPI, must be pin 51 at Mega 2560, Pin 14 at IC
-#define clock_pin0 52 // used by SPI, must be 52 at mega 2560, Pin 11 at IC
+#define latch_pin 49 // push the to storage register, Pin 12 at IC -> green
+#define blank_pin 48 // to shut enable/disable the register. Low enables, Pin 13 at IC -> violett
+#define data_pin 51 // used by SPI, must be pin 51 at Mega 2560, Pin 14 at IC -> brown
+#define clock_pin0 52 // used by SPI, must be 52 at mega 2560, Pin 11 at IC -> blue
 #define DHTPIN 2 // Humidity/temperature sensor pin
 #define DHTTYPE DHT11 // Humidity/temperature sensor model
 #define cathode_pin0 24 // Cathode Pin, to be tested!
 #define cathode_pin1 26 // Same as above!
 #define button 2 // Button to change mode, to be replaced by infrared!
 
-int currentAmountOfShifters = 2;  // To be set depending on the current setup
+int currentAmountOfShifters = 27;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0; // Integer value of the current effect in play
@@ -86,12 +86,17 @@ void setup()
   //}
   irrecv.enableIRIn();
   irrecv.blink13(true);
-  welcomeAnimation();
+  //welcomeAnimation();
 }
 
 void loop()
 {
-  checkIRSensor();
+  //welcomeAnimation();
+  //gameOfLifeAnimation();
+  test();
+  //firework();
+  //starAnimation();
+  //checkIRSensor();
 }
 
 /**

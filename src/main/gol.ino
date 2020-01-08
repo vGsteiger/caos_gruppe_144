@@ -61,11 +61,13 @@ void fillRandom(int probability) {
 void gameOfLifeAnimation() {
   fillRandom(20);
   while (true) {
+    for(int z = 0; z < 20; z ++) {
     setLed2DArraySingleColor(cells, 0, 1, 0, 0, 6, 12);
     if(checkIRSensor()){
         return;
     }
     shiftToShifter(2000);
     updateCells();
+  }
   }
 }

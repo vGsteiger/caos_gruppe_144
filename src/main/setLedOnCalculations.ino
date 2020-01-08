@@ -5,7 +5,7 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
   red = constrain (red,    0, 1);   // Red can either be 1 or 0
   green = constrain (green,  0, 1); // Green can either be 1 or 0
   blue = constrain (blue,   0, 1);  // Blue can either be 1 or 0
-  layer = constrain (layer,  0, 1);     // layer can only be 0 or 1 as we only have two layers
+  layer = 0;     // layer can only be 0 or 1 as we only have two layers
 
   int whichByte = int(((x * 3 + 36 * y) + 1) / 8); // Calculate which byte be have to change
   int whichBit = ((y * 36 + x * 3) + 1) % 8; //  Calculate which bit in that byte we have to set on
@@ -21,6 +21,11 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
   switch (layer) {
     case 0:
       if (whichBit == 0) {
+        if(x == 0 && y == 0) {
+          bitWrite(anodes0[whichByte], 0, red);
+          bitWrite(anodes0[whichByte], 1, green);
+          bitWrite(anodes0[whichByte], 2, blue);
+        }
         bitWrite(anodes0[whichByte], 7, red);
         bitWrite(anodes0[whichByte + 1], 0, green);
         bitWrite(anodes0[whichByte + 1], 1, blue);
@@ -48,5 +53,6 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
         bitWrite(anodes1[whichByte], whichBit + 1, blue);
       }
   }
+  //Serial.println(anodes0[2]);
 
 }

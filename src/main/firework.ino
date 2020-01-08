@@ -15,21 +15,24 @@ typedef struct rocket {
 } rocket;
 
 rocket rocketArray0[6];
-rocket rocketArray1[6];
+//rocket rocketArray1[6];
 
 void firework() {
   for (int i = 0; i < 6; i++) {
     rocketArray0[i] = spawnRocket(0);
-    rocketArray0[i] = spawnRocket(1);
+    //rocketArray0[i] = spawnRocket(1);
   }
+  Serial.println("New Spawn happened!");
   while (true) {
     if(checkIRSensor()){
         return;
     }
     for (int i = 0; i < 6; i++) {
-      burnRocket(rocketArray0[i], i);
-      burnRocket(rocketArray1[i], i);
+      for(int t = 0; t <= rocketArray0[i].maxHeight; t++){
+      burnRocket(i);
+      //burnRocket(rocketArray1[i], i);
       shiftToShifter(1000);
+      }
     }
   }
 }
@@ -59,15 +62,23 @@ struct rocket explodeRocket(rocket r) {
   return spawnRocket(r.layer);
 }
 
-void burnRocket(rocket r, int iterate) {
+void burnRocket(int iterate) {
+  rocket r = rocketArray0[iterate];
+  Serial.println("Current coordinates of rocket:");
+  Serial.print("x: ");
+  Serial.print(r.x);
+  Serial.print(" y: ");
+  Serial.print(r.y);
+  Serial.println();
+  Serial.println("Timer of Rocket:");
+  Serial.print(r.timer);
+  Serial.println();
+  Serial.println("MaxHeigth of Rocket:");
+  Serial.print(r.maxHeight);
+  Serial.println();
   if (r.timer == r.maxHeight) {
-    if (r.layer == 0) {
       rocketArray0[iterate] = explodeRocket(r);
       return;
-    } else {
-      rocketArray1[iterate] = explodeRocket(r);
-      return;
-    }
   } else {
     color c = r.c;
     setLedOn(r.x, r.y, c.r, c.g, c.b, r.layer);
@@ -81,6 +92,7 @@ void burnRocket(rocket r, int iterate) {
       }
     }
     r.timer++;
+    rocketArray0[iterate] = r;
     return;
   }
 }

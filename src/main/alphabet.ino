@@ -4,9 +4,10 @@
 */
 void printLetters(char letters[]) {
   letters = strlwr(letters);
-  for (int i = 0; i < sizeof(letters) - 1; i++) {
+  for (int i = 0; i < strlen(letters); i++) {
     clearLetterBuffer();
     int m = 0;
+    Serial.println(letters[i]);
     switch (letters[i]) {
       case 'a':
         loadA();
@@ -133,7 +134,7 @@ void printLetters(char letters[]) {
       default:
         break;
     }
-    if (i == sizeof(letters) - 2) {
+    if (i == sizeof(letters)) {
       m = 14;
     } else {
       m = 4;
@@ -154,10 +155,11 @@ void shiftGlobalArrayLeft() {
       if (x == 11) {
         tempArray[y][11] = letterBuffer[y][0];
         shiftLetterBufferLeft();
-      } else if (dispArray[y][x] == 1) {
+      } else {
         if (x - 1 > -1) {
           tempArray[y][x - 1] = 1;
-        }
+        } else {
+          }
       }
     }
   }
