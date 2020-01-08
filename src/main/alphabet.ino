@@ -163,7 +163,6 @@ void shiftGlobalArrayLeft() {
       }
     }
   }
-  Serial.println(sizeof(tempArray));
   memcpy(dispArray, tempArray, sizeof(tempArray));
 }
 

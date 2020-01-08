@@ -25,9 +25,15 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
         bitWrite(anodes0[whichByte + 1], 0, green);
         bitWrite(anodes0[whichByte + 1], 1, blue);
       } else if (whichBit == 6) {
-        bitWrite(anodes0[whichByte], whichBit, red);
-        bitWrite(anodes0[whichByte], whichBit + 1, green);
-        bitWrite(anodes0[whichByte + 1], 0, blue);
+        if(whichByte == 26) {
+          Serial.println("In case 26");
+          bitWrite(anodes0[whichByte], whichBit, red);
+          bitWrite(anodes0[whichByte], whichBit + 1, green);
+        } else {
+          bitWrite(anodes0[whichByte], whichBit, red);
+          bitWrite(anodes0[whichByte], whichBit + 1, green);
+          bitWrite(anodes0[whichByte + 1], 0, blue);
+        }
       } else {
         bitWrite(anodes0[whichByte], whichBit, red);
         bitWrite(anodes0[whichByte], whichBit + 1, green);
