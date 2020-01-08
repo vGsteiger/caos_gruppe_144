@@ -134,21 +134,22 @@ void printLetters(char letters[]) {
       default:
         break;
     }
-    if (i == sizeof(letters)) {
+    if (i == strlen(letters)) {
       m = 14;
     } else {
       m = 4;
     }
+    Serial.println("Currently shifting x times: ");
+    Serial.println(m);
     for (int s = 0; s < m; s++) {
-      shiftGlobalArrayLeft();
       setLed2DArraySingleColor(dispArray, 0, 1, 1, 0, 6, 12);
+      shiftGlobalArrayLeft();
       shiftToShifter(1000);
     }
   }
 }
 
 void shiftGlobalArrayLeft() {
-  int nextLetter = 0;
   int tempArray[6][12];
   for (int x = 0; x < 12; x++) {
     for (int y = 0; y < 6; y++) {
@@ -157,12 +158,12 @@ void shiftGlobalArrayLeft() {
         shiftLetterBufferLeft();
       } else {
         if (x - 1 > -1) {
-          tempArray[y][x - 1] = 1;
-        } else {
-          }
+          tempArray[y][x - 1] = dispArray[y][x];
+        }
       }
     }
   }
+  Serial.println(sizeof(tempArray));
   memcpy(dispArray, tempArray, sizeof(tempArray));
 }
 
@@ -171,7 +172,6 @@ void shiftLetterBufferLeft() {
   for (int x = 0; x < 3; x++) {
     for (int y = 0; y < 6; y++) {
       if (x - 1 == -1) {
-        continue;
       } else {
         tempArray[y][x - 1] = letterBuffer[y][x];
       }

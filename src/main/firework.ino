@@ -28,7 +28,7 @@ void firework() {
         return;
     }
     for (int i = 0; i < 6; i++) {
-      for(int t = 0; t <= rocketArray0[i].maxHeight; t++){
+      for(int t = 0; t < rocketArray0[i].maxHeight; t++){
       burnRocket(i);
       //burnRocket(rocketArray1[i], i);
       shiftToShifter(1000);
@@ -47,7 +47,7 @@ struct rocket spawnRocket(int l) {
   c.b = random(2);
   r.c = c;
   r.timer = 0;
-  r.maxHeight = random(6);
+  r.maxHeight = random(5);
   r.layer = l;
   return r;
 }
