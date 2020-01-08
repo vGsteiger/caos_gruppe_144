@@ -18,10 +18,6 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
   /**
      Choses between the two available layers of our LED RGB Cubic.
   */
-  switch (layer) {
-    case 0:
-              Serial.println(whichByte);
-
       if (whichBit == 7) {
         bitWrite(anodes0[whichByte], whichBit, green);
         bitWrite(anodes0[whichByte + 1], 0, blue);
@@ -35,21 +31,6 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
         bitWrite(anodes0[whichByte], whichBit + 1, blue);
         bitWrite(anodes0[whichByte], whichBit + 2, red);
       }
-    case 1:
-      if (whichBit == 0) {
-        bitWrite(anodes1[whichByte], 7, red);
-        bitWrite(anodes1[whichByte + 1], 0, green);
-        bitWrite(anodes1[whichByte + 1], 1, blue);
-      } else if (whichBit == 7) {
-        bitWrite(anodes1[whichByte], whichBit - 1, red);
-        bitWrite(anodes1[whichByte], whichBit, green);
-        bitWrite(anodes1[whichByte + 1], 0, blue);
-      } else {
-        bitWrite(anodes1[whichByte], whichBit - 1, red);
-        bitWrite(anodes1[whichByte], whichBit, green);
-        bitWrite(anodes1[whichByte], whichBit + 1, blue);
-      }
-  }
   //Serial.println(anodes0[2]);
 
 }

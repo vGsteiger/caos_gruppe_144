@@ -1,12 +1,11 @@
 
 void test()
 {
- for(int i = 0; i < 6; i++) {
-      setLedOn(11,i,1,0,0,0);
-      shiftToShifter(1000);
-      setLedOn(11,i,0,1,0,0);
-      shiftToShifter(1000);
-      setLedOn(11,i,0,0,1,0);
-      shiftToShifter(1000);
+ for(int j = 0; j < 6; j++) {
+ for(int i = 0; i < 12; i++) {
+      setLedOn(i,j,1,0,0,0);
   }
+        shiftToShifter(1000);
+
+}
 }
