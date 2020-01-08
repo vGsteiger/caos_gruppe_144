@@ -30,6 +30,7 @@ void test()
       
     }
   }
+  Serial.println("Shifted!");
   shiftToShifter(10000);
   }
 

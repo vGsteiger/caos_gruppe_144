@@ -8,7 +8,7 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
   layer = 0;     // layer can only be 0 or 1 as we only have two layers
 
   int whichByte = int(((x * 3 + 36 * y) + 1) / 8); // Calculate which byte be have to change
-  int whichBit = ((y * 36 + x * 3) + 1) % 8; //  Calculate which bit in that byte we have to set on
+  int whichBit = (((y * 36 + x * 3) + 1) % 8); //  Calculate which bit in that byte we have to set on
 
   //Serial.println("Currently in byte:");
   //Serial.println(whichByte);
@@ -20,23 +20,18 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
   */
   switch (layer) {
     case 0:
-      if (whichBit == 0) {
-        if(x == 0 && y == 0) {
-          bitWrite(anodes0[whichByte], 0, red);
-          bitWrite(anodes0[whichByte], 1, green);
-          bitWrite(anodes0[whichByte], 2, blue);
-        }
-        bitWrite(anodes0[whichByte], 7, red);
+      if (whichBit == 7) {
+        bitWrite(anodes0[whichByte], whichBit, red);
         bitWrite(anodes0[whichByte + 1], 0, green);
         bitWrite(anodes0[whichByte + 1], 1, blue);
-      } else if (whichBit == 7) {
-        bitWrite(anodes0[whichByte], whichBit - 1, red);
-        bitWrite(anodes0[whichByte], whichBit, green);
+      } else if (whichBit == 6) {
+        bitWrite(anodes0[whichByte], whichBit, red);
+        bitWrite(anodes0[whichByte], whichBit + 1, green);
         bitWrite(anodes0[whichByte + 1], 0, blue);
       } else {
-        bitWrite(anodes0[whichByte], whichBit - 1, red);
-        bitWrite(anodes0[whichByte], whichBit, green);
-        bitWrite(anodes0[whichByte], whichBit + 1, blue);
+        bitWrite(anodes0[whichByte], whichBit, red);
+        bitWrite(anodes0[whichByte], whichBit + 1, green);
+        bitWrite(anodes0[whichByte], whichBit + 2, blue);
       }
     case 1:
       if (whichBit == 0) {
