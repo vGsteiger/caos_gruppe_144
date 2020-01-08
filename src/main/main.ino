@@ -93,8 +93,8 @@ void loop()
   Serial.println("Still going");
   //welcomeAnimation();
   //gameOfLifeAnimation();
-  //test();
-  firework();
+  test();
+  //firework();
   //starAnimation();
   //checkIRSensor();
   delay(1);
