@@ -20,24 +20,20 @@ void setLedOn(int x, int y, int red, int green, int blue, int layer)
   */
   switch (layer) {
     case 0:
+              Serial.println(whichByte);
+
       if (whichBit == 7) {
-        bitWrite(anodes0[whichByte], whichBit, red);
-        bitWrite(anodes0[whichByte + 1], 0, green);
-        bitWrite(anodes0[whichByte + 1], 1, blue);
+        bitWrite(anodes0[whichByte], whichBit, green);
+        bitWrite(anodes0[whichByte + 1], 0, blue);
+        bitWrite(anodes0[whichByte + 1], 1, red);
       } else if (whichBit == 6) {
-        if(whichByte == 26) {
-          Serial.println("In case 26");
-          bitWrite(anodes0[whichByte], whichBit, red);
-          bitWrite(anodes0[whichByte], whichBit + 1, green);
-        } else {
-          bitWrite(anodes0[whichByte], whichBit, red);
-          bitWrite(anodes0[whichByte], whichBit + 1, green);
-          bitWrite(anodes0[whichByte + 1], 0, blue);
-        }
+          bitWrite(anodes0[whichByte], whichBit, green);
+          bitWrite(anodes0[whichByte], whichBit + 1, blue);
+          bitWrite(anodes0[whichByte + 1], 0, red);
       } else {
-        bitWrite(anodes0[whichByte], whichBit, red);
-        bitWrite(anodes0[whichByte], whichBit + 1, green);
-        bitWrite(anodes0[whichByte], whichBit + 2, blue);
+        bitWrite(anodes0[whichByte], whichBit, green);
+        bitWrite(anodes0[whichByte], whichBit + 1, blue);
+        bitWrite(anodes0[whichByte], whichBit + 2, red);
       }
     case 1:
       if (whichBit == 0) {
