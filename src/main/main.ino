@@ -18,13 +18,18 @@
    V0.2:
    Game of Life, new Multiplexing algorithm, alphabet, firework, stars, temperature Effects
 
-   TODO V0.3:
-   Clock
-   Infrared control
+   V0.3:
+   Revamp of changelayer and other minor bug fixes all over the code
 
-
-   Future ideas:
-   Unibas Logo, Clock implementation, Motion sensor
+   TODO V1.0:
+   Fix the not working parts of the code: 
+   - Alphabet (Viktor)
+   - clock (Viktor)
+   - Firework (Moritz)
+   - GOL/better random seeding (Joey)
+   - Stars (Moritz)
+   - Temperature Effects (Viktor)
+   - IR Control and Snake (Viktor)
 
 */
 #include "RTClib.h" // Real time clock library
