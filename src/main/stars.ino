@@ -14,7 +14,7 @@ typedef struct star {
 } star;
 
 star starArray0[6];
-star starArray1[6];
+//star starArray1[6];
 
 /*
    Star animation which randomly spawns stars on the left and right and explodes them if they touch.
@@ -41,14 +41,18 @@ struct star createStar(int layer) {
 }
 
 void starAnimation() {
+  Serial.println("Star animation started");
   for (int i = 0; i < 6; i++) {
     starArray0[i] = createStar(0);
-    starArray1[i] = createStar(1);
+    //starArray1[i] = createStar(1);
   }
+  Serial.println("Stars created!");
   while (true) {
     for (int i = 0; i < 6; i++) {
       runStar(starArray0[i], i);
-      runStar(starArray1[i], i);
+      Serial.print("Star timer is: ");
+      Serial.println(starArray0[i].timer);
+      //runStar(starArray1[i], i);
     if(checkIRSensor()){
         return;
     }
@@ -61,29 +65,22 @@ void runStar(star s, int index) {
   if (s.timer == 0) {
     setLedOn(s.x, s.y, s.color.r, s.color.g, s.color.b, s.layer);
     areSameCoordinates(s, index);
-    if (s.x + 1 == 16 && s.x - 1 == -1) {
+    if (s.x + 1 == 12 && s.x - 1 == -1) {
       if (s.layer == 0) {
         starArray0[index] = createStar(0);
       } else {
-        starArray1[index] = createStar(0);
+        //starArray1[index] = createStar(0);
       }
     }
     if (s.direct == 1) {
       s.x++;
-      if (s.x > 11) {
-        if (s.layer == 0) {
-          starArray0[index] = createStar(s.layer);
-        } else {
-          starArray1[index] = createStar(s.layer);
-        }
-      }
     } else {
       s.x--;
       if (s.x < 0) {
         if (s.layer == 0) {
           starArray0[index] = createStar(s.layer);
         } else {
-          starArray1[index] = createStar(s.layer);
+          //starArray1[index] = createStar(s.layer);
         }
       }
     }
@@ -112,17 +109,16 @@ void areSameCoordinates(star s, int index) {
       if (r == index) {
         continue;
       } else {
-        star other = starArray1[r];
-        if (other.x == s.x && other.y == s.x) {
-          explodeStar(s);
-          explodeStar(other);
-          starArray1[r] = createStar(s.layer);
-          starArray1[index] = createStar(s.layer);
+        //star other = starArray1[r];
+        //if (other.x == s.x && other.y == s.x) {
+          //explodeStar(s);
+          //explodeStar(other);
+          //starArray1[r] = createStar(s.layer);
+          //starArray1[index] = createStar(s.layer);
         }
       }
     }
   }
-}
 
 void explodeStar(star s) {
   starColor c = s.color;
