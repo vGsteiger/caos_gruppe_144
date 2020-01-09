@@ -36,6 +36,7 @@
 #include <SPI.h> // SPI Library used to clock data out to the shift registers
 #include "DHT.h" // Humidity and Temperature sensor library
 #include <IRremote.h>
+#include <Time.h> // used to generate different random patterns and not always the same
 const int RECV_PIN = 7;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
@@ -60,6 +61,8 @@ unsigned long lastSignal = 0; // long value for last effect (still here until re
 int currentAmountOfEffects = 1; // For the button, to be replaced
 int dispArray[6][12]; // Array containing all LEDs in one color
 int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
+long timeStamp = time;
+unsigned long timeStamp;
 DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
 RTC_DS1307 rtc; // Real time clock variable
 
@@ -93,6 +96,7 @@ void setup()
   //}
   irrecv.enableIRIn();
   irrecv.blink13(true);
+  timeStamp = millis();
 }
 
 void loop()
@@ -104,6 +108,10 @@ void loop()
   //starAnimation();
   //checkIRSensor();
   delay(1);
+  if (millis() - timeStamp > 10000) {  // sets the randomSeed depending on the current time to have a "true" random effect on every effect which random is used
+    randomSeed(time(NULL));
+  }
+  
 }
 
 /**

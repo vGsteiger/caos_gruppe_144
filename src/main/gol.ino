@@ -43,6 +43,9 @@ void updateCells() {
   }
 }
 
+/**
+ * Generates "living" cells at random places of the cubic for a specific probability.
+ */
 void fillRandom(int probability) {
   for (int i = 0; i < 6; i++) {
     for (int j = 0; j < 12; j++) {
