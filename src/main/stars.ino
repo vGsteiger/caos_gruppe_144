@@ -77,6 +77,7 @@ void runStar(star s, int index) {
       }
     }
 }
+}
 
 void areSameCoordinates(star s, int index) {
   if (s.layer == 0) {
