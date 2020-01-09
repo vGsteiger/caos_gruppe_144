@@ -56,8 +56,8 @@ void starAnimation() {
     if(checkIRSensor()){
         return;
     }
-    shiftToShifter(1000);
     }
+    shiftToShifter(1000);
   }
 }
 
@@ -65,28 +65,17 @@ void runStar(star s, int index) {
   if (s.timer == 0) {
     setLedOn(s.x, s.y, s.color.r, s.color.g, s.color.b, s.layer);
     areSameCoordinates(s, index);
-    if (s.x + 1 == 12 && s.x - 1 == -1) {
-      if (s.layer == 0) {
-        starArray0[index] = createStar(0);
-      } else {
-        //starArray1[index] = createStar(0);
-      }
-    }
-    if (s.direct == 1) {
+    if(s.direct == 1) {
       s.x++;
+      if(s.x > 11) {
+        starArray0[index] = createStar(0);
+      }
     } else {
       s.x--;
-      if (s.x < 0) {
-        if (s.layer == 0) {
-          starArray0[index] = createStar(s.layer);
-        } else {
-          //starArray1[index] = createStar(s.layer);
-        }
+      if(s.x < 0) {
+        starArray0[index] = createStar(0);
       }
     }
-  } else {
-    s.timer--;
-  }
 }
 
 void areSameCoordinates(star s, int index) {

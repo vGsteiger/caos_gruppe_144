@@ -14,18 +14,19 @@ typedef struct rocket {
   boolean burnt;
 } rocket;
 
-rocket rocketArray0[6];
+rocket rocketArray[6];
 
 void firework() {
   for (int i = 0; i < 6; i++) {
-    rocketArray0[i] = spawnRocket(0);
+    rocketArray[i] = spawnRocket(0);
   }
   while (true) {
-    //if(checkIRSensor()){
-      //  return;
-    //}
+    if(checkIRSensor()){
+        return;
+    }
     for (int i = 0; i < 6; i++) {
-      for(int t = 0; t <= rocketArray0[i].maxHeight; t++){
+      int currHeight = rocketArray[i].maxHeight;
+      for(int t = 0; t <= currHeight; t++){
         burnRocket(i);
         shiftToShifter(1000);
       }
@@ -43,7 +44,7 @@ struct rocket spawnRocket(int l) {
   c.b = random(2);
   r.c = c;
   r.timer = 0;
-  r.maxHeight = random(2,6);
+  r.maxHeight = random(1,5);
   r.layer = l;
   return r;
 }
@@ -51,24 +52,24 @@ struct rocket spawnRocket(int l) {
 struct rocket explodeRocket(rocket r) {
   color c = r.c;
   setLedOn(r.x, r.y, c.r, c.g, c.b, r.layer);
-  //setLedOn(r.x - 1, r.y - 1, c.r, c.g, c.b, r.layer);
-  //setLedOn(r.x + 1, r.y + 1, c.r, c.g, c.b, r.layer);
-  //setLedOn(r.x + 1, r.y - 1, c.r, c.g, c.b, r.layer);
-  //setLedOn(r.x - 1, r.y + 1, c.r, c.g, c.b, r.layer);
+  setLedOn(r.x - 1, r.y - 1, c.r, c.g, c.b, r.layer);
+  setLedOn(r.x + 1, r.y + 1, c.r, c.g, c.b, r.layer);
+  setLedOn(r.x + 1, r.y - 1, c.r, c.g, c.b, r.layer);
+  setLedOn(r.x - 1, r.y + 1, c.r, c.g, c.b, r.layer);
   return spawnRocket(r.layer);
 }
 
 void burnRocket(int iterate) {
-  rocket r = rocketArray0[iterate];
+  rocket r = rocketArray[iterate];
   if (r.timer == r.maxHeight) {
-      rocketArray0[iterate] = explodeRocket(r);
+      rocketArray[iterate] = explodeRocket(r);
       return;
   } else {
     color c = r.c;
     setLedOn(r.x, r.y, c.r, c.g, c.b, r.layer);
     r.y++;
     int ran = random(100);
-    if (r.x > 0 && r.x < 12) {
+    if (r.x < 10) {
       if (ran < 15) {
         r.x--;
       } else if (ran < 30) {
@@ -76,7 +77,7 @@ void burnRocket(int iterate) {
       }
     }
     r.timer++;
-    rocketArray0[iterate] = r;
+    rocketArray[iterate] = r;
     return;
   }
 }

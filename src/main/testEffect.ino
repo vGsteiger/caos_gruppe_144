@@ -6,7 +6,5 @@ void test()
     setLedOn(i,j,0,1,0,0);
   }
   }
-        shiftToShifter(1000);
-  //setLedOn(5,0,0,0,1,0);
-  //shiftToShifter(10000);
+  shiftToShifter(1000);
 }

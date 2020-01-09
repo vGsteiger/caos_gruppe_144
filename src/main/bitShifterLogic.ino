@@ -3,13 +3,10 @@
 */
 void shiftToShifter(int miliSeconds)
 {
-  //
   long a = 100L;
   long b = 54L;
   long delayProHertz = (a/b);
   miliSeconds = constrain (miliSeconds,    100, 100000);
-  //Serial.println("To be displayed for:");
-  //Serial.println(miliSeconds);
   for (int timeSpent = 0; timeSpent < miliSeconds; timeSpent = timeSpent + 100) {
     int currentShifter = currentAmountOfShifters - 1;
       for (int hrtz = 0; hrtz < currentAmountOfShifters; hrtz++) {

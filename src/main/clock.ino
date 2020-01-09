@@ -6,6 +6,7 @@ void clockAnimation() {
     DateTime now = rtc.now();
     char timeStamp[11];
     sprintf(timeStamp, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+    Serial.println(timeStamp);
     if(checkIRSensor()){
         return;
     }

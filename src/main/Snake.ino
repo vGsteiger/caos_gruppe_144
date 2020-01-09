@@ -1,5 +1,6 @@
 /**
  * Snake
+ * 
  * Implementation of the classical Snake game 
  * where the snake moved constantly and the player
  * have to avoid intersections with itself and borders.
@@ -176,4 +177,8 @@ void showGameOverMessage() {
   if(checkIRSensor()){
         return;
   }
+}
+
+void startSnake(){
+  setupSnake();
 }

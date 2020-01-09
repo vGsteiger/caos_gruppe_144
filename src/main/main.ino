@@ -97,10 +97,9 @@ void setup()
 
 void loop()
 {
-  Serial.println("Still going");
   //welcomeAnimation();
   //gameOfLifeAnimation();
-  test();
+  //test();
   //firework();
   //starAnimation();
   //checkIRSensor();
@@ -162,7 +161,6 @@ void changeEffect(int result) {
       }
     } else {
       if (irrecv.decode(&results)){
-        //changeEffect(results.value);
         irrecv.resume(); // Receive the next value
         return false;
       }

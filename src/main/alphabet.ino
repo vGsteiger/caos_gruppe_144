@@ -142,9 +142,17 @@ void printLetters(char letters[]) {
     Serial.println("Currently shifting x times: ");
     Serial.println(m);
     for (int s = 0; s < m; s++) {
-      setLed2DArraySingleColor(dispArray, 0, 1, 1, 0, 6, 12);
+      Serial.println("In loop(), Matrix dispArray:");
+      for (int x = 0; x < 12; x++) {
+        for (int y = 0; y < 6; y++) {
+         Serial.print("  ");Serial.print(dispArray[y][x], DEC);
+        }
+        Serial.println();
+      }
+      Serial.println();
+      setLed2DArraySingleColor(dispArray, 0, 1, 0, 0, 6, 12);
       shiftGlobalArrayLeft();
-      shiftToShifter(1000);
+      shiftToShifter(10000);
     }
   }
 }
@@ -170,8 +178,7 @@ void shiftLetterBufferLeft() {
   int tempArray[6][4];
   for (int x = 0; x < 3; x++) {
     for (int y = 0; y < 6; y++) {
-      if (x - 1 == -1) {
-      } else {
+      if (x - 1 > -1) {
         tempArray[y][x - 1] = letterBuffer[y][x];
       }
     }
