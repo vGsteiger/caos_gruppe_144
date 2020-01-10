@@ -143,8 +143,8 @@ void printLetters(char letters[]) {
     Serial.println(m);
     for (int s = 0; s < m; s++) {
       Serial.println("In loop(), Matrix dispArray:");
-      for (int x = 0; x < 12; x++) {
         for (int y = 0; y < 6; y++) {
+                for (int x = 0; x < 12; x++) {
          Serial.print("  ");Serial.print(dispArray[y][x], DEC);
         }
         Serial.println();

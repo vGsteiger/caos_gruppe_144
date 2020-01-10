@@ -21,14 +21,14 @@ void firework() {
     rocketArray[i] = spawnRocket(0);
   }
   while (true) {
-    if(checkIRSensor()){
-        return;
-    }
     for (int i = 0; i < 6; i++) {
       int currHeight = rocketArray[i].maxHeight;
       for(int t = 0; t <= currHeight; t++){
-        burnRocket(i);
-        shiftToShifter(1000);
+            if(checkIRSensor()){
+        return;
+      }
+      burnRocket(i);
+      shiftToShifter(1000);
       }
     }
   }

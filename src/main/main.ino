@@ -32,11 +32,13 @@
    - IR Control and Snake (Viktor)
 
 */
-#include "RTClib.h" // Real time clock library
+
 #include <SPI.h> // SPI Library used to clock data out to the shift registers
 #include "DHT.h" // Humidity and Temperature sensor library
 #include <IRremote.h>
 #include <Time.h> // used to generate different random patterns and not always the same
+#include <Wire.h>
+#include <DS1307RTC.h> // Uses Pin 20/21
 const int RECV_PIN = 7;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
@@ -61,10 +63,9 @@ unsigned long lastSignal = 0; // long value for last effect (still here until re
 int currentAmountOfEffects = 1; // For the button, to be replaced
 int dispArray[6][12]; // Array containing all LEDs in one color
 int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
-long timeStamp = time;
 unsigned long timeStamp;
 DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
-RTC_DS1307 rtc; // Real time clock variable
+
 
 void setup()
 {
@@ -86,13 +87,11 @@ void setup()
   digitalWrite(blank_pin, HIGH); //shut down the leds
   digitalWrite(latch_pin, LOW);  //shut down the leds
 
-  // if (! rtc.begin()) {
-  // Serial.println("Couldn't find RTC");
-  // while (1);
-  // }
-  // if (! rtc.isrunning()) {
-  // Serial.println("RTC is NOT running!");
-  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  // The following is only needed when one needs to change the RTC battery.
+  //if(RTC.set(1578672930)) {
+  //  Serial.println("RTC is set up!");
+  //} else {
+  //  Serial.println("RTC could not update time!");
   //}
   irrecv.enableIRIn();
   irrecv.blink13(true);
@@ -107,11 +106,12 @@ void loop()
   //firework();
   //starAnimation();
   //checkIRSensor();
+  //clockAnimation();
   delay(1);
   if (millis() - timeStamp > 10000) {  // sets the randomSeed depending on the current time to have a "true" random effect on every effect which random is used
-    randomSeed(time(NULL));
+    randomSeed(RTC.get());
   }
-  
+  checkIRSensor();
 }
 
 /**
@@ -130,7 +130,7 @@ void changeEffect(int result) {
         Serial.println("Testeffect");
         test();
         break;
-      case 0xE318261B: //Keypad button "1"
+      case 0xE318261B: //Keypad button "1" -> not reacting quickly enough!
         Serial.println("Firework");
         firework();
         break;
@@ -157,15 +157,32 @@ void changeEffect(int result) {
     }
   }
 
+  // Keypad button 6: 20FE4DBB
+  // Keypad button 7: F076C13B
+  // Keypad button 8: A3C8EDDB
+  // Keypad button 9: E5CFBD7F
+  // Keypad button #: F0C41643
+  // Keypad button *: C101E57B
+  // Keypad button OK: 488F3CBB
+  // Keypad button left: 8C22657B
+  // Keypad button right: 449E79F
+  // Keypad button up: 3D9AE3F7
+  // Keypad button down: 1BC0157B
+
+
   boolean checkIRSensor(){
+    if (irrecv.decode(&results)){
     if (millis() - lastSignal > 200) {
       lastSignal = millis();
-      if (irrecv.decode(&results)){
+        Serial.println("Got a new signal!");
         Serial.println(results.value, HEX);
         lastIRResult = results.value;
         changeEffect(results.value);
         irrecv.resume(); // Receive the next value
         return true;
+      } else {
+                irrecv.resume(); // Receive the next value
+        return false;
       }
     } else {
       if (irrecv.decode(&results)){
