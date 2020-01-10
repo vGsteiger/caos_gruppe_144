@@ -8,8 +8,14 @@
 \usepackage{amsfonts}
 \usepackage{tocloft}
 \usepackage{tabularx}
+\usepackage{listings}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \setlength{\parindent}{0em}
+\input{arduinoLanguage.tex}
+
+
+
+
 \title{\textbf{CAOS Projekt : 2 x 6 x 12 LED RGB Quader}}
 \author{Joey Zgraggen, Moritz Würth, Viktor Gsteiger}
 
@@ -26,8 +32,8 @@ TODO: BILD VOM PROJEKTERZEUGNIS
 
 Die Grundidee von unserem Projekt war es zuerst einen 5 x 5 x 5 LED RGB Würfel zu bauen, jedoch haben wir uns dann im Prozess der Entscheidungsfindung
 dazu entschieden, etwas anderes zu bauen was sich vom "typischen" LED RGB Würfel unterscheidet.
-Deshalb haben wir die Dimensionen ein wenig angepasst, sodass wir am Ende einen zweidimenstionalen Bildschirm haben werden. Damit wird es uns immer noch möglich sein, gute 3D-Effekte
-anzeigen zu können. Die Anordnung der LED's kann als Koordinatensystem verstanden werden, bei dem man auf die einzelnen LED's zugreifen kann. Dies erleichtert es massiv, Effekte zu schreiben. 
+Deshalb haben wir die Dimensionen ein wenig angepasst, sodass wir am Ende einen dreidimenstionalen Bildschirm haben werden. Damit wird es uns immer noch möglich sein, gute 3D-Effekte
+anzeigen zu können. Die Anordnung der LED's kann als Koordinatensystem verstanden werden, bei dem man mittels x- und y-Koordinaten auf die einzelnen LED's zugreifen kann. Dies erleichtert es massiv, Effekte zu schreiben. 
 Das Projekt lässt einen grossen Spielraum bezüglich Ideen zu. Sollte man also selbst Ideen haben, welche sich gut zu unserem Projekt ergänzen würden, kann man diese ohne weitere
 Probleme implementieren. Die Grundsoftware hat sehr einfache Schnittstellen, mit denen man einfach weitere Effekte schreiben kann.
 
@@ -50,9 +56,10 @@ Schieberegister erweisen sich für ein solches Projekt als äusserst nützlich, 
 
 Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 8-bit Schieberegister entschieden. Diese erweisen sich in der Programmierung als intuitiv, weil man einfach mit Byte-Arrays arbeiten kann, um die einzelnen Schieberegister mit Informationen zu "befüllen". Weiter existieren für diese Schieberegister vorgefertigte Libraries, um die Kommunikation zu erleichtern. Dies nimmt einen nicht die Denkarbeit ab, wie man die LED's anordnen will und wie man die verschiedenen Farben anspricht, jedoch erleichtert es die direkte Kommunikation.
 
-\subsection{Transistoren}
+\subsection{\textcolor{red}{Transistoren}}
 
-TODO: npn PN2222 Transistoren
+Anfangs wollten wir für eine garantierte Langlebigkeit unseres Projektes Transistoren verwenden, aber nachdem wir uns bezüglich der Notwendigkeit
+von Transistoren für unser Projekt informierten haben wir uns letzenendlich dazu entschieden keine zu verwenden.
 
 \subsection{Sensoren}
 
@@ -71,30 +78,822 @@ Folgende Sensoren stehen zur Auswahl:
     \textbf{Produkt} & \textbf{Menge} & \textbf{Preis} & \textbf{Total} \\
     % Viktor's Ausgaben:
     \cline{1-4}
-    RGB LED's & 250x & 0.072 & 18.- \\
+    RGB LED's & 250x & 0.072.- & 18.- \\
     \cline{1-4}
-    Kabel (verschiedene) & 15m & 0.83 & 12.50 \\
+    Kabel (verschiedene) & 15m & 0.83.- & 12.50 \\
     \cline{1-4}
-    Wiederstände & 440x & 0.036 & 16.- \\
+    Wiederstände & 440x & 0.036.- & 16.- \\
     \cline{1-4}
-    74hc595 & 57x & 0.50 & 30.- \\   
+    74hc595 & 57x & 0.50.- & 30.- \\   
     \cline{1-4}
-    Sensoren (verschiedene) & 3x & 3.30 & 10.- \\
+    Sensoren (verschiedene) & 3x & 3.30.- & 10.- \\
     \cline{1-4}
-	Lochrasterplatine (verschiedene) & 2x & 6.00 & 12.- \\
-	% Total Viktor: 98.5
-	% Joey's Ausgaben:
-	% Moritz's Ausgaben:
+    Lochrasterplatine (verschiedene) & 2x & 6.00.- & 12.- \\
+    \cline{1-4}
+    Kuperdraht (Blau) & 2 Rollen & 6.80.- & 13.60.- \\
+    \cline{1-4}
+    Isolierband & 1 Rolle & 1.80.- & 1.80.- \\
+    \cline{1-4}
+    &&&\textbf{113.90.-}
+	% Total Viktor: 98.5.-
+	% Joey's Ausgaben: 20.0.-
+	% Moritz's Ausgaben: 40.0.-
     
 \end{tabularx}
 
 \section{Design}
 
-\subsection{}
+Wir haben uns überlegt eine kleine Box zu bauen, welcher die ganze Verkabelung in einem
+kleinen Raum im hinteren Bereich von dieser Box zu verstecken, damit es schöner aussieht.
+Wir haben uns für das Material Holz entschieden und werden die ganze Box schwarz färben,
+da dann der Effekt der RGB LED's entsprechend besser zur Geltung kommen.
+Wir haben schon einige Projekte gesehen, welche einen LED RGB Cube gebaut haben, bei denen auch eine 
+Art Box gebaut wurde und wir fanden diese Idee gut, sodass wir uns für unser Projekt danach orientierten.
+
 
 \section{Code}
 
-\subsection{}
+\subsection{Main}
+
+\begin{lstlisting}[language=Arduino]  
+#include "RTClib.h" // Real time clock library
+#include <SPI.h> // SPI Library used to clock data out to the shift registers
+#include "DHT.h" // Humidity and Temperature sensor library
+#include <IRremote.h>
+const int RECV_PIN = 7;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
+#define latch_pin 49 // push the to storage register, Pin 12 at IC -> green
+#define blank_pin 48 // to shut enable/disable the register. Low enables, Pin 13 at IC -> violett
+#define data_pin 51 // used by SPI, must be pin 51 at Mega 2560, Pin 14 at IC -> brown
+#define clock_pin0 52 // used by SPI, must be 52 at mega 2560, Pin 11 at IC -> blue
+#define DHTPIN 2 // Humidity/temperature sensor pin
+#define DHTTYPE DHT11 // Humidity/temperature sensor model
+#define cathode_pin0 24 // Cathode Pin, to be tested!
+#define cathode_pin1 26 // Same as above!
+#define button 2 // Button to change mode, to be replaced by infrared!
+
+int currentAmountOfShifters = 27;  // To be set depending on the current setup
+byte anodes0[27]; // Array of Anodes for layer 0
+byte anodes1[27]; // Array of Anodes for layer 1
+int currentEffect = 0; // Integer value of the current effect in play
+unsigned long lastSignal = 0; // long value for last effect (still here until replaced by infrared)
+int currentAmountOfEffects = 1; // For the button, to be replaced
+int dispArray[6][12]; // Array containing all LEDs in one color
+int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
+DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
+RTC_DS1307 rtc; // Real time clock variable
+
+void setup()
+{
+  Serial.begin(115200); // Serial monitor for debugging
+  SPI.begin();
+  SPI.setClockDivider(SPI_CLOCK_DIV2);//Run the data in at 16MHz/2 - 8MHz
+  dht.begin();
+
+  pinMode(latch_pin, OUTPUT);//Latch
+  pinMode(blank_pin, OUTPUT);//Output Enable  important to do this last, so LEDs do not flash on boot up
+  pinMode(cathode_pin0, OUTPUT);
+  pinMode(cathode_pin1, OUTPUT);
+  pinMode(button, INPUT);
+
+  attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
+
+  lastSignal = millis();
+
+  digitalWrite(blank_pin, HIGH); //shut down the leds
+  digitalWrite(latch_pin, LOW);  //shut down the leds
+
+  // if (! rtc.begin()) {
+  // Serial.println("Couldn't find RTC");
+  // while (1);
+  // }
+  // if (! rtc.isrunning()) {
+  // Serial.println("RTC is NOT running!");
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //}
+  irrecv.enableIRIn();
+  irrecv.blink13(true);
+}
+
+void loop()
+{
+  Serial.println("Still going");
+  //welcomeAnimation();
+  //gameOfLifeAnimation();
+  test();
+  //firework();
+  //starAnimation();
+  //checkIRSensor();
+  delay(1);
+}
+
+/**
+  To handle the interrupt of the button input.
+*/
+void blink() {
+  if (millis() - lastSignal > 200) {
+    lastSignal = millis();
+    currentEffect = (currentEffect + 1) % currentAmountOfEffects;
+  }
+}
+
+void changeEffect(int result) {
+    switch (result) {
+      case 0x97483BFB: //Keypad button "0"
+        Serial.println("Testeffect");
+        test();
+        break;
+      case 0xE318261B: //Keypad button "1"
+        Serial.println("Firework");
+        firework();
+        break;
+      case 0x511DBB: //Keypad button "2"
+        Serial.println("GOL");
+        gameOfLifeAnimation();
+        break;
+      case 0xEE886D7F:  //Keypad button "3"
+        Serial.println("Clock");
+        clockAnimation();
+        break;
+      case 0x52A3D41F: //Keypad button "4"
+        Serial.println("Stars");
+        starAnimation();
+        break;
+      case 0xD7E84B1B: //Keypad button "5"
+        Serial.println("Temperature effects");
+        tempSensorInfo();
+        break;
+      default:
+        Serial.println("Default");
+        break;
+    }
+  }
+
+  boolean checkIRSensor(){
+    if (millis() - lastSignal > 200) {
+      lastSignal = millis();
+      if (irrecv.decode(&results)){
+        Serial.println(results.value, HEX);
+        changeEffect(results.value);
+        irrecv.resume(); // Receive the next value
+        return true;
+      }
+    } else {
+      if (irrecv.decode(&results)){
+        //changeEffect(results.value);
+        irrecv.resume(); // Receive the next value
+        return false;
+      }
+      }
+  }
+\end{lstlisting}
+
+\subsection{Logic}
+
+\subsubsection{bitShifterLogic}
+
+\begin{lstlisting}[language=Arduino]
+    /*
+   Method to shift the current information in the anode arrays onto the shifters. Currently a single led lights up for (50/30)/2 times
+*/
+    void shiftToShifter(int miliSeconds)
+{
+  //
+  long a = 100L;
+  long b = 54L;
+  long delayProHertz = (a/b);
+  miliSeconds = constrain (miliSeconds,    100, 100000);
+  //Serial.println("To be displayed for:");
+  //Serial.println(miliSeconds);
+  for (int timeSpent = 0; timeSpent < miliSeconds; timeSpent = timeSpent + 100) {
+    int currentShifter = currentAmountOfShifters - 1;
+      for (int hrtz = 0; hrtz < currentAmountOfShifters; hrtz++) {
+        digitalWrite(blank_pin, HIGH);//shut down the leds
+        for (int i = currentAmountOfShifters - 1; i >= 0; i--) {
+          if (i == currentShifter) {
+            SPI.transfer(anodes0[i]);
+          } else {
+            SPI.transfer(0b00000000);
+          }
+        }
+
+        // shift register to storage register
+        digitalWrite(latch_pin, HIGH);
+        digitalWrite(latch_pin, LOW);
+        digitalWrite(blank_pin, LOW);  //enable pins
+
+        digitalWrite(cathode_pin0, LOW);
+        digitalWrite(cathode_pin1, LOW);
+        delay(delayProHertz);
+        digitalWrite(cathode_pin0, HIGH);
+        digitalWrite(cathode_pin1, HIGH);
+
+        //digitalWrite(blank_pin, HIGH);//shut down the leds
+        //for (int i = currentAmountOfShifters - 1; i >= 0; i--) {
+        //  if (i == currentShifter) {
+        //    SPI.transfer(anodes1[i]);
+        //  } else if ((i + 1) % currentAmountOfShifters == currentShifter) {
+        //    SPI.transfer(anodes1[i]);
+        //  } else if ((i + 2) % currentAmountOfShifters == currentShifter) {
+        //    SPI.transfer(anodes1[i]);
+        //  } else if ((i + 3) % currentAmountOfShifters == currentShifter) {
+        //    SPI.transfer(anodes1[i]);
+        //  } else if ((i + 4) % currentAmountOfShifters == currentShifter) {
+        //    SPI.transfer(anodes1[i]);
+        //  } else if ((i + 5) % currentAmountOfShifters == currentShifter) {
+        //    SPI.transfer(anodes1[i]);
+        //  } else {
+        //    SPI.transfer(0b00000000);
+        //  }
+        //}
+
+        // shift register to storage register
+        //digitalWrite(latch_pin, HIGH);
+        //digitalWrite(latch_pin, LOW);
+        //digitalWrite(blank_pin, LOW);  //enable pins
+
+        //digitalWrite(cathode_pin1, LOW);
+        //delay(delayProHertz);
+        //digitalWrite(cathode_pin1, HIGH);
+
+        currentShifter--;
+      }
+  }
+  memset(anodes0, 0, sizeof(anodes0));
+  memset(anodes1, 0, sizeof(anodes1));
+}
+\end{lstlisting}
+
+\subsubsection{setLedOnCalculations}
+
+\begin{lstlisting}[language=Arduino]
+
+    void setLedOn(int x, int y, int red, int green, int blue, int layer)
+{
+  x = constrain (x,    0, 11);      // x can only be between 0 and 11 as we have 12 leds length
+  y = constrain (y, 0, 5);          // y can only be between 0 and 5 as we have 6 height
+  red = constrain (red,    0, 1);   // Red can either be 1 or 0
+  green = constrain (green,  0, 1); // Green can either be 1 or 0
+  blue = constrain (blue,   0, 1);  // Blue can either be 1 or 0
+  layer = 0;     // layer can only be 0 or 1 as we only have two layers
+
+  int whichByte = int(((x * 3 + 36 * y) + 1) / 8); // Calculate which byte be have to change
+  int whichBit = ((((y * 36 + x * 3) + 1) % 8) - 1); //  Calculate which bit in that byte we have to set on
+  if(whichBit == -1) {
+    whichBit = 3;
+  }
+  Serial.println("Currently in byte:");
+  Serial.println(whichByte);
+
+  Serial.println("Currently in bit:");
+  Serial.println(whichBit);
+  /**
+     Choses between the two available layers of our LED RGB Cubic.
+  */
+      if (whichBit == 7) {
+        bitWrite(anodes0[whichByte], whichBit, blue);
+        bitWrite(anodes0[whichByte + 1], 0, green);
+        bitWrite(anodes0[whichByte + 1], 1, red);
+      } else if (whichBit == 6) {
+          bitWrite(anodes0[whichByte], whichBit, blue);
+          bitWrite(anodes0[whichByte], whichBit + 1, green);
+          bitWrite(anodes0[whichByte + 1], 0, red);
+      } else {
+        bitWrite(anodes0[whichByte], whichBit, blue);
+        bitWrite(anodes0[whichByte], whichBit + 1, green);
+        bitWrite(anodes0[whichByte], whichBit + 2, red);
+      }
+  //Serial.println(anodes0[2]);
+
+}
+    
+\end{lstlisting}
+
+\subsection{Effects}
+
+\subsubsection{welcome}
+
+\begin{lstlisting}[language=Arduino]
+
+    void welcomeAnimation() {
+  char welcomeMsg[29] = "Uni Basel CAOS Projekt 2019 ";
+  //if(checkIRSensor()){
+  //      return;
+  //}
+  printLetters(welcomeMsg);
+}
+    
+\end{lstlisting}
+
+\subsubsection{clock}
+
+\begin{lstlisting}[language=Arduino]
+
+    /*
+   Simple clock output together with the real time clock, still has to be tested.
+*/
+void clockAnimation() {
+  while (true) {
+    DateTime now = rtc.now();
+    char timeStamp[11];
+    sprintf(timeStamp, "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+    if(checkIRSensor()){
+        return;
+    }
+    printLetters(timeStamp);
+    char date[13];
+    sprintf(date, "%02d/%02d/%04d", now.day(), now.month(), now.year());
+    if(checkIRSensor()){
+        return;
+    }
+    printLetters(date);
+  }
+}
+
+\end{lstlisting}
+
+\subsubsection{temperatureEffects}
+
+\begin{lstlisting}[language=Arduino]
+
+    /**
+   Read sensory input, print it on the screen and then display temperature and humidity on the screen and then a corresponding effect
+*/
+
+int sunArray[6][12];
+int rainDrops0[5][12];
+int rainDrops1[5][12];
+
+void tempSensorInfo() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  const char *cel = "C";
+  const char *perc = "%";
+  char bufferShort1[10];
+  dtostrf(h, 5, 1, bufferShort1);
+  strcat(bufferShort1, perc);
+  if(checkIRSensor()){
+        return;
+  }
+  printLetters(bufferShort1);
+  char bufferShort2[10];
+  dtostrf(t, 5, 1, bufferShort2);
+  strcat(bufferShort2, cel);
+  if(checkIRSensor()){
+        return;
+  }
+  printLetters(bufferShort2);
+  if (dht.readHumidity() > 100) {
+    rainEffect(30000);
+  } else if (dht.readTemperature() > 24) {
+    sun(30000);
+  } else {
+    clouds(30000);
+  }
+}
+
+void rainEffect(int seconds) {
+  for (int s = 0; s < seconds; s++) {
+    for (int x = 0; x < 12; x++) {
+      setLedOn(x, 5, 1, 1, 1, 0);
+      setLedOn(x, 5, 1, 1, 1, 1);
+      int r = random(100);
+      if (r < 35) {
+        rainDrops0[4][x] = 1;
+      }
+      r = random(100);
+      if (r < 35) {
+        rainDrops1[4][x] = 1;
+      }
+    }
+    rainDropFall(rainDrops0, rainDrops1);
+  }
+}
+
+void rainDropFall(int rainDrops0[][12], int rainDrops1[][12]) {
+  setLed2DArraySingleColor(rainDrops0, 0, 0, 0, 1, 5, 12);
+  setLed2DArraySingleColor(rainDrops1, 1, 0, 0, 1, 5, 12);
+  if(checkIRSensor()){
+      return;
+  }
+  shiftToShifter(1000);
+  int tempArray[5][12];
+  for (int x = 0; x < 12; x++) {
+    for (int y = 4; y >= 0; y--) {
+      if (rainDrops0[y][x] == 1) {
+        tempArray[y][x] == 0;
+        if (y - 1 > 0) {
+          tempArray[y - 1][x] == 1;
+        }
+      }
+    }
+  }
+  memcpy(rainDrops0, tempArray, sizeof(tempArray));
+  for (int x = 0; x < 12; x++) {
+    for (int y = 4; y >= 0; y--) {
+      if (rainDrops1[y][x] == 1) {
+        tempArray[y][x] == 0;
+        if (y - 1 > -1) {
+          tempArray[y - 1][x] == 1;
+        }
+      }
+    }
+  }
+  memcpy(rainDrops1, tempArray, sizeof(tempArray));
+}
+
+void sun(int seconds) {
+  int sunArray[6][12];
+  sunArray[1][9] = 1;
+  sunArray[1][10] = 1;
+  for (int i = 8; i < 12; i++) {
+    for (int j = 2; j < 4; j++) {
+      sunArray[j][i] = 1;
+    }
+  }
+  sunArray[4][9] = 1;
+  sunArray[4][10] = 1;
+  for (int i = 0; i < seconds; i++) {
+    setLed2DArraySingleColor(sunArray, 0, 1, 1, 0, 6, 12);
+    setLed2DArraySingleColor(sunArray, 1, 1, 1, 0, 6, 12);
+    if(checkIRSensor()){
+        return;
+    }
+    shiftToShifter(1000);
+    shiftSunToLeft(sunArray);
+  }
+}
+
+void shiftSunToLeft(int sunArray[][12]) {
+  int tempArray[6][12];
+  for (int x = 0; x < 12; x++) {
+    for (int y = 0; y < 6; y++) {
+      if (x - 1 == -1) {
+        x = 11;
+      }
+      tempArray[y][x - 1] = sunArray[y][x];
+    }
+  }
+  memcpy(sunArray, tempArray, sizeof(tempArray));
+}
+
+void clouds(int seconds) {
+  int cloudArray[6][12];
+  for (int i = 0; i < 12; i++) {
+    cloudArray[6][i] = 1;
+  }
+  int turn = 0;
+  for (int i = 0; i < seconds; i++) {
+    for (int i = 0; i < 12; i++) {
+      cloudArray[5][i] = 0;
+    }
+    if (turn == 0) {
+      for (int i = 1; i < 12; i = i + 2) {
+        cloudArray[5][i] = 1;
+      }
+      turn = 1;
+    } else {
+      for (int i = 0; i < 12; i = i + 2) {
+        cloudArray[5][i] = 1;
+      }
+      turn = 0;
+    }
+    setLed2DArraySingleColor(cloudArray, 0, 1, 1, 1, 6, 12);
+    setLed2DArraySingleColor(cloudArray, 1, 1, 1, 1, 6, 12);
+    if(checkIRSensor()){
+        return;
+    }
+    shiftToShifter(1000);
+  }
+}
+    
+\end{lstlisting}
+
+\subsubsection{firework}
+
+\begin{lstlisting}[language=Arduino]
+
+    typedef struct color {
+  int r;
+  int g;
+  int b;
+} color;
+
+typedef struct rocket {
+  int x;
+  int y;
+  color c;
+  int timer;
+  int maxHeight;
+  int layer;
+  boolean burnt;
+} rocket;
+
+rocket rocketArray0[6];
+
+void firework() {
+  for (int i = 0; i < 6; i++) {
+    rocketArray0[i] = spawnRocket(0);
+  }
+  while (true) {
+    //if(checkIRSensor()){
+      //  return;
+    //}
+    for (int i = 0; i < 6; i++) {
+      for(int t = 0; t <= rocketArray0[i].maxHeight; t++){
+        burnRocket(i);
+        shiftToShifter(1000);
+      }
+    }
+  }
+}
+
+struct rocket spawnRocket(int l) {
+  rocket r;
+  r.x = random(12);
+  r.y = 0;
+  color c;
+  c.r = random(2);
+  c.g = random(2);
+  c.b = random(2);
+  r.c = c;
+  r.timer = 0;
+  r.maxHeight = random(2,6);
+  r.layer = l;
+  return r;
+}
+
+struct rocket explodeRocket(rocket r) {
+  color c = r.c;
+  setLedOn(r.x, r.y, c.r, c.g, c.b, r.layer);
+  //setLedOn(r.x - 1, r.y - 1, c.r, c.g, c.b, r.layer);
+  //setLedOn(r.x + 1, r.y + 1, c.r, c.g, c.b, r.layer);
+  //setLedOn(r.x + 1, r.y - 1, c.r, c.g, c.b, r.layer);
+  //setLedOn(r.x - 1, r.y + 1, c.r, c.g, c.b, r.layer);
+  return spawnRocket(r.layer);
+}
+
+void burnRocket(int iterate) {
+  rocket r = rocketArray0[iterate];
+  if (r.timer == r.maxHeight) {
+      rocketArray0[iterate] = explodeRocket(r);
+      return;
+  } else {
+    color c = r.c;
+    setLedOn(r.x, r.y, c.r, c.g, c.b, r.layer);
+    r.y++;
+    int ran = random(100);
+    if (r.x > 0 && r.x < 12) {
+      if (ran < 15) {
+        r.x--;
+      } else if (ran < 30) {
+        r.x++;
+      }
+    }
+    r.timer++;
+    rocketArray0[iterate] = r;
+    return;
+  }
+}
+    
+\end{lstlisting}
+
+\subsubsection{globalArrayOperations}
+
+\begin{lstlisting}[language=Arduino]
+
+    /**
+  Sets the the 2d Array given to a specific height to a single color.
+  Combinations of r, g ,b.
+*/
+void setLed2DArraySingleColor(int currArray[][12], int layer, int r, int g, int b, int maxH, int maxW) {
+  for (int x = 0; x < maxW; x++) {
+    for (int y = 0; y < maxH; y++) {
+      if (currArray[y][x] == 1) {
+        setLedOn(x, y, r, g, b, layer);
+      }
+    }
+  }
+}
+    
+\end{lstlisting}
+
+\subsubsection{gol}
+
+\begin{lstlisting}[language=Arduino]
+
+    int cells[6][12];
+
+int isActive(int i, int j) {
+  return cells[i][j];
+}
+
+int getNumberOfActiveNeighbors(int i, int j) {
+  int neighbors[8][2] = {
+    {i - 1, j - 1}, {i - 1, j}, {i - 1, j + 1},
+    {i, j - 1}, {i, j + 1},
+    {i + 1, j - 1}, {i + 1, j}, {i + 1, j + 1}
+  };
+  int numActiveCells = 0;
+  for (int i = 0; i < 8; i++) {
+    int k = (neighbors[i][0] + 12) % 12;
+    int l = (neighbors[i][1] + 6) % 6;
+
+    if (isActive(l, k) == 1) {
+      numActiveCells += 1;
+    }
+  }
+  return numActiveCells;
+}
+
+void updateCells() {
+  int cellCopy[6][12];
+  for (int x = 0; x < 12; x++) {
+    for (int y = 0; y < 6; y++) {
+      int nActiveNeighbors = getNumberOfActiveNeighbors(x, y);
+      if (!isActive(x, y) == 1 && nActiveNeighbors == 3) {
+        cellCopy[y][x] = true;
+      } else if (isActive(x, y) == 1 && (nActiveNeighbors == 2 || nActiveNeighbors == 3)) {
+        cellCopy[y][x] = true;
+      } else {
+        cellCopy[y][x] = false;
+      }
+    }
+  }
+  for (int x = 0; x < 12; x++) {
+    for (int y = 0; y < 6; y++) {
+      cells[y][x] = cellCopy[y][x];
+    }
+  }
+}
+
+void fillRandom(int probability) {
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; j < 12; j++) {
+      int r = random(100);
+      if (r <= probability) {
+        cells[i][j] = 1;
+      }
+    }
+  }
+}
+
+/*
+   Simple Game of Life animation
+*/
+
+void gameOfLifeAnimation() {
+  fillRandom(20);
+    for(int z = 0; z < 20; z ++) {
+    setLed2DArraySingleColor(cells, 0, 1, 0, 0, 6, 12);
+    if(checkIRSensor()){
+        return;
+    }
+    shiftToShifter(2000);
+    updateCells();
+  }
+}
+    
+\end{lstlisting}
+
+\subsubsection{stars}
+
+\begin{lstlisting}[language=Arduino]
+
+    typedef struct starColor {
+  int r;
+  int g;
+  int b;
+} starColor;
+
+typedef struct star {
+  int x;
+  int y;
+  int direct; // 1 = from left to right, -1 = from right to left
+  starColor color;
+  int timer;
+  int layer;
+} star;
+
+star starArray0[6];
+//star starArray1[6];
+
+/*
+   Star animation which randomly spawns stars on the left and right and explodes them if they touch.
+*/
+
+struct star createStar(int layer) {
+  star s;
+  s.y = random(6);
+  starColor c;
+  c.r = random(2);
+  c.g = random(2);
+  c.b = random(2);
+  s.color = c;
+  s.timer = random(10);
+  int ran = random(100);
+  s.layer = layer;
+  if (ran < 50) {
+    s.direct = 1;
+    s.x = 0;
+  } else {
+    s.direct = -1;
+    s.y = 11;
+  }
+}
+
+void starAnimation() {
+  Serial.println("Star animation started");
+  for (int i = 0; i < 6; i++) {
+    starArray0[i] = createStar(0);
+    //starArray1[i] = createStar(1);
+  }
+  Serial.println("Stars created!");
+  while (true) {
+    for (int i = 0; i < 6; i++) {
+      runStar(starArray0[i], i);
+      Serial.print("Star timer is: ");
+      Serial.println(starArray0[i].timer);
+      //runStar(starArray1[i], i);
+    if(checkIRSensor()){
+        return;
+    }
+    shiftToShifter(1000);
+    }
+  }
+}
+
+void runStar(star s, int index) {
+  if (s.timer == 0) {
+    setLedOn(s.x, s.y, s.color.r, s.color.g, s.color.b, s.layer);
+    areSameCoordinates(s, index);
+    if (s.x + 1 == 12 && s.x - 1 == -1) {
+      if (s.layer == 0) {
+        starArray0[index] = createStar(0);
+      } else {
+        //starArray1[index] = createStar(0);
+      }
+    }
+    if (s.direct == 1) {
+      s.x++;
+    } else {
+      s.x--;
+      if (s.x < 0) {
+        if (s.layer == 0) {
+          starArray0[index] = createStar(s.layer);
+        } else {
+          //starArray1[index] = createStar(s.layer);
+        }
+      }
+    }
+  } else {
+    s.timer--;
+  }
+}
+
+void areSameCoordinates(star s, int index) {
+  if (s.layer == 0) {
+    for (int r = 0; r < 6; r++) {
+      if (r == index) {
+        continue;
+      } else {
+        star other = starArray0[r];
+        if (other.x == s.x && other.y == s.x) {
+          explodeStar(s);
+          explodeStar(other);
+          starArray0[r] = createStar(s.layer);
+          starArray0[index] = createStar(s.layer);
+        }
+      }
+    }
+  } else {
+    for (int r = 0; r < 6; r++) {
+      if (r == index) {
+        continue;
+      } else {
+        //star other = starArray1[r];
+        //if (other.x == s.x && other.y == s.x) {
+          //explodeStar(s);
+          //explodeStar(other);
+          //starArray1[r] = createStar(s.layer);
+          //starArray1[index] = createStar(s.layer);
+        }
+      }
+    }
+  }
+
+void explodeStar(star s) {
+  starColor c = s.color;
+  setLedOn(s.x, s.y, c.r, c.g, c.b, s.layer);
+  setLedOn(s.x - 1, s.y - 1, c.r, c.g, c.b, s.layer);
+  setLedOn(s.x + 1, s.y + 1, c.r, c.g, c.b, s.layer);
+  setLedOn(s.x + 1, s.y - 1, c.r, c.g, c.b, s.layer);
+  setLedOn(s.x - 1, s.y + 1, c.r, c.g, c.b, s.layer);
+}
+    
+\end{lstlisting}
 
 \section{Features}
 
@@ -142,9 +941,18 @@ Weiter kann man mit der Fernbedienung das Snake Spiel steuern und so die längst
 
 \subsection{Schieberegister}
 
+Wir bereits angesprochen helfen uns die Schieberegister die vielen verschiedenen Pins der RGB LED's anzusprechen.
+Die Schieberegister sind auf zwei Platinen angeordnet und sind mit einander mittels den entsprechenden outputs miteinander
+verknüpft. Wichtig war es dabei zu beachten, dass der Daten in- und output korrekt verlötet wurden, weil wir die Teilaufgaben
+unseres Projektes untereinander aufgeteilt haben und die Anordnung der Schieberegister mit dem Code übereinstimmen müssen.
+
 \subsection{Probleme beim Aufbau}
 
-Durch die anspruchsvolle Steuerung von 216 einzelnen Pins kommt es natürlich zu Schwierigkeiten. Unsere erste Schwierigkeit war, dass wir zuerst mit einer zu kleinen und einzelnen Platine gearbeitet haben. Dies hatte zur Folge, dass die Lötarbeit schnell unübersichtlich und ungenau wurde. Auch war es so extrem schwer, die Lötstellen sauber zu verlöten. Wir haben uns nach einigem herumprobieren dafür entschieden, von einer auf zwei Platinen umzusteigen, was die Arbeit massiv vereinfacht hat.
+Durch die anspruchsvolle Steuerung von 216 einzelnen Pins kommt es
+natürlich zu Schwierigkeiten. Unsere erste Schwierigkeit war, dass wir 
+zuerst mit einer zu kleinen und einzelnen Platine gearbeitet haben. 
+Dies hatte zur Folge, dass die Lötarbeit schnell unübersichtlich und ungenau wurde.
+Auch war es so extrem schwer, die Lötstellen sauber zu verlöten. Wir haben uns nach einigem herumprobieren dafür entschieden, von einer auf zwei Platinen umzusteigen, was die Arbeit massiv vereinfacht hat.
 
 \section{Zusammenfassung}
 
