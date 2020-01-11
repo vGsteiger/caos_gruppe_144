@@ -140,7 +140,8 @@ void changeEffect(int result) {
       break;
     case 0x20FE4DBB:
       Serial.println("Snake Game");
-      snekGame();
+      setupSnake();
+      break;
     case 0x8C22657B: // Keypad left
       changedEffect = false;
       snekDir = 1;

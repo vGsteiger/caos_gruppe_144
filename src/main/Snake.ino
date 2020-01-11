@@ -28,7 +28,7 @@ void init_snek() {
   int initPosX = random(12);
   int initPosY = random(6);
   s.snekBody[0][0] = initPosX;
-  s.snekBody[0][0] = initPosY;
+  s.snekBody[0][1] = initPosY;
   for (int i = 1; i < s.snekLength; i++) {
     switch (initDir) {
       case 0:
@@ -79,11 +79,13 @@ void render() {
   }
   setLed2DArraySingleColor(snekArray, 0, 1, 0, 0, 6, 12);
   shiftToShifter(10000);
-  for(int y = 0; y < 6; y++) {
-  for(int x = 0; x < 12; x++) {
-    Serial.println(snekArray[y][x]);
+  for (int y = 0; y < 6; y++) {
+    for (int x = 0; x < 12; x++) {
+      Serial.print(snekArray[y][x]);
+    }
+    Serial.println();
   }
-  }
+  Serial.println();
 }
 
 void clearSnekTempArray() {
@@ -140,20 +142,22 @@ bool advance() {
 void setupSnake() {
   init_game();
   render();
-  while (true) {
-    snekGame();
+  while (snekGame()) {
   }
+  return;
 }
 
-void snekGame() {
+boolean snekGame() {
   if (!gameOver) {
     render();
     gameOver = advance();
   } else {
     restart();
   }
-  if (readControls()) {} else {
-    return;
+  if (readControls()) {
+    return true;
+  } else {
+    return false;
   }
 }
 
@@ -164,32 +168,32 @@ void restart() {
 
 boolean readControls() {
   if (checkIRSensor()) {
-      switch (snekDir) {
-        case 0:
-          d.x = 0;
-          d.y = -1;
-          break;
-        case 1:
-          d.x = -1;
-          d.y = 0;
-          break;
-        case 2:
-          d.x = 0;
-          d.y = 1;
-          break;
-        case 3:
-          d.x = 1;
-          d.y = 0;
-          break;
-      }
-      return true;
-    } else {
-      if(changedEffect) {
-        changedEffect = false;
-        return false;
-      }
+    switch (snekDir) {
+      case 0:
+        d.x = 0;
+        d.y = -1;
+        break;
+      case 1:
+        d.x = -1;
+        d.y = 0;
+        break;
+      case 2:
+        d.x = 0;
+        d.y = 1;
+        break;
+      case 3:
+        d.x = 1;
+        d.y = 0;
+        break;
+    }
+    return true;
+  } else {
+    if (changedEffect) {
+      changedEffect = false;
+      return false;
     }
   }
+}
 
 void showGameOverMessage() {
   char gameOverMsg[10] = "Game over";
