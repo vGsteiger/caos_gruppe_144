@@ -48,14 +48,12 @@ decode_results results;
 #define DHTTYPE DHT11 // Humidity/temperature sensor model
 #define cathode_pin0 24 // Cathode Pin, to be tested!
 #define cathode_pin1 26 // Same as above!
-#define button 2 // Button to change mode, to be replaced by infrared!
 
 int currentAmountOfShifters = 27;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0; // Integer value of the current effect in play
-unsigned long lastSignal = 0; // long value for last effect (still here until replaced by infrared)
-int currentAmountOfEffects = 1; // For the button, to be replaced
+unsigned long lastSignal = 0; // long value for last measured time
 int dispArray[6][12]; // Array containing all LEDs in one color
 int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
 DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
@@ -72,47 +70,19 @@ void setup()
   pinMode(blank_pin, OUTPUT);//Output Enable  important to do this last, so LEDs do not flash on boot up
   pinMode(cathode_pin0, OUTPUT);
   pinMode(cathode_pin1, OUTPUT);
-  pinMode(button, INPUT);
-
-  attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
 
   lastSignal = millis();
 
   digitalWrite(blank_pin, HIGH); //shut down the leds
   digitalWrite(latch_pin, LOW);  //shut down the leds
-
-  // if (! rtc.begin()) {
-  // Serial.println("Couldn't find RTC");
-  // while (1);
-  // }
-  // if (! rtc.isrunning()) {
-  // Serial.println("RTC is NOT running!");
-  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //}
+  
   irrecv.enableIRIn();
   irrecv.blink13(true);
 }
 
 void loop()
 {
-  Serial.println("Still going");
-  //welcomeAnimation();
-  //gameOfLifeAnimation();
-  test();
-  //firework();
-  //starAnimation();
-  //checkIRSensor();
   delay(1);
-}
-
-/**
-  To handle the interrupt of the button input.
-*/
-void blink() {
-  if (millis() - lastSignal > 200) {
-    lastSignal = millis();
-    currentEffect = (currentEffect + 1) % currentAmountOfEffects;
-  }
 }
 
 void changeEffect(int result) {
