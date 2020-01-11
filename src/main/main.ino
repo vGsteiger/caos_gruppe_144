@@ -22,7 +22,7 @@
    Revamp of changelayer and other minor bug fixes all over the code
 
    TODO V1.0:
-   Fix the not working parts of the code: 
+   Fix the not working parts of the code:
    - Alphabet (Viktor)
    - clock (Viktor)
    - Firework (Moritz)
@@ -54,6 +54,7 @@ decode_results results;
 #define button 2 // Button to change mode, to be replaced by infrared!
 
 int snekDir = 0;
+boolean changedEffect = false;
 int lastIRResult = 0;
 int currentAmountOfShifters = 27;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
@@ -61,8 +62,6 @@ byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0; // Integer value of the current effect in play
 unsigned long lastSignal = 0; // long value for last effect (still here until replaced by infrared)
 int currentAmountOfEffects = 1; // For the button, to be replaced
-int dispArray[6][12]; // Array containing all LEDs in one color
-int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
 unsigned long timeStamp;
 DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
 
@@ -87,26 +86,14 @@ void setup()
   digitalWrite(blank_pin, HIGH); //shut down the leds
   digitalWrite(latch_pin, LOW);  //shut down the leds
 
-  // The following is only needed when one needs to change the RTC battery.
-  //if(RTC.set(1578672930)) {
-  //  Serial.println("RTC is set up!");
-  //} else {
-  //  Serial.println("RTC could not update time!");
-  //}
   irrecv.enableIRIn();
   irrecv.blink13(true);
   timeStamp = millis();
+  welcomeAnimation();
 }
 
 void loop()
 {
-  //welcomeAnimation();
-  //gameOfLifeAnimation();
-  //test();
-  //firework();
-  //starAnimation();
-  //checkIRSensor();
-  //clockAnimation();
   delay(1);
   if (millis() - timeStamp > 10000) {  // sets the randomSeed depending on the current time to have a "true" random effect on every effect which random is used
     randomSeed(RTC.get());
@@ -125,69 +112,92 @@ void blink() {
 }
 
 void changeEffect(int result) {
-    switch (result) {
-      case 0x97483BFB: //Keypad button "0"
-        Serial.println("Testeffect");
-        test();
-        break;
-      case 0xE318261B: //Keypad button "1" -> not reacting quickly enough!
-        Serial.println("Firework");
-        firework();
-        break;
-      case 0x511DBB: //Keypad button "2"
-        Serial.println("GOL");
-        gameOfLifeAnimation();
-        break;
-      case 0xEE886D7F:  //Keypad button "3"
-        Serial.println("Clock");
-        clockAnimation();
-        break;
-      case 0x52A3D41F: //Keypad button "4"
-        Serial.println("Stars");
-        starAnimation();
-        break;
-      case 0xD7E84B1B: //Keypad button "5"
-        Serial.println("Temperature effects");
-        tempSensorInfo();
-        break;
-      // TODO: Check snekDir values!
-      default:
-        Serial.println("Default");
-        break;
-    }
+  changedEffect = true;
+  switch (result) {
+    case 0x97483BFB: //Keypad button "0"
+      Serial.println("Testeffect");
+      test();
+      break;
+    case 0xE318261B: //Keypad button "1" -> not reacting quickly enough!
+      Serial.println("Firework");
+      firework();
+      break;
+    case 0x511DBB: //Keypad button "2"
+      Serial.println("GOL");
+      gameOfLifeAnimation();
+      break;
+    case 0xEE886D7F:  //Keypad button "3"
+      Serial.println("Clock");
+      clockAnimation();
+      break;
+    case 0x52A3D41F: //Keypad button "4"
+      Serial.println("Stars");
+      starAnimation();
+      break;
+    case 0xD7E84B1B: //Keypad button "5"
+      Serial.println("Temperature effects");
+      tempSensorInfo();
+      break;
+    case 0x20FE4DBB:
+      Serial.println("Snake Game");
+      snekGame();
+    case 0x8C22657B: // Keypad left
+      changedEffect = false;
+      snekDir = 1;
+      break;
+    case 0x449E79F:
+      changedEffect = false;
+      snekDir = 3;
+      break;
+    case 0x3D9AE3F7:
+      changedEffect = false;
+      snekDir = 2;
+      break;
+    case 0x1BC0157B:
+      changedEffect = false;
+      snekDir = 0;
+      break;
+    default:
+      Serial.println("Default");
+      break;
   }
+}
 
-  // Keypad button 6: 20FE4DBB
-  // Keypad button 7: F076C13B
-  // Keypad button 8: A3C8EDDB
-  // Keypad button 9: E5CFBD7F
-  // Keypad button #: F0C41643
-  // Keypad button *: C101E57B
-  // Keypad button OK: 488F3CBB
-  // Keypad button left: 8C22657B
-  // Keypad button right: 449E79F
-  // Keypad button up: 3D9AE3F7
-  // Keypad button down: 1BC0157B
+// Keypad button 6: 20FE4DBB
+// Keypad button 7: F076C13B
+// Keypad button 8: A3C8EDDB
+// Keypad button 9: E5CFBD7F
+// Keypad button #: F0C41643
+// Keypad button *: C101E57B
+// Keypad button OK: 488F3CBB
+// Keypad button left: 8C22657B
+// Keypad button right: 449E79F
+// Keypad button up: 3D9AE3F7
+// Keypad button down: 1BC0157B
 
 
-  boolean checkIRSensor(){
-    if (irrecv.decode(&results)){
-    if (millis() - lastSignal > 200) {
+boolean checkIRSensor() {
+  if (irrecv.decode(&results)) {
+    if (millis() - lastSignal > 1000) {
       lastSignal = millis();
+      lastIRResult = results.value;
+      if (!(0xFFFFFFFF == results.value)) {
+        changeEffect(results.value);
         Serial.println("Got a new signal!");
         Serial.println(results.value, HEX);
-        lastIRResult = results.value;
-        changeEffect(results.value);
-        irrecv.resume(); // Receive the next value
+        irrecv.resume();
         return true;
-      } else {
-                irrecv.resume(); // Receive the next value
-        return false;
       }
+      irrecv.resume(); // Receive the next value
+      return false;
     } else {
-      if (irrecv.decode(&results)){
-        irrecv.resume(); // Receive the next value
-        return false;
-      }
-      }
+      irrecv.resume(); // Receive the next value
+      return false;
+    }
+  } else {
+    if (irrecv.decode(&results)) {
+      irrecv.resume(); // Receive the next value
+      return false;
+    }
   }
+}

@@ -2,12 +2,18 @@
    Print a char array onto the screen. Method handles the String and loads the letters one by one onto the screen by calling the methods for the letters. The methods then
    load the letters manually into the letterBuffer and a letter then gets shifted out until the last letter is reached.
 */
-void printLetters(char letters[]) {
+
+int tempArray[6][4];
+int largeTempArray[6][12];
+int dispArray[6][12]; // Array containing all LEDs in one color
+int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
+
+boolean printLetters(char letters[]) {
   letters = strlwr(letters);
   for (int i = 0; i < strlen(letters); i++) {
     clearLetterBuffer();
     int m = 0;
-    Serial.println(letters[i]);
+    //Serial.println(letters[i]);
     switch (letters[i]) {
       case 'a':
         loadA();
@@ -139,57 +145,86 @@ void printLetters(char letters[]) {
     } else {
       m = 4;
     }
-    Serial.println("Currently shifting x times: ");
-    Serial.println(m);
     for (int s = 0; s < m; s++) {
-      Serial.println("In loop(), Matrix dispArray:");
-        for (int y = 0; y < 6; y++) {
-                for (int x = 0; x < 12; x++) {
-         Serial.print("  ");Serial.print(dispArray[y][x], DEC);
-        }
-        Serial.println();
-      }
-      Serial.println();
       setLed2DArraySingleColor(dispArray, 0, 1, 0, 0, 6, 12);
       shiftGlobalArrayLeft();
-      shiftToShifter(10000);
+
+      if (checkIRSensor()) {
+        return false;
+      }
+      shiftToShifter(1000);
     }
   }
+  return true;
 }
 
 void shiftGlobalArrayLeft() {
-  int tempArray[6][12];
-  for (int x = 0; x < 12; x++) {
-    for (int y = 0; y < 6; y++) {
-      if (x == 11) {
-        tempArray[y][11] = letterBuffer[y][0];
-        shiftLetterBufferLeft();
+  clearLargeTempArray();
+  for (int y = 0; y < 6; y++) {
+    for (int x = 0; x < 12; x++) {
+      if (x - 1 > -1) {
+        largeTempArray[y][x - 1] = dispArray[y][x];
       } else {
-        if (x - 1 > -1) {
-          tempArray[y][x - 1] = dispArray[y][x];
-        }
+        largeTempArray[y][11] = letterBuffer[y][0];
       }
     }
   }
-  memcpy(dispArray, tempArray, sizeof(tempArray));
+  shiftLetterBufferLeft();
+  clearDispArray();
+  for (int yy = 0; yy < 6; yy++) {
+    for (int xx = 0; xx < 12; xx++) {
+      dispArray[yy][xx] = largeTempArray[yy][xx];
+    }
+  }
 }
 
 void shiftLetterBufferLeft() {
-  int tempArray[6][4];
-  for (int x = 0; x < 3; x++) {
-    for (int y = 0; y < 6; y++) {
-      if (x - 1 > -1) {
+  clearTempArray();
+  for (int y = 0; y < 6; y++) {
+    for (int x = 0; x < 4; x++) {
+      if ((x - 1) > -1) {
         tempArray[y][x - 1] = letterBuffer[y][x];
+      } else {
+        tempArray[y][3] = 0;
       }
     }
   }
-  memcpy(letterBuffer, tempArray, sizeof(tempArray));
+  clearLetterBuffer();
+  for (int yy = 0; yy < 6; yy++) {
+    for (int xx = 0; xx < 4; xx++) {
+      letterBuffer[yy][xx] = tempArray[yy][xx];
+    }
+  }
 }
 
 void clearLetterBuffer() {
   for (int l = 0; l < 6; l++) {
     for (int p = 0; p < 4; p++) {
       letterBuffer[l][p] = 0;
+    }
+  }
+}
+
+void clearTempArray() {
+  for (int l = 0; l < 6; l++) {
+    for (int p = 0; p < 4; p++) {
+      tempArray[l][p] = 0;
+    }
+  }
+}
+
+void clearLargeTempArray() {
+  for (int l = 0; l < 6; l++) {
+    for (int p = 0; p < 12; p++) {
+      largeTempArray[l][p] = 0;
+    }
+  }
+}
+
+void clearDispArray() {
+  for (int l = 0; l < 6; l++) {
+    for (int p = 0; p < 12; p++) {
+      dispArray[l][p] = 0;
     }
   }
 }
@@ -212,7 +247,7 @@ void loadB() {
   letterBuffer[3][1] = 1;
   letterBuffer[5][1] = 1;
   letterBuffer[1][2] = 1;
-  letterBuffer[4][1] = 1;
+  letterBuffer[4][2] = 1;
 }
 
 void loadC() {

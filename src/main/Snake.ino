@@ -1,16 +1,6 @@
-/**
- * Snake
- * 
- * Implementation of the classical Snake game 
- * where the snake moved constantly and the player
- * have to avoid intersections with itself and borders.
- * When the snake eats food it grows and speeds up a little bit.
- * 
- * 23 Jun 2016
- * by Sergey Royz and hunter Buzzell
- */
+
 typedef struct food {
-  int x; 
+  int x;
   int y;
 } food;
 
@@ -28,6 +18,7 @@ struct food f;
 struct dir d;
 struct snek s;
 int snekArray[6][12];
+int tempSnekArray[6][12];
 bool gameOver = false;
 
 void init_snek() {
@@ -37,34 +28,34 @@ void init_snek() {
   int initPosX = random(12);
   int initPosY = random(6);
   s.snekBody[0][0] = initPosX;
-  s.snekBody[0][0] = initPosX;
+  s.snekBody[0][0] = initPosY;
   for (int i = 1; i < s.snekLength; i++) {
-    switch(initDir) {
+    switch (initDir) {
       case 0:
         d.x = 0;
         d.y = -1;
         s.snekBody[i][0] = initPosX;
-        initPosY = initPosY-1;
+        initPosY = initPosY - 1;
         s.snekBody[i][1] = initPosY;
       case 1:
         d.x = -1;
         d.y = 0;
-        initPosX = initPosX-1;
+        initPosX = initPosX - 1;
         s.snekBody[i][0] = initPosX;
         s.snekBody[i][1] = initPosY;
       case 2:
         d.x = 0;
         d.y = 1;
         s.snekBody[i][0] = initPosX;
-        initPosY = initPosY+1;
+        initPosY = initPosY + 1;
         s.snekBody[i][1] = initPosY;
       case 3:
         d.x = 1;
         d.y = 0;
-        initPosX = initPosX+1;
+        initPosX = initPosX + 1;
         s.snekBody[i][0] = initPosX;
         s.snekBody[i][1] = initPosY;
-      }
+    }
   }
 }
 
@@ -75,20 +66,46 @@ void init_game() {
 }
 
 void render() {
-  int tempArray[6][12];
+  clearSnekTempArray();
   for (int i = 0; i < s.snekLength; i++) {
-    tempArray[s.snekBody[i][1]][s.snekBody[i][0]];
+    tempSnekArray[s.snekBody[i][1]][s.snekBody[i][0]];
   }
   setLedOn(f.x, f.y, 0, 1, 0, 0);
-  memcpy(snekArray, tempArray, sizeof(tempArray));
+  clearSnekArray();
+  for (int yy = 0; yy < 6; yy++) {
+    for (int xx = 0; xx < 4; xx++) {
+      snekArray[yy][xx] = tempSnekArray[yy][xx];
+    }
+  }
   setLed2DArraySingleColor(snekArray, 0, 1, 0, 0, 6, 12);
-  shiftToShifter(1000);
+  shiftToShifter(10000);
+  for(int y = 0; y < 6; y++) {
+  for(int x = 0; x < 12; x++) {
+    Serial.println(snekArray[y][x]);
+  }
+  }
+}
+
+void clearSnekTempArray() {
+  for (int l = 0; l < 6; l++) {
+    for (int p = 0; p < 12; p++) {
+      tempSnekArray[l][p] = 0;
+    }
+  }
+}
+
+void clearSnekArray() {
+  for (int l = 0; l < 6; l++) {
+    for (int p = 0; p < 12; p++) {
+      snekArray[l][p] = 0;
+    }
+  }
 }
 
 /**
- * moves the snake forward
- * returns true if the game is over
- */
+   moves the snake forward
+   returns true if the game is over
+*/
 bool advance() {
   int head[2] = {s.snekBody[0][0], s.snekBody[0][1]};
   if (head[0] < 0 || head[0] >= 12 || head[1] < 0 || head[1] >= 6) {
@@ -97,23 +114,23 @@ bool advance() {
     return true;
   }
   for (int i = 1; i < s.snekLength; i++) {
-      if (s.snekBody[i][0] == head[0] && s.snekBody[i][1] == head[1]) {
-        delay(1000);
-        showGameOverMessage();
-        return true;
-      }
+    if (s.snekBody[i][0] == head[0] && s.snekBody[i][1] == head[1]) {
+      delay(1000);
+      showGameOverMessage();
+      return true;
+    }
   }
 
   bool grow = (head[0] == f.x && head[1] == f.y);
   if (grow) {
-      s.snekLength++;  
-      f.x = random(12);
-      f.y = random(6);
+    s.snekLength++;
+    f.x = random(12);
+    f.y = random(6);
   }
 
   for (int i = s.snekLength - 1; i >= 0; i--) {
-      s.snekBody[i + 1][0] = s.snekBody[i][0];
-      s.snekBody[i + 1][1] = s.snekBody[i][1];
+    s.snekBody[i + 1][0] = s.snekBody[i][0];
+    s.snekBody[i + 1][1] = s.snekBody[i][1];
   }
   s.snekBody[0][0] += d.x;
   s.snekBody[0][1] += d.y;
@@ -123,7 +140,9 @@ bool advance() {
 void setupSnake() {
   init_game();
   render();
-  snekGame();
+  while (true) {
+    snekGame();
+  }
 }
 
 void snekGame() {
@@ -133,52 +152,55 @@ void snekGame() {
   } else {
     restart();
   }
-  if(readControls()){} else {
+  if (readControls()) {} else {
     return;
   }
 }
 
-void restart() {  
+void restart() {
   init_game();
   gameOver = false;
 }
 
 boolean readControls() {
-  if(checkIRSensor()){
-    // TODO: Check whether correct last result
-    if(results.value == 0) {
-    switch(snekDir) {
-      case 0:
-        d.x = 0;
-        d.y = -1;
-      case 1:
-        d.x = -1;
-        d.y = 0;
-      case 2:
-        d.x = 0;
-        d.y = 1;
-      case 3:
-        d.x = 1;
-        d.y = 0;      
+  if (checkIRSensor()) {
+      switch (snekDir) {
+        case 0:
+          d.x = 0;
+          d.y = -1;
+          break;
+        case 1:
+          d.x = -1;
+          d.y = 0;
+          break;
+        case 2:
+          d.x = 0;
+          d.y = 1;
+          break;
+        case 3:
+          d.x = 1;
+          d.y = 0;
+          break;
+      }
+      return true;
+    } else {
+      if(changedEffect) {
+        changedEffect = false;
+        return false;
+      }
     }
-    return true;
-  } else {
-    return false;
   }
-  }
-}
 
 void showGameOverMessage() {
   char gameOverMsg[10] = "Game over";
-  if(checkIRSensor()){
-        return;
+  if (checkIRSensor()) {
+    return;
   }
-  printLetters(gameOverMsg);
-  if(checkIRSensor()){
-        return;
+  if (!printLetters(gameOverMsg)) {
+    return;
   }
 }
 
-void startSnake(){
+void startSnake() {
   setupSnake();
 }

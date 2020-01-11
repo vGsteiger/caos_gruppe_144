@@ -1,10 +1,12 @@
 
 void test()
 {
-  for(int j = 0; j < 6; j++) {
-  for(int i = 0; i < 12; i++) {
-    setLedOn(i,j,1,1,1,0);
+
+  char welcomeMsg[38] = "abc";
+  if (checkIRSensor()) {
+    return;
   }
+  if (!printLetters(welcomeMsg)) {
+    return;
   }
-  shiftToShifter(1000);
 }

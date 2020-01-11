@@ -23,12 +23,12 @@ void firework() {
   while (true) {
     for (int i = 0; i < 6; i++) {
       int currHeight = rocketArray[i].maxHeight;
-      for(int t = 0; t <= currHeight; t++){
-            if(checkIRSensor()){
-        return;
-      }
-      burnRocket(i);
-      shiftToShifter(1000);
+      for (int t = 0; t <= currHeight; t++) {
+        if (checkIRSensor()) {
+          return;
+        }
+        burnRocket(i);
+        shiftToShifter(1000);
       }
     }
   }
@@ -44,7 +44,7 @@ struct rocket spawnRocket(int l) {
   c.b = random(2);
   r.c = c;
   r.timer = 0;
-  r.maxHeight = random(1,5);
+  r.maxHeight = random(1, 5);
   r.layer = l;
   return r;
 }
@@ -62,8 +62,8 @@ struct rocket explodeRocket(rocket r) {
 void burnRocket(int iterate) {
   rocket r = rocketArray[iterate];
   if (r.timer == r.maxHeight) {
-      rocketArray[iterate] = explodeRocket(r);
-      return;
+    rocketArray[iterate] = explodeRocket(r);
+    return;
   } else {
     color c = r.c;
     setLedOn(r.x, r.y, c.r, c.g, c.b, r.layer);
