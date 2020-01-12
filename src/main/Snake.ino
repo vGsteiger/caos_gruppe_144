@@ -18,43 +18,49 @@ struct food f;
 struct dir d;
 struct snek s;
 int snekArray[6][12];
-int tempSnekArray[6][12];
 bool gameOver = false;
 
+/*
+   Method to initiate the snake game with all its parameters
+*/
 void init_snek() {
   s.snekLength = 3;
   int initDir = random(4);
   snekDir = initDir;
-  int initPosX = random(12);
-  int initPosY = random(6);
+  int initPosX = random(3, 9);
+  int initPosY = random(2, 4);
   s.snekBody[0][0] = initPosX;
   s.snekBody[0][1] = initPosY;
   for (int i = 1; i < s.snekLength; i++) {
-    switch (initDir) {
+    switch (snekDir) {
       case 0:
         d.x = 0;
         d.y = -1;
         s.snekBody[i][0] = initPosX;
         initPosY = initPosY - 1;
         s.snekBody[i][1] = initPosY;
+        break;
       case 1:
         d.x = -1;
         d.y = 0;
         initPosX = initPosX - 1;
         s.snekBody[i][0] = initPosX;
         s.snekBody[i][1] = initPosY;
+        break;
       case 2:
         d.x = 0;
         d.y = 1;
         s.snekBody[i][0] = initPosX;
         initPosY = initPosY + 1;
         s.snekBody[i][1] = initPosY;
+        break;
       case 3:
         d.x = 1;
         d.y = 0;
         initPosX = initPosX + 1;
         s.snekBody[i][0] = initPosX;
         s.snekBody[i][1] = initPosY;
+        break;
     }
   }
 }
@@ -66,34 +72,25 @@ void init_game() {
 }
 
 void render() {
-  clearSnekTempArray();
-  for (int i = 0; i < s.snekLength; i++) {
-    tempSnekArray[s.snekBody[i][1]][s.snekBody[i][0]];
-  }
   setLedOn(f.x, f.y, 0, 1, 0, 0);
   clearSnekArray();
-  for (int yy = 0; yy < 6; yy++) {
-    for (int xx = 0; xx < 4; xx++) {
-      snekArray[yy][xx] = tempSnekArray[yy][xx];
-    }
+  for (int i = 0; i < s.snekLength; i++) {
+    snekArray[s.snekBody[i][1]][s.snekBody[i][0]] = 1;
   }
   setLed2DArraySingleColor(snekArray, 0, 1, 0, 0, 6, 12);
   shiftToShifter(10000);
-  for (int y = 0; y < 6; y++) {
-    for (int x = 0; x < 12; x++) {
-      Serial.print(snekArray[y][x]);
-    }
-    Serial.println();
-  }
-  Serial.println();
-}
-
-void clearSnekTempArray() {
-  for (int l = 0; l < 6; l++) {
-    for (int p = 0; p < 12; p++) {
-      tempSnekArray[l][p] = 0;
-    }
-  }
+  //Serial.println("Current snake array:");
+  //for (int y = 0; y < 6; y++) {
+  //  for (int x = 0; x < 12; x++) {
+  //    if (f.x == x && f.y == y) {
+  //      Serial.print("x");
+  //    } else {
+  //      Serial.print(snekArray[y][x]);
+  //    }
+  //  }
+  //  Serial.println();
+  //}
+  //Serial.println();
 }
 
 void clearSnekArray() {
@@ -111,16 +108,8 @@ void clearSnekArray() {
 bool advance() {
   int head[2] = {s.snekBody[0][0], s.snekBody[0][1]};
   if (head[0] < 0 || head[0] >= 12 || head[1] < 0 || head[1] >= 6) {
-    delay(1000);
     showGameOverMessage();
     return true;
-  }
-  for (int i = 1; i < s.snekLength; i++) {
-    if (s.snekBody[i][0] == head[0] && s.snekBody[i][1] == head[1]) {
-      delay(1000);
-      showGameOverMessage();
-      return true;
-    }
   }
 
   bool grow = (head[0] == f.x && head[1] == f.y);
@@ -130,7 +119,7 @@ bool advance() {
     f.y = random(6);
   }
 
-  for (int i = s.snekLength - 1; i >= 0; i--) {
+  for (int i = s.snekLength - 2; i >= 0; i--) {
     s.snekBody[i + 1][0] = s.snekBody[i][0];
     s.snekBody[i + 1][1] = s.snekBody[i][1];
   }
@@ -139,72 +128,91 @@ bool advance() {
   return false;
 }
 
-void setupSnake() {
+/*
+   Method to be called each time a new game starts
+*/
+boolean setupSnake() {
+  //Serial.println("Setting up snake!");
   init_game();
   render();
   while (snekGame()) {
   }
-  return;
+  return true;
 }
 
+/*
+   Loop over the whole snake game until lost!
+*/
 boolean snekGame() {
   if (!gameOver) {
-    render();
     gameOver = advance();
+    render();
   } else {
+    //Serial.println("Restarting after loosing!");
     restart();
   }
-  if (readControls()) {
-    return true;
-  } else {
-    return false;
-  }
+  return readControls();
 }
 
+/*
+   Method to restart the game if a game has been lost
+*/
 void restart() {
   init_game();
   gameOver = false;
 }
 
+/*
+   Method to read the current controls  (TO BE TESTED)
+*/
 boolean readControls() {
   if (checkIRSensor()) {
-    switch (snekDir) {
-      case 0:
-        d.x = 0;
-        d.y = -1;
-        break;
-      case 1:
-        d.x = -1;
-        d.y = 0;
-        break;
-      case 2:
-        d.x = 0;
-        d.y = 1;
-        break;
-      case 3:
-        d.x = 1;
-        d.y = 0;
-        break;
-    }
-    return true;
-  } else {
-    if (changedEffect) {
-      changedEffect = false;
-      return false;
+    if (!changedEffect) {
+      switch (snekDir) {
+        case 0:
+          d.x = 0;
+          d.y = -1;
+          break;
+        case 1:
+          d.x = -1;
+          d.y = 0;
+          break;
+        case 2:
+          d.x = 0;
+          d.y = 1;
+          break;
+        case 3:
+          d.x = 1;
+          d.y = 0;
+          break;
+      }
+      return true;
     }
   }
+  if (changedEffect) {
+    changedEffect = false;
+    return false;
+  }
+  return true;
 }
 
+
+/*
+   Method to show a game Over message on the display when lost.
+*/
 void showGameOverMessage() {
   char gameOverMsg[10] = "Game over";
-  if (checkIRSensor()) {
-    return;
-  }
   if (!printLetters(gameOverMsg)) {
     return;
   }
 }
 
+/*
+   Method to start the snake animation, calls setupSnake
+*/
 void startSnake() {
-  setupSnake();
+  //Serial.println("Started snake!");
+  if (setupSnake()) {
+    return;
+  }
 }

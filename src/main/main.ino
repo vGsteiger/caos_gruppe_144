@@ -23,11 +23,7 @@
 
    TODO V1.0:
    Fix the not working parts of the code:
-   - Alphabet (Viktor)
-   - clock (Viktor)
-   - Firework (Moritz)
-   - GOL/better random seeding (Joey)
-   - Stars (Moritz)
+   - Stars (Joey)
    - Temperature Effects (Viktor)
    - IR Control and Snake (Viktor)
 
@@ -89,7 +85,7 @@ void setup()
   irrecv.enableIRIn();
   irrecv.blink13(true);
   timeStamp = millis();
-  welcomeAnimation();
+  //welcomeAnimation();
 }
 
 void loop()
@@ -138,23 +134,23 @@ void changeEffect(int result) {
       Serial.println("Temperature effects");
       tempSensorInfo();
       break;
-    case 0x20FE4DBB:
+    case 0x20FE4DBB: //Keypad button "6"
       Serial.println("Snake Game");
-      setupSnake();
+      startSnake();
       break;
     case 0x8C22657B: // Keypad left
       changedEffect = false;
       snekDir = 1;
       break;
-    case 0x449E79F:
+    case 0x449E79F: // Keypad right
       changedEffect = false;
       snekDir = 3;
       break;
-    case 0x3D9AE3F7:
+    case 0x3D9AE3F7: // Keypad up
       changedEffect = false;
       snekDir = 2;
       break;
-    case 0x1BC0157B:
+    case 0x1BC0157B: // Keypad down
       changedEffect = false;
       snekDir = 0;
       break;
@@ -164,17 +160,14 @@ void changeEffect(int result) {
   }
 }
 
-// Keypad button 6: 20FE4DBB
-// Keypad button 7: F076C13B
-// Keypad button 8: A3C8EDDB
-// Keypad button 9: E5CFBD7F
-// Keypad button #: F0C41643
-// Keypad button *: C101E57B
-// Keypad button OK: 488F3CBB
-// Keypad button left: 8C22657B
-// Keypad button right: 449E79F
-// Keypad button up: 3D9AE3F7
-// Keypad button down: 1BC0157B
+/*  Other buttons:
+    Keypad button 7: F076C13B
+    Keypad button 8: A3C8EDDB
+    Keypad button 9: E5CFBD7F
+    Keypad button #: F0C41643
+    Keypad button *: C101E57B
+    Keypad button OK: 488F3CBB
+*/
 
 
 boolean checkIRSensor() {
@@ -183,22 +176,14 @@ boolean checkIRSensor() {
       lastSignal = millis();
       lastIRResult = results.value;
       if (!(0xFFFFFFFF == results.value)) {
-        changeEffect(results.value);
         Serial.println("Got a new signal!");
         Serial.println(results.value, HEX);
+        changeEffect(results.value);
         irrecv.resume();
         return true;
       }
-      irrecv.resume(); // Receive the next value
-      return false;
-    } else {
-      irrecv.resume(); // Receive the next value
-      return false;
     }
-  } else {
-    if (irrecv.decode(&results)) {
-      irrecv.resume(); // Receive the next value
-      return false;
-    }
+    irrecv.resume(); // Receive the next value
+    return false;
   }
 }
