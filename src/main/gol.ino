@@ -43,6 +43,9 @@ void updateCells() {
   }
 }
 
+/**
+   Generates "living" cells at random places of the cubic for a specific probability.
+*/
 void fillRandom(int probability) {
   for (int i = 0; i < 6; i++) {
     for (int j = 0; j < 12; j++) {
@@ -60,10 +63,10 @@ void fillRandom(int probability) {
 
 void gameOfLifeAnimation() {
   fillRandom(20);
-    for(int z = 0; z < 20; z ++) {
+  for (int z = 0; z < 20; z ++) {
     setLed2DArraySingleColor(cells, 0, 1, 0, 0, 6, 12);
-    if(checkIRSensor()){
-        return;
+    if (checkIRSensor()) {
+      return;
     }
     shiftToShifter(2000);
     updateCells();

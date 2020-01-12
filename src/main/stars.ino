@@ -53,11 +53,11 @@ void starAnimation() {
       Serial.print("Star timer is: ");
       Serial.println(starArray0[i].timer);
       //runStar(starArray1[i], i);
-    if(checkIRSensor()){
+      if (checkIRSensor()) {
         return;
+      }
     }
     shiftToShifter(1000);
-    }
   }
 }
 
@@ -65,27 +65,17 @@ void runStar(star s, int index) {
   if (s.timer == 0) {
     setLedOn(s.x, s.y, s.color.r, s.color.g, s.color.b, s.layer);
     areSameCoordinates(s, index);
-    if (s.x + 1 == 12 && s.x - 1 == -1) {
-      if (s.layer == 0) {
-        starArray0[index] = createStar(0);
-      } else {
-        //starArray1[index] = createStar(0);
-      }
-    }
     if (s.direct == 1) {
       s.x++;
+      if (s.x > 11) {
+        starArray0[index] = createStar(0);
+      }
     } else {
       s.x--;
       if (s.x < 0) {
-        if (s.layer == 0) {
-          starArray0[index] = createStar(s.layer);
-        } else {
-          //starArray1[index] = createStar(s.layer);
-        }
+        starArray0[index] = createStar(0);
       }
     }
-  } else {
-    s.timer--;
   }
 }
 
@@ -111,14 +101,14 @@ void areSameCoordinates(star s, int index) {
       } else {
         //star other = starArray1[r];
         //if (other.x == s.x && other.y == s.x) {
-          //explodeStar(s);
-          //explodeStar(other);
-          //starArray1[r] = createStar(s.layer);
-          //starArray1[index] = createStar(s.layer);
-        }
+        //explodeStar(s);
+        //explodeStar(other);
+        //starArray1[r] = createStar(s.layer);
+        //starArray1[index] = createStar(s.layer);
       }
     }
   }
+}
 
 void explodeStar(star s) {
   starColor c = s.color;
