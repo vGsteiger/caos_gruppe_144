@@ -8,8 +8,14 @@
 \usepackage{amsfonts}
 \usepackage{tocloft}
 \usepackage{tabularx}
+\usepackage{listings}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \setlength{\parindent}{0em}
+\input{arduinoLanguage.tex}
+
+
+
+
 \title{\textbf{CAOS Projekt : 2 x 6 x 12 LED RGB Quader}}
 \author{Joey Zgraggen, Moritz Würth, Viktor Gsteiger}
 
@@ -26,8 +32,8 @@ TODO: BILD VOM PROJEKTERZEUGNIS
 
 Die Grundidee von unserem Projekt war es zuerst einen 5 x 5 x 5 LED RGB Würfel zu bauen, jedoch haben wir uns dann im Prozess der Entscheidungsfindung
 dazu entschieden, etwas anderes zu bauen was sich vom "typischen" LED RGB Würfel unterscheidet.
-Deshalb haben wir die Dimensionen ein wenig angepasst, sodass wir am Ende einen zweidimenstionalen Bildschirm haben werden. Damit wird es uns immer noch möglich sein, gute 3D-Effekte
-anzeigen zu können. Die Anordnung der LED's kann als Koordinatensystem verstanden werden, bei dem man auf die einzelnen LED's zugreifen kann. Dies erleichtert es massiv, Effekte zu schreiben. 
+Deshalb haben wir die Dimensionen ein wenig angepasst, sodass wir am Ende einen dreidimenstionalen Bildschirm haben werden. Damit wird es uns immer noch möglich sein, gute 3D-Effekte
+anzeigen zu können. Die Anordnung der LED's kann als Koordinatensystem verstanden werden, bei dem man mittels x- und y-Koordinaten auf die einzelnen LED's zugreifen kann. Dies erleichtert es massiv, Effekte zu schreiben. 
 Das Projekt lässt einen grossen Spielraum bezüglich Ideen zu. Sollte man also selbst Ideen haben, welche sich gut zu unserem Projekt ergänzen würden, kann man diese ohne weitere
 Probleme implementieren. Die Grundsoftware hat sehr einfache Schnittstellen, mit denen man einfach weitere Effekte schreiben kann.
 
@@ -50,13 +56,14 @@ Schieberegister erweisen sich für ein solches Projekt als äusserst nützlich, 
 
 Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 8-bit Schieberegister entschieden. Diese erweisen sich in der Programmierung als intuitiv, weil man einfach mit Byte-Arrays arbeiten kann, um die einzelnen Schieberegister mit Informationen zu "befüllen". Weiter existieren für diese Schieberegister vorgefertigte Libraries, um die Kommunikation zu erleichtern. Dies nimmt einen nicht die Denkarbeit ab, wie man die LED's anordnen will und wie man die verschiedenen Farben anspricht, jedoch erleichtert es die direkte Kommunikation.
 
-\subsection{Transistoren}
+\subsection{\textcolor{red}{Transistoren}}
 
-TODO: npn PN2222 Transistoren
+Anfangs wollten wir für eine garantierte Langlebigkeit unseres Projektes Transistoren verwenden, aber nachdem wir uns bezüglich der Notwendigkeit
+von Transistoren für unser Projekt informierten haben wir uns letzenendlich dazu entschieden keine zu verwenden.
 
 \subsection{Sensoren}
 
-Für das Projekt wurden zusätzlich Sensoren verwendet, um weitere Features zu gewährleisten.
+Für das Projekt wurden zusätzlich Sensoren verwendet, um weitere Features zu gewährleisten. Diese werden im Kapitel 6 detaillierter behandelt.
 
 Folgende Sensoren stehen zur Auswahl:
 \begin{itemize}
@@ -71,30 +78,39 @@ Folgende Sensoren stehen zur Auswahl:
     \textbf{Produkt} & \textbf{Menge} & \textbf{Preis} & \textbf{Total} \\
     % Viktor's Ausgaben:
     \cline{1-4}
-    RGB LED's & 250x & 0.072 & 18.- \\
+    RGB LED's & 250x & 0.072.- & 18.- \\
     \cline{1-4}
-    Kabel (verschiedene) & 15m & 0.83 & 12.50 \\
+    Kabel (verschiedene) & 15m & 0.83.- & 12.50 \\
     \cline{1-4}
-    Wiederstände & 440x & 0.036 & 16.- \\
+    Wiederstände & 440x & 0.036.- & 16.- \\
     \cline{1-4}
-    74hc595 & 57x & 0.50 & 30.- \\   
+    74hc595 & 57x & 0.50.- & 30.- \\   
     \cline{1-4}
-    Sensoren (verschiedene) & 3x & 3.30 & 10.- \\
+    Sensoren (verschiedene) & 3x & 3.30.- & 10.- \\
     \cline{1-4}
-	Lochrasterplatine (verschiedene) & 2x & 6.00 & 12.- \\
-	% Total Viktor: 98.5
-	% Joey's Ausgaben:
-	% Moritz's Ausgaben:
+    Lochrasterplatine (verschiedene) & 2x & 6.00.- & 12.- \\
+    	% Total Viktor: 98.5.-
+    \cline{1-4}
+    Kupferdraht (Blau) & 2 Rollen & 6.80.- & 13.60.- \\
+    \cline{1-4}
+    Isolierband & 1 Rolle & 1.80.- & 1.80.- \\
+    \cline{1-4}
+    &&&\textbf{113.90.-}
+	% Joey's Ausgaben: 20.0.-
+	% Moritz's Ausgaben: 40.0.-
     
 \end{tabularx}
 
 \section{Design}
 
-\subsection{}
+Wir haben uns überlegt eine kleine Box zu bauen, welcher die ganze Verkabelung in einem
+kleinen Raum im hinteren Bereich von dieser Box zu verstecken, damit es schöner aussieht.
+Wir haben uns für das Material Holz entschieden und werden die ganze Box schwarz färben,
+da dann der Effekt der RGB LED's entsprechend besser zur Geltung kommen.
+Wir haben schon einige Projekte gesehen, welche einen LED RGB Cube gebaut haben, bei denen auch eine 
+Art Box gebaut wurde und wir fanden diese Idee gut, sodass wir uns für unser Projekt danach orientierten.
 
-\section{Code}
 
-\subsection{}
 
 \section{Features}
 
@@ -102,7 +118,7 @@ Folgende Sensoren stehen zur Auswahl:
 
 Durch die Klasse Alphabet ist es einfach möglich, auf dem Bildschirm Buchstaben und Sätze darzustellen. Die Klasse unterscheidet nicht zwischen klein und Grossbuchstaben und kann das gesamte Alphabet plus ein paar Sonderzeichen plus alle Zahlen darstellen. Die einzelnen Buchstaben sind alle Hardgecoded und deshalb macht diese Klasse Sinn, weil man dies sonst jeweils einzeln machen müsste. Die Klasse Alphabet wird vom Willkommens Effekt, von den tempereature effects und vom clock Effekt benutzt und ist dadurch ein sehr zentraler Effekt.
 
-Die Buchstaben werden dabei von links nach rechs einer nach dem anderen in den Buchstaben-Buffer geladen, dann jeweils, sofern man nicht beim letzten Buchstaben ist, drei mal auf den Hauptbildschirm rausgeshiftet und nach jedem einzelnen shiften angezeigt. Beim letzten Buchstaben wird dieser so lange nach links geshiftet, bis er vom Bildschirm verschwindet und die Kontrolle wird zurück an die rufer Methode gegeben.
+Die Buchstaben werden dabei von rechts nach links einer nach dem anderen in den Buchstaben-Buffer geladen, dann jeweils, sofern man nicht beim letzten Buchstaben ist, drei mal auf den Hauptbildschirm rausgeshiftet und nach jedem einzelnen shiften angezeigt. Beim letzten Buchstaben wird dieser so lange nach links geshiftet, bis er vom Bildschirm verschwindet und die Kontrolle wird zurück an die rufer Methode gegeben.
 
 \subsection{Stars}
 
@@ -142,9 +158,18 @@ Weiter kann man mit der Fernbedienung das Snake Spiel steuern und so die längst
 
 \subsection{Schieberegister}
 
+Wir bereits angesprochen helfen uns die Schieberegister die vielen verschiedenen Pins der RGB LED's anzusprechen.
+Die Schieberegister sind auf zwei Platinen angeordnet und sind mit einander mittels den entsprechenden outputs miteinander
+verknüpft. Wichtig war es dabei zu beachten, dass der Daten in- und output korrekt verlötet wurden, weil wir die Teilaufgaben
+unseres Projektes untereinander aufgeteilt haben und die Anordnung der Schieberegister mit dem Code übereinstimmen müssen.
+
 \subsection{Probleme beim Aufbau}
 
-Durch die anspruchsvolle Steuerung von 216 einzelnen Pins kommt es natürlich zu Schwierigkeiten. Unsere erste Schwierigkeit war, dass wir zuerst mit einer zu kleinen und einzelnen Platine gearbeitet haben. Dies hatte zur Folge, dass die Lötarbeit schnell unübersichtlich und ungenau wurde. Auch war es so extrem schwer, die Lötstellen sauber zu verlöten. Wir haben uns nach einigem herumprobieren dafür entschieden, von einer auf zwei Platinen umzusteigen, was die Arbeit massiv vereinfacht hat.
+Durch die anspruchsvolle Steuerung von 216 einzelnen Pins kommt es
+natürlich zu Schwierigkeiten. Unsere erste Schwierigkeit war, dass wir 
+zuerst mit einer zu kleinen und einzelnen Platine gearbeitet haben. 
+Dies hatte zur Folge, dass die Lötarbeit schnell unübersichtlich und ungenau wurde.
+Auch war es so extrem schwer, die Lötstellen sauber zu verlöten. Wir haben uns nach einigem herumprobieren dafür entschieden, von einer auf zwei Platinen umzusteigen, was die Arbeit massiv vereinfacht hat.
 
 \section{Zusammenfassung}
 
