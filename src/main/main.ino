@@ -25,7 +25,6 @@
    Fix the not working parts of the code:
    - Stars (Joey)
    - Temperature Effects (Viktor)
-   - IR Control and Snake (Viktor)
 
 */
 
@@ -55,10 +54,7 @@ int currentAmountOfShifters = 27;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0; // Integer value of the current effect in play
-int dispArray[6][12]; // Array containing all LEDs in one color
-int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
 unsigned long lastSignal = 0; // long value for last effect (still here until replaced by infrared)
-int currentAmountOfEffects = 1; // For the button, to be replaced
 unsigned long timeStamp;
 DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
 
