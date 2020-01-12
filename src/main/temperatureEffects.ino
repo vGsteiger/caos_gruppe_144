@@ -3,8 +3,8 @@
 */
 
 int sunArray[6][12];
-int rainDrops0[5][12];
-int rainDrops1[5][12];
+int rainDrops[5][12];
+int rainTempArray[5][12];
 
 void tempSensorInfo() {
   float h = dht.readHumidity();
@@ -17,7 +17,6 @@ void tempSensorInfo() {
   if (checkIRSensor()) {
     return;
   }
-  //Serial.println(bufferShort1);
   if (!printLetters(bufferShort1)) {
     return;
   }
@@ -27,13 +26,12 @@ void tempSensorInfo() {
   if (checkIRSensor()) {
     return;
   }
-  //Serial.println(bufferShort2);
   if (!printLetters(bufferShort2)) {
     return;
   }
-  if (dht.readHumidity() > 100) {
+  if (dht.readHumidity() > 60) {
     rainEffect(30000);
-  } else if (dht.readTemperature() > 24) {
+  } else if (dht.readTemperature() > 22) {
     sun(30000);
   } else {
     clouds(30000);
@@ -44,50 +42,53 @@ void rainEffect(int seconds) {
   for (int s = 0; s < seconds; s++) {
     for (int x = 0; x < 12; x++) {
       setLedOn(x, 5, 1, 1, 1, 0);
-      setLedOn(x, 5, 1, 1, 1, 1);
       int r = random(100);
       if (r < 35) {
-        rainDrops0[4][x] = 1;
-      }
-      r = random(100);
-      if (r < 35) {
-        rainDrops1[4][x] = 1;
+        rainDrops[4][x] = 1;
       }
     }
-    rainDropFall(rainDrops0, rainDrops1);
+    rainDropFall();
   }
 }
 
-void rainDropFall(int rainDrops0[][12], int rainDrops1[][12]) {
-  setLed2DArraySingleColor(rainDrops0, 0, 0, 0, 1, 5, 12);
-  setLed2DArraySingleColor(rainDrops1, 1, 0, 0, 1, 5, 12);
+void rainDropFall() {
+  setLed2DArraySingleColor(rainDrops, 0, 0, 0, 1, 5, 12);
   if (checkIRSensor()) {
     return;
   }
   shiftToShifter(1000);
-  int tempArray[5][12];
-  for (int x = 0; x < 12; x++) {
-    for (int y = 4; y >= 0; y--) {
-      if (rainDrops0[y][x] == 1) {
-        tempArray[y][x] == 0;
+  for (int y = 4; y >= 0; y--) {
+    for (int x = 0; x < 12; x++) {
+      if (rainDrops[y][x] == 1) {
+        rainTempArray[y][x] == 0;
         if (y - 1 > 0) {
-          tempArray[y - 1][x] == 1;
+          rainTempArray[y - 1][x] == 1;
         }
       }
     }
   }
-  memcpy(rainDrops0, tempArray, sizeof(tempArray));
-  for (int x = 0; x < 12; x++) {
-    for (int y = 4; y >= 0; y--) {
-      if (rainDrops1[y][x] == 1) {
-        tempArray[y][x] == 0;
-        if (y - 1 > -1) {
-          tempArray[y - 1][x] == 1;
-        }
-      }
+  clearRainArray();
+  for (int yy = 0; yy < 6; yy++) {
+    for (int xx = 0; xx < 12; xx++) {
+      rainDrops[yy][xx] = rainTempArray[yy][xx];
     }
   }
-  memcpy(rainDrops1, tempArray, sizeof(tempArray));
+}
+
+void clearRainArray() {
+  for (int l = 0; l < 5; l++) {
+    for (int p = 0; p < 12; p++) {
+      rainDrops[l][p] = 0;
+    }
+  }
+}
+
+void clearRainTmpArray() {
+  for (int l = 0; l < 5; l++) {
+    for (int p = 0; p < 12; p++) {
+      rainTempArray[l][p] = 0;
+    }
+  }
 }
 
 void sun(int seconds) {
@@ -103,7 +104,6 @@ void sun(int seconds) {
   sunArray[4][10] = 1;
   for (int i = 0; i < seconds; i++) {
     setLed2DArraySingleColor(sunArray, 0, 1, 1, 0, 6, 12);
-    setLed2DArraySingleColor(sunArray, 1, 1, 1, 0, 6, 12);
     if (checkIRSensor()) {
       return;
     }
@@ -114,15 +114,20 @@ void sun(int seconds) {
 
 void shiftSunToLeft(int sunArray[][12]) {
   int tempArray[6][12];
-  for (int x = 0; x < 12; x++) {
-    for (int y = 0; y < 6; y++) {
+  for (int l = 0; l < 6; l++) {
+    for (int p = 0; p < 12; p++) {
+      tempArray[l][p] = 0;
+    }
+  }
+  for (int y = 0; y < 6; y++) {
+    for (int x = 0; x < 12; x++) {
       if (x - 1 == -1) {
         x = 11;
       }
       tempArray[y][x - 1] = sunArray[y][x];
     }
   }
-  memcpy(sunArray, tempArray, sizeof(tempArray));
+  memset(sunArray, tempArray, sizeof(tempArray));
 }
 
 void clouds(int seconds) {
@@ -147,7 +152,6 @@ void clouds(int seconds) {
       turn = 0;
     }
     setLed2DArraySingleColor(cloudArray, 0, 1, 1, 1, 6, 12);
-    setLed2DArraySingleColor(cloudArray, 1, 1, 1, 1, 6, 12);
     if (checkIRSensor()) {
       return;
     }
