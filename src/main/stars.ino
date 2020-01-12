@@ -9,6 +9,7 @@ typedef struct star {
   int y;
   int direct; // 1 = from left to right, -1 = from right to left
   starColor color;
+  unsigned long timestamp;
   int timer;
   int layer;
 } star;
@@ -122,7 +123,10 @@ void explodeStar(star s) {
 
 void decrementTimer(star s) {
   while (s.timer != 0) {
-    timer--;
+    s.timestamp = millis();
+    if(millis() - s.timestamp > 1000) {
+    s.timer--;
+    }
   }
 }
 }
