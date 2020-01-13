@@ -22,20 +22,18 @@
    Revamp of changelayer and other minor bug fixes all over the code
 
    TODO V1.0:
-   Fix the not working parts of the code: 
-   - Alphabet (Viktor)
-   - clock (Viktor)
-   - Firework (Moritz)
-   - GOL/better random seeding (Joey)
-   - Stars (Moritz)
+   Fix the not working parts of the code:
+   - Stars (Joey)
    - Temperature Effects (Viktor)
-   - IR Control and Snake (Viktor)
 
 */
-#include "RTClib.h" // Real time clock library
+
 #include <SPI.h> // SPI Library used to clock data out to the shift registers
 #include "DHT.h" // Humidity and Temperature sensor library
 #include <IRremote.h>
+#include <Time.h> // used to generate different random patterns and not always the same
+#include <Wire.h>
+#include <DS1307RTC.h> // Uses Pin 20/21
 const int RECV_PIN = 7;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
@@ -48,18 +46,18 @@ decode_results results;
 #define DHTTYPE DHT11 // Humidity/temperature sensor model
 #define cathode_pin0 24 // Cathode Pin, to be tested!
 #define cathode_pin1 26 // Same as above!
-#define button 2 // Button to change mode, to be replaced by infrared!
 
+int snekDir = 0;
+boolean changedEffect = false;
+int lastIRResult = 0;
 int currentAmountOfShifters = 27;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
 int currentEffect = 0; // Integer value of the current effect in play
 unsigned long lastSignal = 0; // long value for last effect (still here until replaced by infrared)
-int currentAmountOfEffects = 1; // For the button, to be replaced
-int dispArray[6][12]; // Array containing all LEDs in one color
-int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
+unsigned long timeStamp;
 DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
-RTC_DS1307 rtc; // Real time clock variable
+
 
 void setup()
 {
@@ -72,95 +70,105 @@ void setup()
   pinMode(blank_pin, OUTPUT);//Output Enable  important to do this last, so LEDs do not flash on boot up
   pinMode(cathode_pin0, OUTPUT);
   pinMode(cathode_pin1, OUTPUT);
-  pinMode(button, INPUT);
-
-  attachInterrupt(digitalPinToInterrupt(button), blink, RISING);
 
   lastSignal = millis();
 
   digitalWrite(blank_pin, HIGH); //shut down the leds
   digitalWrite(latch_pin, LOW);  //shut down the leds
+  
 
-  // if (! rtc.begin()) {
-  // Serial.println("Couldn't find RTC");
-  // while (1);
-  // }
-  // if (! rtc.isrunning()) {
-  // Serial.println("RTC is NOT running!");
-  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //}
   irrecv.enableIRIn();
   irrecv.blink13(true);
+  timeStamp = millis();
+  welcomeAnimation();
 }
 
 void loop()
 {
-  Serial.println("Still going");
-  //welcomeAnimation();
-  //gameOfLifeAnimation();
-  test();
-  //firework();
-  //starAnimation();
-  //checkIRSensor();
   delay(1);
-}
-
-/**
-  To handle the interrupt of the button input.
-*/
-void blink() {
-  if (millis() - lastSignal > 200) {
-    lastSignal = millis();
-    currentEffect = (currentEffect + 1) % currentAmountOfEffects;
+  if (millis() - timeStamp > 10000) {  // sets the randomSeed depending on the current time to have a "true" random effect on every effect which random is used
+    randomSeed(RTC.get());
   }
+  checkIRSensor();
 }
 
 void changeEffect(int result) {
-    switch (result) {
-      case 0x97483BFB: //Keypad button "0"
-        Serial.println("Testeffect");
-        test();
-        break;
-      case 0xE318261B: //Keypad button "1"
-        Serial.println("Firework");
-        firework();
-        break;
-      case 0x511DBB: //Keypad button "2"
-        Serial.println("GOL");
-        gameOfLifeAnimation();
-        break;
-      case 0xEE886D7F:  //Keypad button "3"
-        Serial.println("Clock");
-        clockAnimation();
-        break;
-      case 0x52A3D41F: //Keypad button "4"
-        Serial.println("Stars");
-        starAnimation();
-        break;
-      case 0xD7E84B1B: //Keypad button "5"
-        Serial.println("Temperature effects");
-        tempSensorInfo();
-        break;
-      default:
-        Serial.println("Default");
-        break;
-    }
+  changedEffect = true;
+  switch (result) {
+    case 0x97483BFB: //Keypad button "0"
+      Serial.println("Testeffect");
+      test();
+      break;
+    case 0xE318261B: //Keypad button "1" -> not reacting quickly enough!
+      Serial.println("Firework");
+      firework();
+      break;
+    case 0x511DBB: //Keypad button "2"
+      Serial.println("GOL");
+      gameOfLifeAnimation();
+      break;
+    case 0xEE886D7F:  //Keypad button "3"
+      Serial.println("Clock");
+      clockAnimation();
+      break;
+    case 0x52A3D41F: //Keypad button "4"
+      Serial.println("Stars");
+      starAnimation();
+      break;
+    case 0xD7E84B1B: //Keypad button "5"
+      Serial.println("Temperature effects");
+      tempSensorInfo();
+      break;
+    case 0x20FE4DBB: //Keypad button "6"
+      Serial.println("Snake Game");
+      startSnake();
+      break;
+    case 0x8C22657B: // Keypad left
+      changedEffect = false;
+      snekDir = 1;
+      break;
+    case 0x449E79F: // Keypad right
+      changedEffect = false;
+      snekDir = 3;
+      break;
+    case 0x3D9AE3F7: // Keypad up
+      changedEffect = false;
+      snekDir = 2;
+      break;
+    case 0x1BC0157B: // Keypad down
+      changedEffect = false;
+      snekDir = 0;
+      break;
+    default:
+      Serial.println("Default");
+      break;
   }
+}
 
-  boolean checkIRSensor(){
-    if (millis() - lastSignal > 200) {
+/*  Other buttons:
+    Keypad button 7: F076C13B
+    Keypad button 8: A3C8EDDB
+    Keypad button 9: E5CFBD7F
+    Keypad button #: F0C41643
+    Keypad button *: C101E57B
+    Keypad button OK: 488F3CBB
+*/
+
+
+boolean checkIRSensor() {
+  if (irrecv.decode(&results)) {
+    if (millis() - lastSignal > 1000) {
       lastSignal = millis();
-      if (irrecv.decode(&results)){
+      lastIRResult = results.value;
+      if (!(0xFFFFFFFF == results.value)) {
+        Serial.println("Got a new signal!");
         Serial.println(results.value, HEX);
         changeEffect(results.value);
-        irrecv.resume(); // Receive the next value
+        irrecv.resume();
         return true;
       }
-    } else {
-      if (irrecv.decode(&results)){
-        //changeEffect(results.value);
-        irrecv.resume(); // Receive the next value
-        return false;
-      }
-      }
+    }
+    irrecv.resume(); // Receive the next value
+    return false;
   }
+}

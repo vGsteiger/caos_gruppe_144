@@ -14,17 +14,23 @@ void tempSensorInfo() {
   char bufferShort1[10];
   dtostrf(h, 5, 1, bufferShort1);
   strcat(bufferShort1, perc);
-  if(checkIRSensor()){
-        return;
+  if (checkIRSensor()) {
+    return;
   }
-  printLetters(bufferShort1);
+  //Serial.println(bufferShort1);
+  if (!printLetters(bufferShort1)) {
+    return;
+  }
   char bufferShort2[10];
   dtostrf(t, 5, 1, bufferShort2);
   strcat(bufferShort2, cel);
-  if(checkIRSensor()){
-        return;
+  if (checkIRSensor()) {
+    return;
   }
-  printLetters(bufferShort2);
+  //Serial.println(bufferShort2);
+  if (!printLetters(bufferShort2)) {
+    return;
+  }
   if (dht.readHumidity() > 100) {
     rainEffect(30000);
   } else if (dht.readTemperature() > 24) {
@@ -55,8 +61,8 @@ void rainEffect(int seconds) {
 void rainDropFall(int rainDrops0[][12], int rainDrops1[][12]) {
   setLed2DArraySingleColor(rainDrops0, 0, 0, 0, 1, 5, 12);
   setLed2DArraySingleColor(rainDrops1, 1, 0, 0, 1, 5, 12);
-  if(checkIRSensor()){
-      return;
+  if (checkIRSensor()) {
+    return;
   }
   shiftToShifter(1000);
   int tempArray[5][12];
@@ -98,8 +104,8 @@ void sun(int seconds) {
   for (int i = 0; i < seconds; i++) {
     setLed2DArraySingleColor(sunArray, 0, 1, 1, 0, 6, 12);
     setLed2DArraySingleColor(sunArray, 1, 1, 1, 0, 6, 12);
-    if(checkIRSensor()){
-        return;
+    if (checkIRSensor()) {
+      return;
     }
     shiftToShifter(1000);
     shiftSunToLeft(sunArray);
@@ -142,8 +148,8 @@ void clouds(int seconds) {
     }
     setLed2DArraySingleColor(cloudArray, 0, 1, 1, 1, 6, 12);
     setLed2DArraySingleColor(cloudArray, 1, 1, 1, 1, 6, 12);
-    if(checkIRSensor()){
-        return;
+    if (checkIRSensor()) {
+      return;
     }
     shiftToShifter(1000);
   }
