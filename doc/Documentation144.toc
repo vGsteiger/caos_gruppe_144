@@ -1,22 +1,23 @@
-\contentsline {section}{\numberline {1}Ziel des Projektes}{2}% 
+\contentsline {section}{\numberline {1}Einf\IeC {\"u}hrung}{2}% 
 \contentsline {section}{\numberline {2}Verwendete Materialien}{2}% 
 \contentsline {subsection}{\numberline {2.1}RGB LED's}{2}% 
 \contentsline {subsection}{\numberline {2.2}Schieberegister}{2}% 
 \contentsline {subsection}{\numberline {2.3}\leavevmode {\color {red}Transistoren}}{2}% 
 \contentsline {subsection}{\numberline {2.4}Sensoren}{2}% 
-\contentsline {section}{\numberline {3}Materialkosten}{3}% 
-\contentsline {section}{\numberline {4}Design}{3}% 
-\contentsline {section}{\numberline {5}Features}{3}% 
-\contentsline {subsection}{\numberline {5.1}Alphabet}{3}% 
-\contentsline {subsection}{\numberline {5.2}Stars}{3}% 
-\contentsline {subsection}{\numberline {5.3}Firework}{4}% 
-\contentsline {subsection}{\numberline {5.4}Welcome}{4}% 
-\contentsline {subsection}{\numberline {5.5}Game of Life}{4}% 
-\contentsline {section}{\numberline {6}Sensoren}{4}% 
-\contentsline {subsubsection}{\numberline {6.0.1}Temperatur- und Luftfeuchtigkeitssensor}{4}% 
-\contentsline {subsubsection}{\numberline {6.0.2}Infrarot-sensor}{4}% 
-\contentsline {section}{\numberline {7}Aufbau des zweidimensionalen Bildschirmes}{5}% 
-\contentsline {subsection}{\numberline {7.1}Bildschirm}{5}% 
-\contentsline {subsection}{\numberline {7.2}Schieberegister}{5}% 
-\contentsline {subsection}{\numberline {7.3}Probleme beim Aufbau}{5}% 
-\contentsline {section}{\numberline {8}Zusammenfassung}{5}% 
+\contentsline {section}{\numberline {3}Hintergrund}{3}% 
+\contentsline {section}{\numberline {4}Implementation}{3}% 
+\contentsline {subsection}{\numberline {4.1}Alphabet}{3}% 
+\contentsline {subsection}{\numberline {4.2}Stars}{4}% 
+\contentsline {subsection}{\numberline {4.3}Firework}{4}% 
+\contentsline {subsection}{\numberline {4.4}Welcome}{4}% 
+\contentsline {subsection}{\numberline {4.5}Game of Life}{4}% 
+\contentsline {subsection}{\numberline {4.6}Snake}{4}% 
+\contentsline {section}{\numberline {5}Sensoren}{4}% 
+\contentsline {subsubsection}{\numberline {5.0.1}Temperatur- und Luftfeuchtigkeitssensor}{4}% 
+\contentsline {subsubsection}{\numberline {5.0.2}Infrarot-sensor}{5}% 
+\contentsline {section}{\numberline {6}Aufbau des zweidimensionalen Bildschirmes}{5}% 
+\contentsline {subsection}{\numberline {6.1}Bildschirm}{5}% 
+\contentsline {subsection}{\numberline {6.2}Schieberegister}{5}% 
+\contentsline {subsection}{\numberline {6.3}Probleme beim Aufbau}{5}% 
+\contentsline {section}{\numberline {7}Ergebnisse}{6}% 
+\contentsline {section}{\numberline {8}Zusammenfassung}{7}% 

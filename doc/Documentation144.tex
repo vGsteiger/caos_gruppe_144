@@ -53,7 +53,8 @@ Um den LED-Quader ein wenig bunter gestalten zu können wurden RGB's verwendet.:
 
 Schieberegister erweisen sich für ein solches Projekt als äusserst nützlich, um die vielen Pins der einzelnen RGB LED's ansprechen zu können. \\
 
-Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 8-bit Schieberegister entschieden. Diese erweisen sich in der Programmierung als intuitiv, weil man einfach mit Byte-Arrays arbeiten kann, um die einzelnen Schieberegister mit Informationen zu "befüllen". Weiter existieren für diese Schieberegister vorgefertigte Libraries, um die Kommunikation zu erleichtern. Dies nimmt einen nicht die Denkarbeit ab, wie man die LED's anordnen will und wie man die verschiedenen Farben anspricht, jedoch erleichtert es die direkte Kommunikation.
+Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 8-bit Schieberegister entschieden. Diese erweisen sich in der Programmierung als intuitiv, weil man einfach mit Byte-Arrays arbeiten kann, um die einzelnen Schieberegister mit Informationen zu "befüllen". Weiter existieren für diese Schieberegister vorgefertigte Libraries, um die Kommunikation zu erleichtern.
+Dies nimmt einen nicht die Denkarbeit ab, wie man die LED's anordnen will und wie man die verschiedenen Farben anspricht, jedoch erleichtert es die direkte Kommunikation.
 
 \subsection{\textcolor{red}{Transistoren}}
 
@@ -66,52 +67,66 @@ Für das Projekt wurden zusätzlich Sensoren verwendet, um weitere Features zu g
 
 Folgende Sensoren stehen zur Auswahl:
 \begin{itemize}
-    \item Temperatur und Luftfeuchtigkeitssensor:
-    \item Infrarot-Sensor:
-    \item Real-time clock:
+    \item Temperatur und Luftfeuchtigkeitssensor
+    \item Infrarot-Sensor
+    \item Real-time clock
 \end{itemize}
 
-\section{Materialkosten}
-
-\begin{tabularx}{\textwidth}{p{0.25\textwidth} | l | l | l | r |}
-    \textbf{Produkt} & \textbf{Menge} & \textbf{Preis} & \textbf{Total} \\
-    % Viktor's Ausgaben:
-    \cline{1-4}
-    RGB LED's & 250x & 0.072.- & 18.- \\
-    \cline{1-4}
-    Kabel (verschiedene) & 15m & 0.83.- & 12.50 \\
-    \cline{1-4}
-    Wiederstände & 440x & 0.036.- & 16.- \\
-    \cline{1-4}
-    74hc595 & 57x & 0.50.- & 30.- \\   
-    \cline{1-4}
-    Sensoren (verschiedene) & 3x & 3.30.- & 10.- \\
-    \cline{1-4}
-    Lochrasterplatine (verschiedene) & 2x & 6.00.- & 12.- \\
-    	% Total Viktor: 98.5.-
-    \cline{1-4}
-    Kupferdraht (Blau) & 2 Rollen & 6.80.- & 13.60.- \\
-    \cline{1-4}
-    Isolierband & 1 Rolle & 1.80.- & 1.80.- \\
-    \cline{1-4}
-    &&&\textbf{113.90.-}
+%\section{Materialkosten}
+%
+%\begin{tabularx}{\textwidth}{p{0.25\textwidth} | l | l | l | r |}
+%    \textbf{Produkt} & \textbf{Menge} & \textbf{Preis} & \textbf{Total} \\
+%    % Viktor's Ausgaben:
+%    \cline{1-4}
+%    RGB LED's & 250x & 0.072.- & 18.- \\
+%    \cline{1-4}
+%    Kabel (verschiedene) & 15m & 0.83.- & 12.50 \\
+%    \cline{1-4}
+%    Wiederstände & 440x & 0.036.- & 16.- \\
+%    \cline{1-4}
+%    74hc595 & 57x & 0.50.- & 30.- \\   
+%    \cline{1-4}
+%    Sensoren (verschiedene) & 3x & 3.30.- & 10.- \\
+%    \cline{1-4}
+%    Lochrasterplatine (verschiedene) & 2x & 6.00.- & 12.- \\
+%    	% Total Viktor: 98.5.-
+%    \cline{1-4}
+%    Kupferdraht (Blau) & 2 Rollen & 6.80.- & 13.60.- \\
+%    \cline{1-4}
+%    Isolierband & 1 Rolle & 1.80.- & 1.80.- \\
+%    \cline{1-4}
+%    &&&\textbf{113.90.-}
 	% Joey's Ausgaben: 20.0.-
 	% Moritz's Ausgaben: 40.0.-
     
-\end{tabularx}
+%\end{tabularx}
 
-\section{Design}
+\section{Hintergrund}
 
-Wir haben uns überlegt eine kleine Box zu bauen, welcher die ganze Verkabelung in einem
-kleinen Raum im hinteren Bereich von dieser Box zu verstecken, damit es schöner aussieht.
-Wir haben uns für das Material Holz entschieden und werden die ganze Box schwarz färben,
-da dann der Effekt der RGB LED's entsprechend besser zur Geltung kommen.
-Wir haben schon einige Projekte gesehen, welche einen LED RGB Cube gebaut haben, bei denen auch eine 
-Art Box gebaut wurde und wir fanden diese Idee gut, sodass wir uns für unser Projekt danach orientierten.
+Nachdem wir viele Projekte im Internet gefunden haben, welche unserem Projekt sehr nahe kommen, 
+hat dies bei uns die Motivation erweckt, ebenfalls ein ähnliches Projekt zu machen.
+Wir haben uns sehr intensiv in einem vorhandenen \textcolor{blue}{online Protokoll}\footnote{https://www.instructables.com/id/Arduino-Mega-8x8x8-RGB-LED-Cube/} bezüglich dem Bauen eines 
+8x8x8 Quaders eingelesen, um Informationen zu sammeln, wie man das auf unser Projekt anweden könnte,
+was für den Start unseres Projektes sehr hilfreich war. \\
+Wir haben uns auch überlegt eine Box zu bauen, welche die ganze Lötarbeit in einem Raum verstaucht, um das ganze optisch ein wenig
+angenehmer zu gestalten. Die verwendete Plexiglasscheibe ist mit Absicht durchsichtig, sodass man trotzdem noch
+die damit verbundene Arbeit ansehen kann.
+
+
 
 
 
 \section{Implementation}
+
+Wie schon bereits erwähnt, haben wir uns nach schon bereits existierenden Projekten von RGB LED Cubes orientiert und konnten
+auch anhand der vorhandenen Codes herausfinden, wie wir das Softwareseitig für unser Projekt am besten lösen können.
+Für uns war das eine sehr grosse Hilfe, um dem Code eine gewisse Grundstruktur geben zu können. \\
+Damit wir dem Code einen besseren Überblick verschaffen konnten und damit sich auch alle Gruppenmitglieder besser mit dem Code
+auseinander setzen können haben wir den Code so unterteilt, dass die verschiedenen Bereiche wie Logik, Features und 
+main separiert sind. \\\\
+Unser verwendetes Konzept erlaubt es auch aussenstehenden Personen, welche am Projekt nicht teilgenommen haben und mit dem Code nicht sehr
+vertraut sind ein eigenes Feature leicht zu implementieren und das Projekt zu erweitern. \\\\
+Im Folgenden werden verschiedene von uns implementierten Feautes kurz erläutert.
 
 \subsection{Alphabet}
 
@@ -138,6 +153,16 @@ Der Willkommens Effekt ist ein sehr einfacher Effekt, welcher einfach mit der Me
 \subsection{Game of Life}
 
 Der Game of Life Effekt ist eine repräsentation des berühmten Game of Life des britischen Mathematikers John Horton Conway. Dabei kommen  zufällig Zellen zum Leben und sterben beziehungsweise pflanzen sich nach bestimmten Regeln fort. Dabei können sie auch über den Bildschirmrand einen Effekt haben und zählen dann zu den Nachbaren auf der anderen Seite. Für mehr Informationen empfielt es sich, den Wikipedia Artikel zum Game of Life zu lesen.
+§
+\subsection{Snake}
+
+Hierbei geht es um das klassische Snake Spiel, welches die meisten sicherlich schon kennen.
+Man spielt eine Schlange (Snake), welche man in vier Richtungen mittels einer Infarot-Fernbedienung steuern kann.
+Ziel ist es die verschiedenen "Pixel" (grün leuchtender RGB LED) zu erreichen, um damit die Schlange zu vergrössern.
+Da die Implementation einige Probleme mit sich brachte, das Spiel so zu implementieren wie es eigentlich funktioniert, kann
+man bei unserem Snake spiel sich selbst durchdringen. Das Spiel wird dadurch logischerweise etwas einfach, aber es ist trotzdem lustig
+das Spiel mal auf eine andere Weise zu spielen.
+Sollte man sich in die in die Wand (Rand) bewegen, dann ist das Spiel vorbei und man muss von vorne beginnen.
 
 \section{Sensoren}
 
@@ -170,6 +195,31 @@ zuerst mit einer zu kleinen und einzelnen Platine gearbeitet haben.
 Dies hatte zur Folge, dass die Lötarbeit schnell unübersichtlich und ungenau wurde.
 Auch war es so extrem schwer, die Lötstellen sauber zu verlöten. Wir haben uns nach einigem herumprobieren dafür entschieden, von einer auf zwei Platinen umzusteigen, was die Arbeit massiv vereinfacht hat.
 
+\newpage
+\section{Ergebnisse}
+
+Im Folgenden ist der Prozess von unserem Projekt veranschaulicht: \\\\
+
+Damit wir sichergehen konnten, dass alle gekauften Materialien in einem guten Zustand sind, haben wir diese erstmal 
+getestet. Es wäre mühsam gewesen ein Schieberegister oder RGB LED nach Fertigstellung des Projektes auszutauschen: \\\\
+\includegraphics[width=0.45\textwidth]{CAOSProject3.jpg}
+\includegraphics[width=0.45\textwidth]{CAOSProject5.jpg} \\
+
+Wie bereits erwähnt haben wir uns am Anfang dazu entschieden eine Platine für all unsere Schieberegister zu verwenden 
+und haben dann im Verlaufe des Projektes bemerkt, dass das am Schluss sehr viel Aufwand mit sich bringt alle Kabel gut
+auseinanderhalten zu können: \\\\
+\includegraphics[width=0.45\textwidth]{CAOSProject7.jpg}
+\includegraphics[width=0.45\textwidth]{CAOSProject8.jpg} \\\\
+\newpage
+
+Danach haben wir zwei Platinen verwendet, wodurch das Arbeiten um einiges erleichtert wurde: \\\\
+\includegraphics[width=0.45\textwidth]{CAOSProject9.jpg} \\\\
+
+Am Schluss haben wir noch wie bereits erwähnt eine Verschalung aus Plexiglas (durchsichtig) gebaut, 
+damit das ganze optisch besser aussieht: \\\\
+\includegraphics[width=0.45\textwidth]{Endprod2.jpg}
+
+
 \section{Zusammenfassung}
 
 Da wir uns innerhalb der Gruppe schon sehr gut kennen und auch schon öfters zusammen gearbeitet haben, sei es in einem Projekt oder 
@@ -188,7 +238,8 @@ der verschiedenen Themen der Vorlesung mit der Projektarbeit zu vertiefen.
 \textbf{Quellen}:
 
 \begin{itemize}
-    \item 
+    \item https://www.instructables.com/id/Arduino-Mega-8x8x8-RGB-LED-Cube/
+    \item https://github.com/vGsteiger/caos\_gruppe\_144
 \end{itemize}
 
 

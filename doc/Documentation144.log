@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.3)  13 JAN 2020 14:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.3)  15 JAN 2020 19:57
 entering extended mode
 **"c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/Documentation144.tex"
 ("c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/Documentation144.tex"
@@ -292,43 +292,129 @@ Underfull \hbox (badness 10000) in paragraph at lines 54--55
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 101--101
-[]|\OT1/cmr/m/n/12 Sensoren (ver-
+Underfull \hbox (badness 10000) in paragraph at lines 121--130
+
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 101--101
-[][][][][]
+Underfull \hbox (badness 10000) in paragraph at lines 121--130
+
  []
 
 [3]
-Overfull \hbox (1.91539pt too wide) in paragraph at lines 130--131
+Overfull \hbox (1.91539pt too wide) in paragraph at lines 145--146
 []\OT1/cmr/m/n/12 Der Feuer-w-erk Ef-fekt funk-tion-iert ahnlich wie der Sternen-Effekt, je-doch fliegen hier die Raketen
  []
 
 [4]
-Overfull \hbox (12.52914pt too wide) in paragraph at lines 167--172
+Overfull \hbox (12.52914pt too wide) in paragraph at lines 192--197
 []\OT1/cmr/m/n/12 Durch die anspruchsvolle Steuerung von 216 einzel-nen Pins kommt es naturlich zu Schwierigkeiten.
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 175--184
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
 
  []
 
-[5] [6] ("c:\Users\archi\OneDrive\Unibas\3. Semester\CAOS\Projekt\caos_gruppe_144\doc\Documentation144.aux") ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+
+ []
+
+<CAOSProject3.jpg, id=26, 4047.12pt x 3035.34pt>
+File: CAOSProject3.jpg Graphic file (type jpg)
+<use CAOSProject3.jpg>
+Package pdftex.def Info: CAOSProject3.jpg  used on input line 205.
+(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
+<CAOSProject5.jpg, id=27, 4047.12pt x 3035.34pt>
+File: CAOSProject5.jpg Graphic file (type jpg)
+<use CAOSProject5.jpg>
+Package pdftex.def Info: CAOSProject5.jpg  used on input line 206.
+(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 203--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 203--207
+
+ []
+
+<CAOSProject7.jpg, id=28, 4047.12pt x 3035.34pt>
+File: CAOSProject7.jpg Graphic file (type jpg)
+<use CAOSProject7.jpg>
+Package pdftex.def Info: CAOSProject7.jpg  used on input line 211.
+(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
+<CAOSProject8.jpg, id=29, 4047.12pt x 3035.34pt>
+File: CAOSProject8.jpg Graphic file (type jpg)
+<use CAOSProject8.jpg>
+Package pdftex.def Info: CAOSProject8.jpg  used on input line 212.
+(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 208--213
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 208--213
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 208--213
+
+ []
+
+[6 <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject3.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject5.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject7.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject8.jpg>]
+<CAOSProject9.jpg, id=34, 4047.12pt x 3035.34pt>
+File: CAOSProject9.jpg Graphic file (type jpg)
+<use CAOSProject9.jpg>
+Package pdftex.def Info: CAOSProject9.jpg  used on input line 216.
+(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--217
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--217
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--217
+
+ []
+
+<Endprod2.jpg, id=35, 2023.56pt x 1138.2525pt>
+File: Endprod2.jpg Graphic file (type jpg)
+<use Endprod2.jpg>
+Package pdftex.def Info: Endprod2.jpg  used on input line 220.
+(pdftex.def)             Requested size: 216.84248pt x 121.96028pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 218--221
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--234
+
+ []
+
+[7 <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject9.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/Endprod2.jpg>] [8] ("c:\Users\archi\OneDrive\Unibas\3. Semester\CAOS\Projekt\caos_gruppe_144\doc\Documentation144.aux") ) 
 Here is how much of TeX's memory you used:
- 4342 strings out of 492895
- 63477 string characters out of 3123736
- 143683 words of memory out of 3000000
- 8194 multiletter control sequences out of 15000+200000
- 12710 words of font info for 49 fonts, out of 3000000 for 9000
+ 4380 strings out of 492895
+ 64134 string characters out of 3123736
+ 140683 words of memory out of 3000000
+ 8223 multiletter control sequences out of 15000+200000
+ 13355 words of font info for 52 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,35p,759b,217s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on "c:\Users\archi\OneDrive\Unibas\3. Semester\CAOS\Projekt\caos_gruppe_144\doc\Documentation144.pdf" (7 pages, 61245 bytes).
+ 41i,8n,35p,759b,217s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on "c:\Users\archi\OneDrive\Unibas\3. Semester\CAOS\Projekt\caos_gruppe_144\doc\Documentation144.pdf" (9 pages, 20527968 bytes).
 PDF statistics:
- 38 PDF objects out of 1000 (max. 8388607)
+ 62 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
