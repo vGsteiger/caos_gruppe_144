@@ -141,6 +141,7 @@ void changeEffect(int result) {
       snekDir = 0;
       break;
     default:
+      changedEffect = false;
       Serial.println("Default");
       break;
   }
