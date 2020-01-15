@@ -17,22 +17,22 @@ void tempSensorInfo() {
   if (checkIRSensor()) {
     return;
   }
-  if (!printLetters(bufferShort1)) {
-    return;
-  }
+  //if (!printLetters(bufferShort1)) {
+  //  return;
+  //}
   char bufferShort2[18];
   dtostrf(t, 5, 1, bufferShort2);
   strcat(bufferShort2, cel);
   if (checkIRSensor()) {
     return;
   }
-  if (!printLetters(bufferShort2)) {
-    return;
-  }
+  //if (!printLetters(bufferShort2)) {
+  //  return;
+  //}
   if (dht.readHumidity() > 60) {
     rainEffect(30000);
   } else if (dht.readTemperature() > 24) {
-    rainEffect(30000);
+    sun(30000);
   } else {
     clouds(30000);
   }
@@ -57,12 +57,13 @@ void rainDropFall() {
     return;
   }
   shiftToShifter(1000);
+  clearRainTmpArray();
   for (int y = 4; y >= 0; y--) {
     for (int x = 0; x < 12; x++) {
       if (rainDrops[y][x] == 1) {
-        rainTempArray[y][x] == 0;
-        if (y - 1 > 0) {
-          rainTempArray[y - 1][x] == 1;
+        if (y - 1 >= 0) {
+          Serial.println("Writing into array");
+          rainTempArray[y - 1][x] = 1;
         }
       }
     }
@@ -92,7 +93,6 @@ void clearRainTmpArray() {
 }
 
 void sun(int seconds) {
-  int sunArray[6][12];
   sunArray[1][9] = 1;
   sunArray[1][10] = 1;
   for (int i = 8; i < 12; i++) {
@@ -112,16 +112,11 @@ void sun(int seconds) {
   }
 }
 
-void shiftSunToLeft(int sunArray[][12]) {
-  int tempArray[6][12];
-  for (int l = 0; l < 6; l++) {
+void shiftSunToLeft() {
+  int sunTempArray[6][12];
+  for (int l = 0; l < 5; l++) {
     for (int p = 0; p < 12; p++) {
-      tempArray[l][p] = 0;
-    }
-  }
-  for (int l = 0; l < 6; l++) {
-    for (int p = 0; p < 12; p++) {
-      tempArray[l][p] = 0;
+      sunTempArray[l][p] = 0;
     }
   }
   for (int y = 0; y < 6; y++) {
@@ -137,6 +132,13 @@ void shiftSunToLeft(int sunArray[][12]) {
       sunArray[yy][xx] = tempArray[yy][xx];
     }
   }
+  for (int y = 0; y < 6; y++) {
+    for (int x = 0; x < 12; x++) {
+      Serial.print(sunArray[y][x]);
+    }
+    Serial.println();
+  }
+  Serial.println();
 }
 
 void clouds(int seconds) {
