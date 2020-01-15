@@ -78,7 +78,7 @@ void setup()
   irrecv.enableIRIn();
   irrecv.blink13(true);
   timeStamp = millis();
-  //welcomeAnimation();
+  welcomeAnimation();
 }
 
 void loop()
