@@ -9,6 +9,7 @@ typedef struct star {
   int y;
   int direct; // 1 = from left to right, -1 = from right to left
   starColor color;
+  unsigned long timestamp;
   int timer;
   int layer;
 } star;
@@ -36,8 +37,9 @@ struct star createStar(int layer) {
     s.x = 0;
   } else {
     s.direct = -1;
-    s.y = 11;
+    s.x = 11;
   }
+  decrementTimer(s);
 }
 
 void starAnimation() {
@@ -117,4 +119,13 @@ void explodeStar(star s) {
   setLedOn(s.x + 1, s.y + 1, c.r, c.g, c.b, s.layer);
   setLedOn(s.x + 1, s.y - 1, c.r, c.g, c.b, s.layer);
   setLedOn(s.x - 1, s.y + 1, c.r, c.g, c.b, s.layer);
+}
+
+void decrementTimer(star s) {
+  while (s.timer != 0) {
+    s.timestamp = millis();
+    if(millis() - s.timestamp > 1000) {
+    s.timer--;
+    }
+  }
 }
