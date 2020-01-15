@@ -19,6 +19,7 @@ struct dir d;
 struct snek s;
 int snekArray[6][12];
 bool gameOver = false;
+int timer = 0;
 
 /*
    Method to initiate the snake game with all its parameters
@@ -37,13 +38,13 @@ void init_snek() {
         d.x = 0;
         d.y = -1;
         s.snekBody[i][0] = initPosX;
-        initPosY = initPosY - 1;
+        initPosY = initPosY + 1;
         s.snekBody[i][1] = initPosY;
         break;
       case 1:
         d.x = -1;
         d.y = 0;
-        initPosX = initPosX - 1;
+        initPosX = initPosX + 1;
         s.snekBody[i][0] = initPosX;
         s.snekBody[i][1] = initPosY;
         break;
@@ -51,13 +52,13 @@ void init_snek() {
         d.x = 0;
         d.y = 1;
         s.snekBody[i][0] = initPosX;
-        initPosY = initPosY + 1;
+        initPosY = initPosY - 1;
         s.snekBody[i][1] = initPosY;
         break;
       case 3:
         d.x = 1;
         d.y = 0;
-        initPosX = initPosX + 1;
+        initPosX = initPosX - 1;
         s.snekBody[i][0] = initPosX;
         s.snekBody[i][1] = initPosY;
         break;
@@ -71,26 +72,18 @@ void init_game() {
   f.y = random(6);
 }
 
-void render() {
-  setLedOn(f.x, f.y, 0, 1, 0, 0);
+boolean render() {
+  if (checkIRSensor()) {
+    return false;
+  }
   clearSnekArray();
   for (int i = 0; i < s.snekLength; i++) {
     snekArray[s.snekBody[i][1]][s.snekBody[i][0]] = 1;
   }
   setLed2DArraySingleColor(snekArray, 0, 1, 0, 0, 6, 12);
-  shiftToShifter(10000);
-  //Serial.println("Current snake array:");
-  //for (int y = 0; y < 6; y++) {
-  //  for (int x = 0; x < 12; x++) {
-  //    if (f.x == x && f.y == y) {
-  //      Serial.print("x");
-  //    } else {
-  //      Serial.print(snekArray[y][x]);
-  //    }
-  //  }
-  //  Serial.println();
-  //}
-  //Serial.println();
+  setLedOn(f.x, f.y, 0, 1, 0, 0);
+  shiftToShifter(3000);
+  return true;
 }
 
 void clearSnekArray() {
@@ -106,6 +99,7 @@ void clearSnekArray() {
    returns true if the game is over
 */
 bool advance() {
+  Serial.println("advancing one");
   int head[2] = {s.snekBody[0][0], s.snekBody[0][1]};
   if (head[0] < 0 || head[0] >= 12 || head[1] < 0 || head[1] >= 6) {
     showGameOverMessage();
@@ -125,19 +119,17 @@ bool advance() {
   }
   s.snekBody[0][0] += d.x;
   s.snekBody[0][1] += d.y;
-  return false;
-}
-
-/*
-   Method to be called each time a new game starts
-*/
-boolean setupSnake() {
-  //Serial.println("Setting up snake!");
-  init_game();
-  render();
-  while (snekGame()) {
+  if (s.snekBody[0][0] < 0 || s.snekBody[0][0] >= 12 || s.snekBody[0][1] < 0 || s.snekBody[0][1] >= 6) {
+    showGameOverMessage();
+    return true;
   }
-  return true;
+  for (int i = 1; i < s.snekLength; i++) {
+    if (s.snekBody[i][0] == s.snekBody[0][0] && s.snekBody[i][1] == s.snekBody[0][1]) {
+      showGameOverMessage();
+      return true;
+    }
+  }
+  return false;
 }
 
 /*
@@ -145,13 +137,23 @@ boolean setupSnake() {
 */
 boolean snekGame() {
   if (!gameOver) {
+    Serial.println("Not yet game over");
     gameOver = advance();
-    render();
+    if (!render()) {
+      Serial.println("render returned false");
+      return false;
+    }
   } else {
-    //Serial.println("Restarting after loosing!");
+    Serial.println("Restarting after loosing!");
     restart();
   }
-  return readControls();
+  if (readControls()) {
+    Serial.println("Controls gave true back");
+    return true;
+  } else {
+    Serial.println("Controls gave false back");
+    return false;
+  }
 }
 
 /*
@@ -166,6 +168,7 @@ void restart() {
    Method to read the current controls  (TO BE TESTED)
 */
 boolean readControls() {
+  Serial.println("Reading controls:");
   if (checkIRSensor()) {
     if (!changedEffect) {
       switch (snekDir) {
@@ -211,8 +214,20 @@ void showGameOverMessage() {
    Method to start the snake animation, calls setupSnake
 */
 void startSnake() {
-  //Serial.println("Started snake!");
-  if (setupSnake()) {
+  changedEffect = false;
+  timer = 0;
+  Serial.println("Started snake!");
+  Serial.println("Setting up snake!");
+  init_game();
+  Serial.println("Snake set up");
+  if (!render()) {
+    Serial.println("render returned false");
     return;
   }
+  while (snekGame()) {
+    timer++;
+    Serial.print("Run for x times: ");
+    Serial.println(timer);
+  }
+  return;
 }
