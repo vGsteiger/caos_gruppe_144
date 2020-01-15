@@ -10,24 +10,24 @@ typedef struct star {
   int direct; // 1 = from left to right, -1 = from right to left
   starColor color;
   int timer;
-} star;
+} oneStar;
 
-star starArray0[6];
+oneStar starArray0[6];
 
 /*
    Star animation which randomly spawns stars on the left and right and explodes them if they touch.
 */
 
 struct star createStar() {
-  star s;
-  s.y = random(6);
+  oneStar s;
+  s.y = random(0,6);
   starColor c;
-  c.r = random(2);
-  c.g = random(2);
-  c.b = random(2);
+  c.r = random(0,2);
+  c.g = random(0,2);
+  c.b = random(0,2);
   s.color = c;
-  s.timer = random(8);
-  int ran = random(100);
+  s.timer = random(0,10);
+  int ran = random(0,100);
   if (ran < 50) {
     s.direct = 1;
     s.x = 0;
@@ -35,6 +35,7 @@ struct star createStar() {
     s.direct = -1;
     s.x = 11;
   }
+  return s;
 }
 
 void starAnimation() {
@@ -51,7 +52,7 @@ void starAnimation() {
       Serial.println(starArray0[i].x);
       Serial.print("Star has coord y: ");
       Serial.println(starArray0[i].y);
-      runStar(starArray0[i], i);
+      runStar(i);
       if (checkIRSensor()) {
         return;
       }
@@ -60,36 +61,36 @@ void starAnimation() {
   }
 }
 
-void runStar(star s, int index) {
-  if (s.timer == 0) {
-    setLedOn(s.x, s.y, s.color.r, s.color.g, s.color.b, 0);
-    areSameCoordinates(s, index);
-    if (s.direct == 1) {
-      s.x++;
-      if (s.x > 11) {
+void runStar(int index) {
+  if (starArray0[index].timer == 0) {
+    setLedOn(starArray0[index].x, starArray0[index].y, starArray0[index].color.r, starArray0[index].color.g, starArray0[index].color.b, 0);
+    areSameCoordinates(index);
+    if (starArray0[index].direct == 1) {
+      starArray0[index].x++;
+      if (starArray0[index].x > 11) {
         starArray0[index] = createStar();
       }
     } else {
-      s.x--;
-      if (s.x < 0) {
+      starArray0[index].x--;
+      if (starArray0[index].x < 0) {
         starArray0[index] = createStar();
       }
     }
   } else {
-    s.timer--;
+    starArray0[index].timer--;
     Serial.print("Star timer is: ");
     Serial.println(starArray0[index].timer);
   }
 }
 
-void areSameCoordinates(star s, int index) {
+void areSameCoordinates(int index) {
   for (int r = 0; r < 6; r++) {
     if (r == index) {
       continue;
     } else {
       star other = starArray0[r];
-      if (other.x == s.x && other.y == s.x) {
-        explodeStar(s);
+      if (other.x == starArray0[index].x && other.y == starArray0[index].y && other.x != 0 && other.x != 11) {
+        explodeStar(starArray0[index]);
         explodeStar(other);
         starArray0[r] = createStar();
         starArray0[index] = createStar();
