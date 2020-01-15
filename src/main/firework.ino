@@ -21,6 +21,7 @@ void firework() {
     rocketArray[i] = spawnRocket(0);
   }
   while (true) {
+    Serial.println("Rocket Running.");
     for (int i = 0; i < 6; i++) {
       int currHeight = rocketArray[i].maxHeight;
       for (int t = 0; t <= currHeight; t++) {
