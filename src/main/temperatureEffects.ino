@@ -30,11 +30,11 @@ void tempSensorInfo() {
   //  return;
   //}
   if (dht.readHumidity() > 60) {
-    rainEffect(30000);
+    rainEffect(1000);
   } else if (dht.readTemperature() > 24) {
-    sun(30000);
+    sun(1000);
   } else {
-    clouds(30000);
+    clouds(1000);
   }
 }
 
@@ -105,10 +105,15 @@ void sun(int seconds) {
   for (int i = 0; i < seconds; i++) {
     setLed2DArraySingleColor(sunArray, 0, 1, 1, 0, 6, 12);
     if (checkIRSensor()) {
+      for (int l = 0; l < 5; l++) {
+        for (int p = 0; p < 12; p++) {
+          sunArray[l][p] = 0;
+        }
+      }
       return;
     }
     shiftToShifter(1000);
-    shiftSunToLeft(sunArray);
+    shiftSunToLeft();
   }
 }
 
@@ -121,15 +126,22 @@ void shiftSunToLeft() {
   }
   for (int y = 0; y < 6; y++) {
     for (int x = 0; x < 12; x++) {
-      if (x - 1 == -1) {
-        x = 11;
+      if (sunArray[y][x] == 1) {
+        if (x - 1 < 0) {
+          x = 11;
+        }
+        sunTempArray[y][x - 1] = 1;
       }
-      tempArray[y][x - 1] = sunArray[y][x];
+    }
+  }
+  for (int l = 0; l < 5; l++) {
+    for (int p = 0; p < 12; p++) {
+      sunArray[l][p] = 0;
     }
   }
   for (int yy = 0; yy < 6; yy++) {
     for (int xx = 0; xx < 12; xx++) {
-      sunArray[yy][xx] = tempArray[yy][xx];
+      sunArray[yy][xx] = sunTempArray[yy][xx];
     }
   }
   for (int y = 0; y < 6; y++) {
