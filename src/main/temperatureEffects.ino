@@ -17,21 +17,21 @@ void tempSensorInfo() {
   if (checkIRSensor()) {
     return;
   }
-  //if (!printLetters(bufferShort1)) {
-  //  return;
-  //}
+  if (!printLetters(bufferShort1)) {
+    return;
+  }
   char bufferShort2[18];
   dtostrf(t, 5, 1, bufferShort2);
   strcat(bufferShort2, cel);
   if (checkIRSensor()) {
     return;
   }
-  //if (!printLetters(bufferShort2)) {
-  //  return;
-  //}
-  if (dht.readHumidity() > 60) {
+  if (!printLetters(bufferShort2)) {
+    return;
+  }
+  if (dht.readHumidity() > 20) {
     rainEffect(1000);
-  } else if (dht.readTemperature() > 24) {
+  } else if (dht.readTemperature() > 26) {
     sun(1000);
   } else {
     clouds(1000);

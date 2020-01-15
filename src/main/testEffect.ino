@@ -2,6 +2,8 @@
 void test()
 {
   Serial.println("Testeffect runs!");
+  char uniMsg[14] = "Uni Basel";
+  printLetters(uniMsg);
   char welcomeMsg[38] = "abcdefghijklmnopqrstuvwxyz0123456789";
 
   if (checkIRSensor()) {
