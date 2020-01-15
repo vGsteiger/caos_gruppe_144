@@ -9,6 +9,7 @@ int dispArray[6][12]; // Array containing all LEDs in one color
 int letterBuffer[6][4]; // Letterbuffer for the Letters next to be loaded
 
 boolean printLetters(char letters[]) {
+  clearDispArray();
   letters = strlwr(letters);
   for (int i = 0; i < strlen(letters); i++) {
     clearLetterBuffer();
@@ -141,18 +142,18 @@ boolean printLetters(char letters[]) {
         break;
     }
     if (i == strlen(letters)) {
-      m = 14;
+      m = 50;
     } else {
-      m = 4;
+      m = 5;
     }
     for (int s = 0; s < m; s++) {
-      setLed2DArraySingleColor(dispArray, 0, 1, 0, 0, 6, 12);
+      setLed2DArraySingleColor(dispArray, 0, 1, 1, 1, 6, 12);
       shiftGlobalArrayLeft();
 
       if (checkIRSensor()) {
         return false;
       }
-      shiftToShifter(1000);
+      shiftToShifter(600);
     }
   }
   return true;
@@ -280,7 +281,7 @@ void loadE() {
     letterBuffer[l][0] = 1;
   }
   letterBuffer[0][1] = 1;
-  letterBuffer[2][1] = 1;
+  letterBuffer[3][2] = 1;
   letterBuffer[3][1] = 1;
   letterBuffer[5][1] = 1;
   letterBuffer[0][2] = 1;
@@ -291,7 +292,7 @@ void loadF() {
   for (int l = 0; l < 6; l++) {
     letterBuffer[l][0] = 1;
   }
-  letterBuffer[2][1] = 1;
+  letterBuffer[3][1] = 1;
   letterBuffer[3][1] = 1;
   letterBuffer[5][1] = 1;
   letterBuffer[5][2] = 1;
@@ -441,7 +442,7 @@ void loadU() {
     letterBuffer[l][0] = 1;
     letterBuffer[l][2] = 1;
   }
-  letterBuffer[0][2] = 1;
+  letterBuffer[0][1] = 1;
 }
 
 void loadV() {
@@ -449,7 +450,7 @@ void loadV() {
     letterBuffer[l][0] = 1;
     letterBuffer[l][2] = 1;
   }
-  letterBuffer[0][2] = 1;
+  letterBuffer[0][1] = 1;
 }
 
 void loadW() {
@@ -596,13 +597,14 @@ void load7() {
   letterBuffer[5][2] = 1;
 }
 void load8() {
+  for(int l = 0; l < 6; l++) {
+    if(l != 3) {
+      letterBuffer[l][0] = 1;
+      letterBuffer[l][2] = 1;
+    }
+  }
   letterBuffer[0][1] = 1;
-  letterBuffer[1][0] = 1;
-  letterBuffer[1][2] = 1;
-  letterBuffer[2][1] = 1;
   letterBuffer[3][1] = 1;
-  letterBuffer[4][0] = 1;
-  letterBuffer[4][2] = 1;
   letterBuffer[5][1] = 1;
 }
 void load9() {

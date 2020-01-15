@@ -14,24 +14,28 @@ typedef struct rocket {
   boolean burnt;
 } rocket;
 
+boolean rocketInit = false;
 rocket rocketArray[6];
 
 void firework() {
+  Serial.println("Rocket runs!");
+  rocketInit = true;
   for (int i = 0; i < 6; i++) {
     rocketArray[i] = spawnRocket(0);
   }
+
+  Serial.println("Rocket Running.");
   while (true) {
-    Serial.println("Rocket Running.");
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 3; i++) {
       int currHeight = rocketArray[i].maxHeight;
-      for (int t = 0; t <= currHeight; t++) {
+      //for (int t = 0; t <= currHeight; t++) {
         if (checkIRSensor()) {
           return;
         }
         burnRocket(i);
-        shiftToShifter(1000);
-      }
+      //}
     }
+    shiftToShifter(500);
   }
 }
 
@@ -45,7 +49,7 @@ struct rocket spawnRocket(int l) {
   c.b = random(2);
   r.c = c;
   r.timer = 0;
-  r.maxHeight = random(1, 5);
+  r.maxHeight = random(3, 5);
   r.layer = l;
   return r;
 }

@@ -24,7 +24,6 @@
    TODO V1.0:
    Fix the not working parts of the code:
    - Stars (Joey)
-   - Temperature Effects (Viktor)
 
 */
 
@@ -53,7 +52,6 @@ int lastIRResult = 0;
 int currentAmountOfShifters = 27;  // To be set depending on the current setup
 byte anodes0[27]; // Array of Anodes for layer 0
 byte anodes1[27]; // Array of Anodes for layer 1
-int currentEffect = 0; // Integer value of the current effect in play
 unsigned long lastSignal = 0; // long value for last effect (still here until replaced by infrared)
 unsigned long timeStamp;
 DHT dht(DHTPIN, DHTTYPE); // Humidity/Temperature variable
@@ -75,12 +73,12 @@ void setup()
 
   digitalWrite(blank_pin, HIGH); //shut down the leds
   digitalWrite(latch_pin, LOW);  //shut down the leds
-  
+
 
   irrecv.enableIRIn();
   irrecv.blink13(true);
   timeStamp = millis();
-  welcomeAnimation();
+  //welcomeAnimation();
 }
 
 void loop()
@@ -123,6 +121,9 @@ void changeEffect(int result) {
       Serial.println("Snake Game");
       startSnake();
       break;
+    case 0x488F3CBB: //Keypad button "ok"
+      Serial.println("Roll Credits");
+      rollCredits();
     case 0x8C22657B: // Keypad left
       changedEffect = false;
       snekDir = 1;
@@ -171,4 +172,5 @@ boolean checkIRSensor() {
     irrecv.resume(); // Receive the next value
     return false;
   }
+  return false;
 }

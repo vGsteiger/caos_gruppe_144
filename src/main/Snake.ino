@@ -71,14 +71,17 @@ void init_game() {
   f.y = random(6);
 }
 
-void render() {
+boolean render() {
+  if (checkIRSensor()) {
+    return false;
+  }
   setLedOn(f.x, f.y, 0, 1, 0, 0);
   clearSnekArray();
   for (int i = 0; i < s.snekLength; i++) {
     snekArray[s.snekBody[i][1]][s.snekBody[i][0]] = 1;
   }
   setLed2DArraySingleColor(snekArray, 0, 1, 0, 0, 6, 12);
-  shiftToShifter(10000);
+  shiftToShifter(3000);
   //Serial.println("Current snake array:");
   //for (int y = 0; y < 6; y++) {
   //  for (int x = 0; x < 12; x++) {
@@ -134,7 +137,7 @@ bool advance() {
 boolean setupSnake() {
   //Serial.println("Setting up snake!");
   init_game();
-  render();
+
   while (snekGame()) {
   }
   return true;
@@ -145,10 +148,13 @@ boolean setupSnake() {
 */
 boolean snekGame() {
   if (!gameOver) {
+    Serial.println("Running game %d times", t);
     gameOver = advance();
-    render();
+    if(!render()){
+      return false;
+    }
   } else {
-    //Serial.println("Restarting after loosing!");
+    Serial.println("Restarting after loosing!");
     restart();
   }
   return readControls();
@@ -166,6 +172,7 @@ void restart() {
    Method to read the current controls  (TO BE TESTED)
 */
 boolean readControls() {
+  Serial.println("Reading controls:");
   if (checkIRSensor()) {
     if (!changedEffect) {
       switch (snekDir) {
@@ -211,8 +218,13 @@ void showGameOverMessage() {
    Method to start the snake animation, calls setupSnake
 */
 void startSnake() {
-  //Serial.println("Started snake!");
-  if (setupSnake()) {
+  Serial.println("Started snake!");
+  Serial.println("Setting up snake!");
+  init_game();
+  if (!render()) {
     return;
+  }  
+  while (snekGame()) {
   }
+  return;
 }

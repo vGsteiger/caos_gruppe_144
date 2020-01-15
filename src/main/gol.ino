@@ -63,7 +63,7 @@ void fillRandom(int probability) {
 
 void gameOfLifeAnimation() {
   fillRandom(20);
-  for (int z = 0; z < 20; z ++) {
+  while(true) {
     setLed2DArraySingleColor(cells, 0, 1, 0, 0, 6, 12);
     if (checkIRSensor()) {
       return;
