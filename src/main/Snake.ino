@@ -132,23 +132,10 @@ bool advance() {
 }
 
 /*
-   Method to be called each time a new game starts
-*/
-boolean setupSnake() {
-  //Serial.println("Setting up snake!");
-  init_game();
-
-  while (snekGame()) {
-  }
-  return true;
-}
-
-/*
    Loop over the whole snake game until lost!
 */
 boolean snekGame() {
   if (!gameOver) {
-    Serial.println("Running game %d times", t);
     gameOver = advance();
     if(!render()){
       return false;

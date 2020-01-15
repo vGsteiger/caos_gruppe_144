@@ -41,12 +41,12 @@ void firework() {
 
 struct rocket spawnRocket(int l) {
   rocket r;
-  r.x = random(12);
+  r.x = random(0,13);
   r.y = 0;
   color c;
-  c.r = random(2);
-  c.g = random(2);
-  c.b = random(2);
+  c.r = random(0,2);
+  c.g = random(0,2);
+  c.b = random(0,2);
   r.c = c;
   r.timer = 0;
   r.maxHeight = random(3, 5);
