@@ -20,14 +20,14 @@ oneStar starArray0[6];
 
 struct star createStar() {
   oneStar s;
-  s.y = random(0,6);
+  s.y = random(0, 6);
   starColor c;
-  c.r = random(0,2);
-  c.g = random(0,2);
-  c.b = random(0,2);
+  c.r = random(0, 2);
+  c.g = random(0, 2);
+  c.b = random(0, 2);
   s.color = c;
-  s.timer = random(0,10);
-  int ran = random(0,100);
+  s.timer = random(0, 10);
+  int ran = random(0, 100);
   if (ran < 50) {
     s.direct = 1;
     s.x = 0;

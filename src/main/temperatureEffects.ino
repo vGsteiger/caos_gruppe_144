@@ -30,11 +30,11 @@ void tempSensorInfo() {
     return;
   }
   if (dht.readHumidity() > 20) {
-    rainEffect(1000);
+    rainEffect(10);
   } else if (dht.readTemperature() > 26) {
-    sun(1000);
+    sun(10);
   } else {
-    clouds(1000);
+    clouds(10);
   }
 }
 

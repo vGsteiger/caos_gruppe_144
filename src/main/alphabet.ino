@@ -597,8 +597,8 @@ void load7() {
   letterBuffer[5][2] = 1;
 }
 void load8() {
-  for(int l = 0; l < 6; l++) {
-    if(l != 3) {
+  for (int l = 0; l < 6; l++) {
+    if (l != 3) {
       letterBuffer[l][0] = 1;
       letterBuffer[l][2] = 1;
     }
