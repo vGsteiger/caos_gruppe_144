@@ -31,10 +31,10 @@ TODO: BILD VOM PROJEKTERZEUGNIS
 
 Die Grundidee von unserem Projekt war es zuerst einen 5 x 5 x 5 LED RGB Würfel zu bauen, jedoch haben wir uns dann im Prozess der Entscheidungsfindung
 dazu entschieden, etwas anderes zu bauen was sich vom "typischen" LED RGB Würfel unterscheidet.
-Deshalb haben wir die Dimensionen ein wenig angepasst, sodass wir am Ende einen dreidimenstionalen Bildschirm haben werden. Damit wird es uns immer noch möglich sein, gute 3D-Effekte
-anzeigen zu können. Die Anordnung der LED's kann als Koordinatensystem verstanden werden, bei dem man mittels x- und y-Koordinaten auf die einzelnen LED's zugreifen kann. Dies erleichtert es massiv, Effekte zu schreiben. 
-Das Projekt lässt einen grossen Spielraum bezüglich Ideen zu. Sollte man also selbst Ideen haben, welche sich gut zu unserem Projekt ergänzen würden, kann man diese ohne weitere
-Probleme implementieren. Die Grundsoftware hat sehr einfache Schnittstellen, mit denen man einfach weitere Effekte schreiben kann.
+
+Deshalb haben wir die Dimensionen ein wenig angepasst, sodass wir am Ende einen dreidimenstionalen Bildschirm haben werden. Die Anordnung der LED's kann als Koordinatensystem verstanden werden, bei dem man mittels x- und y-Koordinaten auf die einzelnen LED's zugreifen kann. Dies erleichtert es massiv, Effekte zu schreiben. Die gesamte Kommunikationssoftware zwischen dem Arduino und den LED's wurde grösstenteils selber geschrieben und es wird für die Kommunikation nur auf die externe SPI Library zugegriffen\cite{SPI}.
+
+Das Projekt lässt einen grossen Spielraum bezüglich Ideen zu. Sollte man also selbst Ideen haben, welche sich gut zu unserem Projekt ergänzen würden, kann man diese ohne weitere Probleme implementieren. Die von uns bereitgestellte Software hat sehr einfache Schnittstellen, mit denen man einfach weitere Effekte schreiben kann.
 
 
 \section{Verwendete Materialien}
@@ -43,7 +43,7 @@ Im Folgenden ist eine Auflistung der verschiedenen Materialien, welche für das 
 
 \subsection{RGB LED's}
 
-Um den LED-Quader ein wenig bunter gestalten zu können wurden RGB's verwendet.:
+Um den LED-Bildschirm ein wenig bunter gestalten zu können, wurden RGB's verwendet.:
 
 \begin{itemize}
     \item LED RGB Common Cathode 4-Pin F5 5MM Diode
@@ -53,7 +53,7 @@ Um den LED-Quader ein wenig bunter gestalten zu können wurden RGB's verwendet.:
 
 Schieberegister erweisen sich für ein solches Projekt als äusserst nützlich, um die vielen Pins der einzelnen RGB LED's ansprechen zu können. \\
 
-Wir haben uns dabei an schon bereits existierende Projekte orientiert und uns für die 74HC595 8-bit Schieberegister entschieden. Diese erweisen sich in der Programmierung als intuitiv, weil man einfach mit Byte-Arrays arbeiten kann, um die einzelnen Schieberegister mit Informationen zu "befüllen". Weiter existieren für diese Schieberegister vorgefertigte Libraries, um die Kommunikation zu erleichtern.
+Wir haben uns dabei an schon bereits existierenden Projekten orientiert \cite{RGB LED Cube} und uns für die 74HC595 8-bit Schieberegister entschieden. Diese erweisen sich in der Programmierung als intuitiv, weil man einfach mit Byte-Arrays arbeiten kann, um die einzelnen Schieberegister mit Informationen zu "befüllen". Weiter existieren für diese Schieberegister vorgefertigte Libraries, um die Kommunikation zu erleichtern\cite{SPI}.
 Dies nimmt einen nicht die Denkarbeit ab, wie man die LED's anordnen will und wie man die verschiedenen Farben anspricht, jedoch erleichtert es die direkte Kommunikation.
 
 \subsection{\textcolor{red}{Transistoren}}
@@ -235,13 +235,24 @@ der verschiedenen Themen der Vorlesung mit der Projektarbeit zu vertiefen.
 
 \newpage
 
-\textbf{Quellen}:
-
-\begin{itemize}
-    \item https://www.instructables.com/id/Arduino-Mega-8x8x8-RGB-LED-Cube/
     \item https://github.com/vGsteiger/caos\_gruppe\_144
-\end{itemize}
+\begin{thebibliography}{9}
+	\bibitem{SPI} 
+	SPI library.
+	\textit{arduino.cc}.
+	Arduino, 2020, https://www.arduino.cc/en/reference/SPI
+	
+	\bibitem{RGB LED Cube} 
+	JamesP383, Arduino Mega 8x8x8 RGB LED Cube. 
+	\textit{instructables}. 
+	Autodesk, Inc., 2016, https://www.instructables.com/id/Arduino-Mega-8x8x8-RGB-LED-Cube/.
 
+
+	
+	\bibitem{knuthwebsite} 
+	Knuth: Computers and Typesetting,
+	\\\texttt{http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html}
+\end{thebibliography}
 
 
 
