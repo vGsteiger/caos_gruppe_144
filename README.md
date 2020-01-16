@@ -7,6 +7,6 @@
 Current version: v1.0
 
 ### Team members: 
-    * Viktor Gsteiger
-    * Joey Zgraggen
-    * Moritz Würth
+* Viktor Gsteiger
+* Joey Zgraggen
+* Moritz Würth
