@@ -13,8 +13,8 @@
 \contentsline {subsection}{\numberline {4.5}Game of Life}{4}% 
 \contentsline {subsection}{\numberline {4.6}Snake}{5}% 
 \contentsline {section}{\numberline {5}Sensoren}{5}% 
-\contentsline {subsubsection}{\numberline {5.0.1}Temperatur- und Luftfeuchtigkeitssensor}{5}% 
-\contentsline {subsubsection}{\numberline {5.0.2}Infrarot-sensor}{5}% 
+\contentsline {subsection}{\numberline {5.1}Temperatur- und Luftfeuchtigkeitssensor}{5}% 
+\contentsline {subsection}{\numberline {5.2}Infrarot-sensor}{5}% 
 \contentsline {section}{\numberline {6}Aufbau des zweidimensionalen Bildschirmes}{6}% 
 \contentsline {subsection}{\numberline {6.1}Bildschirm}{6}% 
 \contentsline {subsection}{\numberline {6.2}Schieberegister}{6}% 
