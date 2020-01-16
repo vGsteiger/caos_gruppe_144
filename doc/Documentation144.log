@@ -1,14 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2020.1.5)  16 JAN 2020 09:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.3)  16 JAN 2020 11:07
 entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
-**Documentation144.tex
-(./Documentation144.tex
-LaTeX2e <2019-10-01> patch level 3
-(c:/texlive/2019/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2019/10/25 v1.4k Standard LaTeX document class
-(c:/texlive/2019/texmf-dist/tex/latex/base/size12.clo
-File: size12.clo 2019/10/25 v1.4k Standard LaTeX file (size option)
+**"c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/Documentation144.tex"
+("c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/Documentation144.tex"
+LaTeX2e <2018-12-01>
+("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\article.cls"
+Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
+("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\size12.clo"
+File: size12.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
 )
 \c@part=\count80
 \c@section=\count81
@@ -21,35 +19,27 @@ File: size12.clo 2019/10/25 v1.4k Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-)
-(c:/texlive/2019/texmf-dist/tex/latex/graphics/graphicx.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
-
-(c:/texlive/2019/texmf-dist/tex/latex/graphics/keyval.sty
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks14
-)
-(c:/texlive/2019/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2019/11/01 v1.3d Standard LaTeX Graphics (DPC,SPQR)
-
-(c:/texlive/2019/texmf-dist/tex/latex/graphics/trig.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphics.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-)
-(c:/texlive/2019/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\graphics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 105.
-
-(c:/texlive/2019/texmf-dist/tex/latex/graphics-def/pdftex.def
+Package graphics Info: Driver file: pdftex.def on input line 99.
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-def\pdftex.def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
-)
-(c:/texlive/2019/texmf-dist/tex/latex/xcolor/xcolor.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcolor\xcolor.sty"
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
-
-(c:/texlive/2019/texmf-dist/tex/latex/graphics-cfg/color.cfg
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\color.cfg"
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -62,16 +52,16 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.sty"
+Package: geometry 2018/04/16 v5.8 Page Geometry
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifpdf.sty"
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifvtex.sty"
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-(c:/texlive/2019/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2020/01/02 v5.9 Page Geometry
-
-(c:/texlive/2019/texmf-dist/tex/generic/iftex/ifvtex.sty
-Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
-
-(c:/texlive/2019/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2019/11/07 v1.0c TeX engine tests
-))
 \Gm@cnth=\count88
 \Gm@cntv=\count89
 \c@Gm@tempcnt=\count90
@@ -84,34 +74,28 @@ Package: iftex 2019/11/07 v1.0c TeX engine tests
 \Gm@layouthoffset=\dimen111
 \Gm@layoutvoffset=\dimen112
 \Gm@dimlist=\toks15
-)
-(c:/texlive/2019/texmf-dist/tex/latex/titling/titling.sty
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.cfg")) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/titling\titling.sty"
 Package: titling 2009/09/04 v2.1d maketitle typesetting
 \thanksmarkwidth=\skip43
 \thanksmargin=\skip44
 \droptitle=\skip45
-)
-(c:/texlive/2019/texmf-dist/tex/latex/tools/indentfirst.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\indentfirst.sty"
 Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
-)
-(c:/texlive/2019/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/wrapfig\wrapfig.sty"
 \wrapoverhang=\dimen113
 \WF@size=\dimen114
 \c@WF@wrappedlines=\count91
 \WF@box=\box27
 \WF@everypar=\toks16
 Package: wrapfig 2003/01/31  v 3.6
-)
-(c:/texlive/2019/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \@emptytoks=\toks17
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
-LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)
-(c:/texlive/2019/texmf-dist/tex/latex/tocloft/tocloft.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tocloft\tocloft.sty"
 Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
 Package tocloft Info: The document has section divisions on input line 51.
 \cftparskip=\skip46
@@ -147,12 +131,10 @@ Package tocloft Info: The document has section divisions on input line 51.
 \cftbeforetabskip=\skip74
 \cfttabindent=\skip75
 \cfttabnumwidth=\skip76
-)
-(c:/texlive/2019/texmf-dist/tex/latex/tools/tabularx.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\tabularx.sty"
 Package: tabularx 2016/02/03 v2.11b `tabularx' package (DPC)
-
-(c:/texlive/2019/texmf-dist/tex/latex/tools/array.sty
-Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\array.sty"
+Package: array 2018/12/30 v2.4k Tabular extension package (FMi)
 \col@sep=\dimen115
 \ar@mcellbox=\box28
 \extrarowheight=\dimen116
@@ -168,8 +150,7 @@ Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
 \TX@delta=\dimen121
 \TX@cols=\count94
 \TX@ftn=\toks19
-)
-(c:/texlive/2019/texmf-dist/tex/latex/listings/listings.sty
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\listings.sty"
 \lst@mode=\count95
 \lst@gtempboxa=\box30
 \lst@token=\toks20
@@ -182,19 +163,16 @@ Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
 \lst@newlines=\count99
 \lst@lineno=\count100
 \lst@maxwidth=\dimen125
-
-(c:/texlive/2019/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2019/09/10 1.8c (Carsten Heinz)
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\lstmisc.sty"
+File: lstmisc.sty 2019/02/27 1.8b (Carsten Heinz)
 \c@lstnumber=\count101
 \lst@skipnumbers=\count102
 \lst@framebox=\box31
-)
-(c:/texlive/2019/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2019/09/10 1.8c listings configuration
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\listings.cfg"
+File: listings.cfg 2019/02/27 1.8b listings configuration
 ))
-Package: listings 2019/09/10 1.8c (Carsten Heinz)
-
-(./Documentation144.aux)
+Package: listings 2019/02/27 1.8b (Carsten Heinz)
+ ("c:\Users\archi\OneDrive\Unibas\3. Semester\CAOS\Projekt\caos_gruppe_144\doc\Documentation144.aux")
 \openout1 = `Documentation144.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -209,8 +187,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
-
-(c:/texlive/2019/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count103
 \scratchdimen=\dimen126
@@ -223,15 +200,37 @@ LaTeX Font Info:    ... okay on input line 21.
 \MPnumerator=\count107
 \makeMPintoPDFobject=\count108
 \everyMPtoPDFconversion=\toks22
-) (c:/texlive/2019/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
-Package: epstopdf-base 2019-12-09 v2.10 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-
-(c:/texlive/2019/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\infwarerr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\kvdefinekeys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ltxcmds.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+))) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\kvsetkeys.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\etexcmds.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifluatex.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)))) ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -267,28 +266,22 @@ e
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \c@lstlisting=\count109
-LaTeX Font Info:    Trying to load font information for U+msa on input line 24.
-
-(c:/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Try loading font information for U+msa on input line 24.
+("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 24.
-
-
-(c:/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
+LaTeX Font Info:    Try loading font information for U+msb on input line 24.
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{c:/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./Documentatio
-n144.toc)
+{C:/Users/archi/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] ("c:\Users\archi\OneDrive\Unibas\3. Semester\CAOS\Projekt\caos_gruppe_144\doc\Documentation144.toc")
 \tf@toc=\write3
 \openout3 = `Documentation144.toc'.
 
  [1]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 4
-9.
-
-(c:/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 49.
+ ("C:\Users\archi\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
@@ -305,14 +298,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 103--104
 
 [4]
 Overfull \hbox (24.72763pt too wide) in paragraph at lines 131--133
-\OT1/cmr/m/n/12 Man spielt eine Schlange (Snake), welche man in vier Rich-tun-g
-en mit-tels einer Infarot-Fernbedienung
+\OT1/cmr/m/n/12 Man spielt eine Schlange (Snake), welche man in vier Rich-tun-gen mit-tels einer Infarot-Fernbedienung
  []
 
 [5]
 Overfull \hbox (12.52914pt too wide) in paragraph at lines 162--163
-[]\OT1/cmr/m/n/12 Durch die anspruchsvolle Steuerung von 216 einzel-nen Pins ko
-mmt es nat^^?urlich zu Schwierigkeiten.
+[]\OT1/cmr/m/n/12 Durch die anspruchsvolle Steuerung von 216 einzel-nen Pins kommt es naturlich zu Schwierigkeiten.
  []
 
 [6]
@@ -320,16 +311,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 167--168
 
  []
 
-<CAOSProject3.jpg, id=29, 4047.12pt x 3035.34pt>
+<CAOSProject3.jpg, id=28, 4047.12pt x 3035.34pt>
 File: CAOSProject3.jpg Graphic file (type jpg)
 <use CAOSProject3.jpg>
 Package pdftex.def Info: CAOSProject3.jpg  used on input line 171.
-(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
-<CAOSProject5.jpg, id=30, 4047.12pt x 3035.34pt>
+(pdftex.def)             Requested size: 120.46886pt x 90.31522pt.
+<CAOSProject5.jpg, id=29, 4047.12pt x 3035.34pt>
 File: CAOSProject5.jpg Graphic file (type jpg)
 <use CAOSProject5.jpg>
 Package pdftex.def Info: CAOSProject5.jpg  used on input line 172.
-(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
+(pdftex.def)             Requested size: 120.46886pt x 90.31522pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 169--173
 
@@ -340,16 +331,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 169--173
 
  []
 
-<CAOSProject7.jpg, id=31, 4047.12pt x 3035.34pt>
+<CAOSProject7.jpg, id=30, 4047.12pt x 3035.34pt>
 File: CAOSProject7.jpg Graphic file (type jpg)
 <use CAOSProject7.jpg>
 Package pdftex.def Info: CAOSProject7.jpg  used on input line 177.
-(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
-<CAOSProject8.jpg, id=32, 4047.12pt x 3035.34pt>
+(pdftex.def)             Requested size: 120.46886pt x 90.31522pt.
+<CAOSProject8.jpg, id=31, 4047.12pt x 3035.34pt>
 File: CAOSProject8.jpg Graphic file (type jpg)
 <use CAOSProject8.jpg>
 Package pdftex.def Info: CAOSProject8.jpg  used on input line 178.
-(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
+(pdftex.def)             Requested size: 120.46886pt x 90.31522pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 174--179
 
@@ -365,67 +356,59 @@ Underfull \hbox (badness 10000) in paragraph at lines 174--179
 
  []
 
-[7 <./CAOSProject3.jpg> <./CAOSProject5.jpg> <./CAOSProject7.jpg> <./CAOSProjec
-t8.jpg>]
-<CAOSProject9.jpg, id=36, 4047.12pt x 3035.34pt>
+<CAOSProject9.jpg, id=32, 4047.12pt x 3035.34pt>
 File: CAOSProject9.jpg Graphic file (type jpg)
 <use CAOSProject9.jpg>
-Package pdftex.def Info: CAOSProject9.jpg  used on input line 182.
-(pdftex.def)             Requested size: 216.84248pt x 162.61371pt.
+Package pdftex.def Info: CAOSProject9.jpg  used on input line 181.
+(pdftex.def)             Requested size: 144.5641pt x 108.37827pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 181--183
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 181--183
+Underfull \hbox (badness 10000) in paragraph at lines 180--182
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 181--183
+Underfull \hbox (badness 10000) in paragraph at lines 180--182
 
  []
 
-<Endprod2.jpg, id=37, 2023.56pt x 1138.2525pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--182
+
+ []
+
+<Endprod2.jpg, id=33, 2023.56pt x 1138.2525pt>
 File: Endprod2.jpg Graphic file (type jpg)
 <use Endprod2.jpg>
-Package pdftex.def Info: Endprod2.jpg  used on input line 186.
-(pdftex.def)             Requested size: 216.84248pt x 121.96028pt.
+Package pdftex.def Info: Endprod2.jpg  used on input line 185.
+(pdftex.def)             Requested size: 192.74724pt x 108.413pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 184--187
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 191--193
+Underfull \hbox (badness 10000) in paragraph at lines 183--186
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 191--193
+Underfull \hbox (badness 10000) in paragraph at lines 190--192
 
  []
 
-[8 <./CAOSProject9.jpg> <./Endprod2.jpg>] [9] (./Documentation144.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 190--192
+
+ []
+
+[7 <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject3.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject5.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject7.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject8.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/CAOSProject9.jpg> <c:/Users/archi/OneDrive/Unibas/3. Semester/CAOS/Projekt/caos_gruppe_144/doc/Endprod2.jpg>] [8] [9] ("c:\Users\archi\OneDrive\Unibas\3. Semester\CAOS\Projekt\caos_gruppe_144\doc\Documentation144.aux") ) 
 Here is how much of TeX's memory you used:
- 4036 strings out of 492163
- 54549 string characters out of 6129077
- 133839 words of memory out of 5000000
- 8363 multiletter control sequences out of 15000+600000
- 13226 words of font info for 51 fonts, out of 8000000 for 9000
+ 4383 strings out of 492895
+ 64158 string characters out of 3123736
+ 140698 words of memory out of 3000000
+ 8226 multiletter control sequences out of 15000+200000
+ 13226 words of font info for 51 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 30i,7n,37p,597b,217s stack positions out of 5000i,500n,10000p,200000b,80000s
-<c:/tex
-live/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2019
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2019/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2019/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmti12.pfb><c:/texlive/2019/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmtt12.pfb>
-Output written on Documentation144.pdf (10 pages, 20514154 bytes).
+ 41i,7n,35p,675b,217s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/archi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on "c:\Users\archi\OneDrive\Unibas\3. Semester\CAOS\Projekt\caos_gruppe_144\doc\Documentation144.pdf" (10 pages, 20520064 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
- 39 compressed objects within 1 object stream
+ 61 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
