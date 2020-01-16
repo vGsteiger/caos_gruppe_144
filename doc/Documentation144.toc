@@ -2,22 +2,22 @@
 \contentsline {section}{\numberline {2}Verwendete Materialien}{2}%
 \contentsline {subsection}{\numberline {2.1}RGB LED's}{2}%
 \contentsline {subsection}{\numberline {2.2}Schieberegister}{2}%
-\contentsline {subsection}{\numberline {2.3}\leavevmode {\color {red}Transistoren}}{2}%
-\contentsline {subsection}{\numberline {2.4}Sensoren}{2}%
+\contentsline {subsection}{\numberline {2.3}Transistoren}{2}%
+\contentsline {subsection}{\numberline {2.4}Sensoren}{3}%
 \contentsline {section}{\numberline {3}Hintergrund}{3}%
 \contentsline {section}{\numberline {4}Implementation}{3}%
-\contentsline {subsection}{\numberline {4.1}Alphabet}{3}%
+\contentsline {subsection}{\numberline {4.1}Alphabet}{4}%
 \contentsline {subsection}{\numberline {4.2}Stars}{4}%
 \contentsline {subsection}{\numberline {4.3}Firework}{4}%
 \contentsline {subsection}{\numberline {4.4}Welcome}{4}%
 \contentsline {subsection}{\numberline {4.5}Game of Life}{4}%
-\contentsline {subsection}{\numberline {4.6}Snake}{4}%
-\contentsline {section}{\numberline {5}Sensoren}{4}%
-\contentsline {subsubsection}{\numberline {5.0.1}Temperatur- und Luftfeuchtigkeitssensor}{4}%
+\contentsline {subsection}{\numberline {4.6}Snake}{5}%
+\contentsline {section}{\numberline {5}Sensoren}{5}%
+\contentsline {subsubsection}{\numberline {5.0.1}Temperatur- und Luftfeuchtigkeitssensor}{5}%
 \contentsline {subsubsection}{\numberline {5.0.2}Infrarot-sensor}{5}%
-\contentsline {section}{\numberline {6}Aufbau des zweidimensionalen Bildschirmes}{5}%
-\contentsline {subsection}{\numberline {6.1}Bildschirm}{5}%
-\contentsline {subsection}{\numberline {6.2}Schieberegister}{5}%
-\contentsline {subsection}{\numberline {6.3}Probleme beim Aufbau}{5}%
-\contentsline {section}{\numberline {7}Ergebnisse}{6}%
-\contentsline {section}{\numberline {8}Zusammenfassung}{7}%
+\contentsline {section}{\numberline {6}Aufbau des zweidimensionalen Bildschirmes}{6}%
+\contentsline {subsection}{\numberline {6.1}Bildschirm}{6}%
+\contentsline {subsection}{\numberline {6.2}Schieberegister}{6}%
+\contentsline {subsection}{\numberline {6.3}Probleme beim Aufbau}{6}%
+\contentsline {section}{\numberline {7}Ergebnisse}{7}%
+\contentsline {section}{\numberline {8}Zusammenfassung}{8}%
